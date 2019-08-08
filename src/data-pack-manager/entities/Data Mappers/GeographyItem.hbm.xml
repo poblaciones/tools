@@ -1,0 +1,32 @@
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" namespace="medea.entities" assembly="medea.data">
+	<class name="GeographyItem" table="geography_item">
+		<id name="Id" column="gei_id" unsaved-value="null">
+			<generator class="native" />
+		</id>
+		<property name="AreaM2" column="gei_area_m2" not-null="false" />
+		<property name="Caption" column="gei_caption" not-null="false" length="100" />
+		<property name="Children" column="gei_children" not-null="true" />
+		<property name="Code" column="gei_code" not-null="true" length="100" />
+		<property name="PrivateUrbanity" column="gei_urbanity" not-null="true" length="1" />
+		<property name="Households" column="gei_households" not-null="true" />
+		<property name="Population" column="gei_population" not-null="true" />
+		<property name="Centroid" column="gei_centroid" not-null="false" lazy="true" update="false" type="NHibernate.Spatial.Type.MySQLGeometryType, NHibernate.Spatial.MySql" />
+		<property name="Geometry" column="gei_geometry" not-null="false" lazy="true" update="false" type="NHibernate.Spatial.Type.MySQLGeometryType, NHibernate.Spatial.MySql" />
+		<property name="GeometryR1" column="gei_geometry_r1" not-null="false" lazy="true" update="false" type="NHibernate.Spatial.Type.MySQLGeometryType, NHibernate.Spatial.MySql" />
+		<property name="GeometryR2" column="gei_geometry_r2" not-null="false" lazy="true" update="false" type="NHibernate.Spatial.Type.MySQLGeometryType, NHibernate.Spatial.MySql" />
+		<property name="GeometryR3" column="gei_geometry_r3" not-null="false" lazy="true" update="false" type="NHibernate.Spatial.Type.MySQLGeometryType, NHibernate.Spatial.MySql" />
+		<property name="GeometryR4" column="gei_geometry_r4" not-null="false" lazy="true" update="false" type="NHibernate.Spatial.Type.MySQLGeometryType, NHibernate.Spatial.MySql" />
+		<property name="GeometryR5" column="gei_geometry_r5" not-null="false" lazy="true" update="false" type="NHibernate.Spatial.Type.MySQLGeometryType, NHibernate.Spatial.MySql" />
+		<property name="GeometryR6" column="gei_geometry_r6" not-null="false" lazy="true" update="false" type="NHibernate.Spatial.Type.MySQLGeometryType, NHibernate.Spatial.MySql" />
+		<many-to-one name="Geography" class="Geography">
+			<column name="gei_geography_id" not-null="true" />
+		</many-to-one>
+		<many-to-one name="Parent" class="GeographyItem">
+			<column name="gei_parent_id" not-null="false" />
+		</many-to-one>
+		<bag name="Childrens" inverse="true">
+			<key column="gei_parent_id" />
+			<one-to-many class="GeographyItem" />
+		</bag>
+	</class>
+</hibernate-mapping>

@@ -1,0 +1,19 @@
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" namespace="medea.entities" assembly="medea.data">
+	<class name="Source" table="source">
+		<id name="Id" column="src_id" unsaved-value="null">
+			<generator class="assigned" />
+		</id>
+		<property name="Caption" column="src_caption" not-null="true" length="200" />
+		<property name="Authors" column="src_authors" not-null="false" length="200" />
+		<property name="Version" column="src_version" not-null="true" length="50" />
+		<property name="Web" column="src_web" not-null="false" length="255" />
+		<property name="Wiki" column="src_wiki" not-null="false" length="200" />
+		<property name="IsGlobal" column="src_is_global" not-null="false" length="200" />
+		<many-to-one name="Contact" class="Contact">
+			<column name="src_contact_id" not-null="false" />
+		</many-to-one>
+		<many-to-one name="Institution" class="Institution">
+			<column name="src_institution_id" not-null="false" />
+		</many-to-one>
+	</class>
+</hibernate-mapping>

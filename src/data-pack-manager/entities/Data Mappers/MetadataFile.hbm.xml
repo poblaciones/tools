@@ -1,0 +1,17 @@
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" namespace="medea.entities" assembly="medea.data">
+	<class name="MetadataFile" table="metadata_file">
+		<id name="Id" column="mfi_id" unsaved-value="null">
+			<generator class="assigned" />
+		</id>
+		<property name="Caption" column="mfi_caption" not-null="true" length="100" />
+		<property name="Order" column="mfi_order" not-null="true" />
+		<property name="Web" column="mfi_web" not-null="false" length="250" />
+
+		<many-to-one name="Metadata" class="Metadata">
+			<column name="mfi_metadata_id" not-null="true" />
+		</many-to-one>
+		<many-to-one name="File" class="File">
+			<column name="mfi_file_id" not-null="false" />
+		</many-to-one>
+	</class>
+</hibernate-mapping>

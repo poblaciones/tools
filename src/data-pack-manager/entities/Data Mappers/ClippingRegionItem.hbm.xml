@@ -1,0 +1,23 @@
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" namespace="medea.entities" assembly="medea.data">
+	<class name="ClippingRegionItem" table="clipping_region_item">
+		<id name="Id" column="cli_id" unsaved-value="0">
+			<generator class="native" />
+		</id>
+		<property name="Caption" column="cli_caption" not-null="false" length="100" />
+		<property name="Wiki" column="cli_wiki" not-null="false" length="255" />
+		<property name="Code" column="cli_code" not-null="true" length="100" />
+		<property name="Centroid" column="cli_centroid" not-null="false" lazy="true" update="false" type="NHibernate.Spatial.Type.MySQLGeometryType, NHibernate.Spatial.MySql" />
+		<property name="Geometry" column="cli_geometry" not-null="false" lazy="true" update="false" type="NHibernate.Spatial.Type.MySQLGeometryType, NHibernate.Spatial.MySql" />
+		<property name="GeometryR1" column="cli_geometry_r1" not-null="false" lazy="true" update="false" type="NHibernate.Spatial.Type.MySQLGeometryType, NHibernate.Spatial.MySql" />
+		<many-to-one name="ClippingRegion" class="ClippingRegion">
+			<column name="cli_clipping_region_id" not-null="true" />
+		</many-to-one>
+		<many-to-one name="Parent" class="ClippingRegionItem">
+			<column name="cli_parent_id" not-null="false" />
+		</many-to-one>
+		<bag name="Children" inverse="true">
+			<key column="cli_parent_id" />
+			<one-to-many class="ClippingRegionItem" />
+		</bag>
+	</class>
+</hibernate-mapping>

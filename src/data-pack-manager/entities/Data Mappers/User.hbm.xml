@@ -1,0 +1,14 @@
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" namespace="medea.entities" assembly="medea.data">
+	<class name="User" table="user">
+		<id name="Id" column="usr_id" unsaved-value="null">
+			<generator class="native" />
+		</id>
+		<property name="CreateTime" column="usr_create_time" not-null="true" />
+		<property name="Email" column="usr_email" not-null="true" length="100" />
+		<property name="Deleted" column="usr_deleted" not-null="true" />
+		<property name="FirstName" column="usr_firstname" not-null="true" length="255" />
+		<property name="LastName" column="usr_lastname" not-null="false" length="255" />
+		<property name="Password" column="usr_password" not-null="true" length="50" />
+		<property name="Privileges" column="usr_privileges" not-null="true" length="1" />
+	</class>
+</hibernate-mapping>

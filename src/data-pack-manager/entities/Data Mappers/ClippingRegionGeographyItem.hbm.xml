@@ -1,0 +1,17 @@
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" namespace="medea.entities" assembly="medea.data">
+	<class name="ClippingRegionGeographyItem" table="clipping_region_geography_item">
+		<id name="Id" column="cgi_id" unsaved-value="null">
+			<generator class="native" />
+		</id>
+		<property name="IntersectionPercent" column="cgi_intersection_percent" not-null="true" />
+		<many-to-one name="ClippingRegionGeography" class="ClippingRegionGeography">
+			<column name="cgi_clipping_region_geography_id" not-null="true" />
+		</many-to-one>
+		<many-to-one name="ClippingRegionItem" class="ClippingRegionItem">
+			<column name="cgi_clipping_region_item_id" not-null="true" />
+		</many-to-one>
+		<many-to-one name="GeographyItem" class="GeographyItem">
+			<column name="cgi_geography_item_id" not-null="true" />
+		</many-to-one>
+	</class>
+</hibernate-mapping>

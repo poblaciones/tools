@@ -1,0 +1,15 @@
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" namespace="medea.entities" assembly="medea.data">
+	<class name="Institution" table="institution">
+		<id name="Id" column="ins_id" unsaved-value="null">
+			<generator class="assigned" />
+		</id>
+		<property name="Caption" column="ins_caption" not-null="true" length="200" />
+		<property name="Web" column="ins_web" not-null="false" length="255" />
+		<property name="Email" column="ins_email" not-null="false" length="50" />
+		<property name="Address" column="ins_address" not-null="false" length="200" />
+		<property name="Phone" column="ins_phone" not-null="false" length="50" />
+		<property name="Country" column="ins_country" not-null="true" length="50" />
+		<property name="IsGlobal" column="ins_is_global" not-null="false" length="200" />
+		<property name="IsPublicDataEditor" column="ins_public_data_editor" not-null="true" length="1" />
+	</class>
+</hibernate-mapping>

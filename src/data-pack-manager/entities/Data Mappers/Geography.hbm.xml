@@ -1,0 +1,31 @@
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" namespace="medea.entities" assembly="medea.data">
+	<class name="Geography" table="geography">
+		<id name="Id" column="geo_id" unsaved-value="null">
+			<generator class="native" />
+		</id>
+		<property name="Caption" column="geo_caption" not-null="true" length="100" />
+		<property name="Revision" column="geo_revision" not-null="true" length="10" />
+		<property name="IsTrackingLevel" column="geo_is_tracking_level" not-null="true" />
+		<property name="MaxZoom" column="geo_max_zoom" not-null="true" />
+		<property name="MinZoom" column="geo_min_zoom" not-null="true" />
+		<property name="PartialCoverage" column="geo_partial_coverage" not-null="false" length="500" />
+		<property name="FieldUrbanityName" column="geo_field_urbanity_name" not-null="false" length="50" />
+		<property name="FieldCaptionName" column="geo_field_caption_name" not-null="false" length="50" />
+		<property name="FieldCodeName" column="geo_field_code_name" not-null="false" length="50" />
+		<property name="FieldCodeType" column="geo_field_code_type" not-null="false" length="1" />
+		<many-to-one name="Parent" class="Geography">
+			<column name="geo_parent_id" not-null="false" />
+		</many-to-one>
+		<many-to-one name="Country" class="ClippingRegionItem">
+			<column name="geo_country_id" not-null="true" />
+		</many-to-one>
+		<many-to-one name="Metadata" class="Metadata" lazy="false">
+			<column name="geo_metadata_id" not-null="false" />
+		</many-to-one>
+
+		<bag name="Children" inverse="true">
+			<key column="geo_parent_id" />
+			<one-to-many class="Geography" />
+		</bag>
+	</class>
+</hibernate-mapping>

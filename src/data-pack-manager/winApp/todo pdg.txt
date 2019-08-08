@@ -1,0 +1,36 @@
+colores que no vengan del gradient sino de las categorias
+que para Georeferenciar punto sólo ofrezca el nivel más bajo.
+
+llevar summar y y noramalization a categories y multi (on save).
+
+Agregar promedio de m2 en geography, y ‘zoom hasta’.
+lat y lng.
+
+
+** browse de dataset, que filtre .sav
+
+** copiar y pegar etiquetas.
+
+** ver que los partial coverage no se pisen sino que se concatenen.
+
+
+calcular los baja densidad vs urbano en censo 2010 (nivel radios y fracciones)... reimportar.
+
+
+1) que en clippingregion se puede decir còmo ordenar en los listados
+(grandes aglomerados puede estar bien por còdigo, pero dpto y aglos no)
+
+orden de labels?
+
+2) same_ranges? -> copy+paste
+
+-----------------------
+en prototype, poner summary, variables; selección de metric_item_view_id
+
+
+***********************
+posibles
+
+datasets
+> borrar columnas?
+> combinar datasets?

@@ -1,0 +1,50 @@
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" namespace="medea.entities" assembly="medea.data">
+	<class name="Metadata" table="metadata">
+		<id name="Id" column="met_id" unsaved-value="0">
+			<generator class="assigned" />
+		</id>
+		<property name="Title" column="met_title" not-null="true" length="150" />
+		<property name="ReleaseDate" column="met_publication_date" not-null="false" length="10" />
+		<property name="Abstract" column="met_abstract" not-null="true" length="400" />
+		<property name="PrivateStatus" column="met_status" not-null="true" length="1" />
+		<property name="Authors" column="met_authors" not-null="true" length="2000" />
+		<property name="CoverageCaption" column="met_coverage_caption" not-null="true" length="200" />
+		<property name="PeriodCaption" column="met_period_caption" not-null="true" length="200" />
+		<property name="Frequency" column="met_frequency" not-null="true" length="100" />
+
+		<property name="License" column="met_license" not-null="true" length="500" />
+		<property name="PrivateType" column="met_type" not-null="true" length="1" />
+		<property name="AbstractLong" column="met_abstract_long" not-null="false" />
+
+		<property name="Language" column="met_language" not-null="true" length="50" />
+		<property name="Wiki" column="met_wiki" not-null="false" length="255" />
+		<property name="Url" column="met_url" not-null="false" length="255" />
+
+		<property name="Create" column="met_create" not-null="true" />
+		<property name="Update" column="met_update" not-null="true" />
+
+		<property name="LastOnline" column="met_last_online" not-null="false" />
+		<property name="OnlineSince" column="met_online_since" not-null="false" />
+
+		<property name="ScheduleNextUpdate" column="met_schedule_next_update" not-null="false" />
+
+		<many-to-one name="Contact" class="Contact">
+			<column name="met_contact_id" not-null="false" />
+		</many-to-one>
+
+		<many-to-one name="Institution" class="Institution">
+			<column name="met_institution_id" not-null="false" />
+		</many-to-one>
+
+		<bag name="MetadataSources" cascade="all-delete-orphan" >
+		<key column="msc_metadata_id" />
+			<one-to-many class="MetadataSource" />
+		</bag>
+
+		<bag name="Files" inverse="true" cascade="all-delete-orphan" order-by="mfi_order">
+			<key column="mfi_metadata_id" />
+			<one-to-many class="MetadataFile" />
+		</bag>
+
+	</class>
+</hibernate-mapping>

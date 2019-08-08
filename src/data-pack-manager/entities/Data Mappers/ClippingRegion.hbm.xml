@@ -1,0 +1,28 @@
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" namespace="medea.entities" assembly="medea.data">
+	<class name="ClippingRegion" table="clipping_region">
+		<id name="Id" column="clr_id" unsaved-value="0">
+			<generator class="native" />
+		</id>
+		<property name="Caption" column="clr_caption" not-null="true" length="100" />
+		<property name="Priority" column="clr_priority" not-null="true" />
+		<property name="LabelsMaxZoom" column="clr_labels_max_zoom" not-null="true" />
+		<property name="LabelsMinZoom" column="clr_labels_min_zoom" not-null="true" />
+		<property name="Symbol" column="clr_symbol" not-null="false" length="1" />
+		<property name="FieldCodeName" column="clr_field_code_name" not-null="true" length="50" />
+		<property name="NoAutocomplete" column="clr_no_autocomplete" not-null="true" />
+
+		<many-to-one name="Parent" class="ClippingRegion">
+			<column name="clr_parent_id" not-null="false" />
+		</many-to-one>
+		<many-to-one name="Metadata" class="Metadata" lazy="false">
+			<column name="clr_metadata_id" not-null="false" />
+		</many-to-one>
+		<many-to-one name="Country" class="ClippingRegionItem">
+			<column name="clr_country_id" not-null="false" />
+		</many-to-one>
+		<bag name="Children" inverse="true">
+			<key column="clr_parent_id" />
+			<one-to-many class="ClippingRegion" />
+		</bag>
+	</class>
+</hibernate-mapping>

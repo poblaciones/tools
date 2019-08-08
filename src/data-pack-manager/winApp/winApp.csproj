@@ -1,0 +1,391 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{82BB057E-8298-4B22-BC94-8D1F3159EB64}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>medea.winApp</RootNamespace>
+    <AssemblyName>data-pack-manager</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <OutputPath>bin\Release\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ClientOnly|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\ClientOnly\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;CLIENTONLY</DefineConstants>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG</DefineConstants>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ClientOnly|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\ClientOnly\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;CLIENTONLY</DefineConstants>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="GeoAPI, Version=1.7.4.0, Culture=neutral, PublicKeyToken=a1a0da7def465678, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\GeoAPI.1.7.4\lib\net40-client\GeoAPI.dll</HintPath>
+    </Reference>
+    <Reference Include="Iesi.Collections, Version=1.0.1.0, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Iesi.Collections.4.0.1.4000\lib\net40\Iesi.Collections.dll</HintPath>
+    </Reference>
+    <Reference Include="Ionic.Zip.Reduced, Version=1.9.1.8, Culture=neutral, PublicKeyToken=edbe51ad942a3f5c, processorArchitecture=MSIL">
+      <HintPath>..\packages\DotNetZip.Reduced.1.9.1.8\lib\net20\Ionic.Zip.Reduced.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.SqlServer.Types, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\NHibernate.Spatial.2.2.0\lib\Microsoft.SqlServer.Types.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="MySql.Data, Version=6.9.9.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
+      <HintPath>..\packages\MySql.Data.6.9.9\lib\net40\MySql.Data.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="NetTopologySuite, Version=1.14.0.0, Culture=neutral, PublicKeyToken=f580a05016ebada1, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\NetTopologySuite.1.14\lib\net40-client\NetTopologySuite.dll</HintPath>
+    </Reference>
+    <Reference Include="NetTopologySuite.IO, Version=1.14.0.0, Culture=neutral, PublicKeyToken=f580a05016ebada1, processorArchitecture=MSIL">
+      <HintPath>..\packages\NetTopologySuite.IO.1.14.0.1\lib\net40-client\NetTopologySuite.IO.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="NetTopologySuite.IO.GeoJSON, Version=1.14.0.0, Culture=neutral, PublicKeyToken=f580a05016ebada1, processorArchitecture=MSIL">
+      <HintPath>..\packages\NetTopologySuite.IO.GeoJSON.1.14\lib\net40-client\NetTopologySuite.IO.GeoJSON.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="NetTopologySuite.IO.GeoTools, Version=1.14.0.0, Culture=neutral, PublicKeyToken=f580a05016ebada1, processorArchitecture=MSIL">
+      <HintPath>..\packages\NetTopologySuite.IO.1.14.0.1\lib\net40-client\NetTopologySuite.IO.GeoTools.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="NetTopologySuite.IO.MsSqlSpatial, Version=1.14.0.0, Culture=neutral, PublicKeyToken=f580a05016ebada1, processorArchitecture=MSIL">
+      <HintPath>..\packages\NetTopologySuite.IO.1.14.0.1\lib\net40-client\NetTopologySuite.IO.MsSqlSpatial.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="NetTopologySuite.IO.PostGis, Version=1.14.0.0, Culture=neutral, PublicKeyToken=f580a05016ebada1, processorArchitecture=MSIL">
+      <HintPath>..\packages\NetTopologySuite.IO.1.14.0.1\lib\net40-client\NetTopologySuite.IO.PostGis.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="NetTopologySuite.IO.ShapeFile, Version=1.14.0.0, Culture=neutral, PublicKeyToken=f580a05016ebada1, processorArchitecture=MSIL">
+      <HintPath>..\packages\NetTopologySuite.IO.1.14.0.1\lib\net40-client\NetTopologySuite.IO.ShapeFile.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="NetTopologySuite.IO.ShapeFile.Extended, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\NetTopologySuite.IO.1.14.0.1\lib\net40-client\NetTopologySuite.IO.ShapeFile.Extended.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="NHibernate">
+      <HintPath>..\packages\NHibernate.4.1.1.4000\lib\net40\NHibernate.dll</HintPath>
+    </Reference>
+    <Reference Include="NHibernate.Caches.RtMemoryCache, Version=4.0.0.4000, Culture=neutral, PublicKeyToken=6876f2ea66c9f443, processorArchitecture=MSIL">
+      <HintPath>..\packages\NHibernate.Caches.RtMemoryCache.4.0.0.4000\lib\net40\NHibernate.Caches.RtMemoryCache.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="NHibernate.Spatial, Version=4.1.1.4000, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\NHibernate.Spatial.MySQL.4.1.1.4000\lib\net40-Client\NHibernate.Spatial.dll</HintPath>
+    </Reference>
+    <Reference Include="NHibernate.Spatial.MySQL, Version=4.1.1.4000, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\NHibernate.Spatial.MySQL.4.1.1.4000\lib\net40-Client\NHibernate.Spatial.MySQL.dll</HintPath>
+    </Reference>
+    <Reference Include="PowerCollections, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\NetTopologySuite.1.14\lib\net40-client\PowerCollections.dll</HintPath>
+    </Reference>
+    <Reference Include="ProjNet, Version=1.3.0.3, Culture=neutral, PublicKeyToken=a1f5bdcd9c6f5740, processorArchitecture=MSIL">
+      <HintPath>..\packages\ProjNET4GeoAPI.1.3.0.4\lib\net40-client\ProjNet.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Remotion.Data.Linq">
+      <HintPath>..\..\lib\nhibernate\Remotion.Data.Linq.dll</HintPath>
+    </Reference>
+    <Reference Include="SpssLib, Version=1.1.5.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\spsslib\SpssLib\bin\Release\SpssLib.dll</HintPath>
+    </Reference>
+    <Reference Include="Svg, Version=2.2.1.39233, Culture=neutral, PublicKeyToken=12a0bac221edeae2, processorArchitecture=MSIL">
+      <HintPath>..\packages\Svg.2.3.0\lib\net35\Svg.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="frmClippingGeographyNew.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmClippingGeographyNew.Designer.cs">
+      <DependentUpon>frmClippingGeographyNew.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmLogin.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmLogin.Designer.cs">
+      <DependentUpon>frmLogin.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmPickName.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmPickName.Designer.cs">
+      <DependentUpon>frmPickName.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmCountryEdit.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmCountryEdit.Designer.cs">
+      <DependentUpon>frmCountryEdit.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmPickCoverage.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmPickCoverage.Designer.cs">
+      <DependentUpon>frmPickCoverage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmSimplify.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmSimplify.Designer.cs">
+      <DependentUpon>frmSimplify.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmTestHttp.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmTestHttp.Designer.cs">
+      <DependentUpon>frmTestHttp.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmMetadataEdit.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmMetadataEdit.Designer.cs">
+      <DependentUpon>frmMetadataEdit.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ListViewColumnSorter.cs" />
+    <Compile Include="frmInput.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmInput.Designer.cs">
+      <DependentUpon>frmInput.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmClippingGeography.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmClippingGeography.Designer.cs">
+      <DependentUpon>frmClippingGeography.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmClippingGeographyEdit.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmClippingGeographyEdit.Designer.cs">
+      <DependentUpon>frmClippingGeographyEdit.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmTestProject.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmTestProject.Designer.cs">
+      <DependentUpon>frmTestProject.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmClippingRegion.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmClippingRegion.Designer.cs">
+      <DependentUpon>frmClippingRegion.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmClippingRegionEdit.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmClippingRegionEdit.Designer.cs">
+      <DependentUpon>frmClippingRegionEdit.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmTestControl.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmTestControl.Designer.cs">
+      <DependentUpon>frmTestControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmGeographyEdit.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmGeographyEdit.Designer.cs">
+      <DependentUpon>frmGeographyEdit.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmGeography.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmGeography.Designer.cs">
+      <DependentUpon>frmGeography.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmMain.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmMain.Designer.cs">
+      <DependentUpon>frmMain.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Encrypt.cs" />
+    <Compile Include="RegistryPersistence.cs" />
+    <EmbeddedResource Include="frmClippingGeographyNew.resx">
+      <DependentUpon>frmClippingGeographyNew.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmLogin.resx">
+      <DependentUpon>frmLogin.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmPickName.resx">
+      <DependentUpon>frmPickName.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmCountryEdit.resx">
+      <DependentUpon>frmCountryEdit.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmPickCoverage.resx">
+      <DependentUpon>frmPickCoverage.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmSimplify.resx">
+      <DependentUpon>frmSimplify.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmTestHttp.resx">
+      <DependentUpon>frmTestHttp.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmInput.resx">
+      <DependentUpon>frmInput.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmClippingGeography.resx">
+      <DependentUpon>frmClippingGeography.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmClippingGeographyEdit.resx">
+      <DependentUpon>frmClippingGeographyEdit.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmTestProject.resx">
+      <DependentUpon>frmTestProject.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmMetadataEdit.resx">
+      <DependentUpon>frmMetadataEdit.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmClippingRegion.resx">
+      <DependentUpon>frmClippingRegion.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmGeography.resx">
+      <DependentUpon>frmGeography.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmClippingRegionEdit.resx">
+      <DependentUpon>frmClippingRegionEdit.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmGeographyEdit.resx">
+      <DependentUpon>frmGeographyEdit.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmMain.resx">
+      <DependentUpon>frmMain.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmTestControl.resx">
+      <DependentUpon>frmTestControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\actions\actions.csproj">
+      <Project>{3E1412DE-EC3E-4F75-982E-7D7151AC958A}</Project>
+      <Name>actions</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\common\common.csproj">
+      <Project>{A89FB934-65A9-455A-A95E-46E74D97EE0D}</Project>
+      <Name>common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\controls\controls.csproj">
+      <Project>{F7C9940F-273F-49A0-8EA7-98196AA07713}</Project>
+      <Name>controls</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\entities\entities.csproj">
+      <Project>{BD87E110-B52F-4A76-94D1-9BC200CF2674}</Project>
+      <Name>entities</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\colors.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="todo pdg.txt" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

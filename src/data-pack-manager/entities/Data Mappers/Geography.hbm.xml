@@ -12,6 +12,7 @@
 		<property name="FieldUrbanityName" column="geo_field_urbanity_name" not-null="false" length="50" />
 		<property name="FieldCaptionName" column="geo_field_caption_name" not-null="false" length="50" />
 		<property name="FieldCodeName" column="geo_field_code_name" not-null="false" length="50" />
+		<property name="FieldCodeSize" column="geo_field_code_size" not-null="false" />
 		<property name="FieldCodeType" column="geo_field_code_type" not-null="false" length="1" />
 		<many-to-one name="Parent" class="Geography">
 			<column name="geo_parent_id" not-null="false" />

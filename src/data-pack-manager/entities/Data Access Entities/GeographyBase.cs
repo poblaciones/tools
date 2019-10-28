@@ -36,6 +36,7 @@ namespace medea.entities
 		private int _maxZoom;
 		private int _minZoom;
 		private string _fieldCodeName;
+		private string _fieldCodeSize;
 		private string _fieldUrbanityName;
 		private string _partialCoverage;
 		private string _fieldCodeType;
@@ -94,10 +95,16 @@ namespace medea.entities
 			get { return _fieldCaptionName; }
 			set { _fieldCaptionName = value; }
 		}
+
 		public virtual string FieldCodeName
 		{
 			get { return _fieldCodeName; }
 			set { _fieldCodeName = value; }
+		}
+		public virtual string FieldCodeSize
+		{
+			get { return _fieldCodeSize; }
+			set { _fieldCodeSize = value; }
 		}
 		public virtual string FieldUrbanityName
 		{

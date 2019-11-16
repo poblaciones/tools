@@ -56,78 +56,79 @@ namespace medea.winApp
 			this.txtServer = new System.Windows.Forms.TextBox();
 			this.chStorePassword = new System.Windows.Forms.CheckBox();
 			this.SuspendLayout();
-			//
+			// 
 			// cmdCancel
-			//
+			// 
 			this.cmdCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.cmdCancel.Location = new System.Drawing.Point(232, 158);
+			this.cmdCancel.Location = new System.Drawing.Point(306, 158);
 			this.cmdCancel.Name = "cmdCancel";
 			this.cmdCancel.Size = new System.Drawing.Size(75, 23);
 			this.cmdCancel.TabIndex = 7;
 			this.cmdCancel.Text = "Cancelar";
 			this.cmdCancel.UseVisualStyleBackColor = true;
-			//
+			this.cmdCancel.Click += new System.EventHandler(this.cmdCancel_Click);
+			// 
 			// cmdOK
-			//
-			this.cmdOK.Location = new System.Drawing.Point(151, 158);
+			// 
+			this.cmdOK.Location = new System.Drawing.Point(225, 158);
 			this.cmdOK.Name = "cmdOK";
 			this.cmdOK.Size = new System.Drawing.Size(75, 23);
 			this.cmdOK.TabIndex = 6;
 			this.cmdOK.Text = "Aceptar";
 			this.cmdOK.UseVisualStyleBackColor = true;
 			this.cmdOK.Click += new System.EventHandler(this.cmdOK_Click);
-			//
+			// 
 			// label1
-			//
+			// 
 			this.label1.AutoSize = true;
 			this.label1.Location = new System.Drawing.Point(32, 88);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(64, 13);
 			this.label1.TabIndex = 4;
 			this.label1.Text = "&Contraseña:";
-			//
+			// 
 			// label2
-			//
+			// 
 			this.label2.AutoSize = true;
 			this.label2.Location = new System.Drawing.Point(32, 57);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(46, 13);
 			this.label2.TabIndex = 2;
 			this.label2.Text = "&Usuario:";
-			//
+			// 
 			// txtUsername
-			//
+			// 
 			this.txtUsername.Location = new System.Drawing.Point(151, 54);
 			this.txtUsername.Name = "txtUsername";
-			this.txtUsername.Size = new System.Drawing.Size(100, 20);
+			this.txtUsername.Size = new System.Drawing.Size(192, 20);
 			this.txtUsername.TabIndex = 3;
-			//
+			// 
 			// txtPassword
-			//
+			// 
 			this.txtPassword.Location = new System.Drawing.Point(151, 84);
 			this.txtPassword.Name = "txtPassword";
 			this.txtPassword.PasswordChar = '*';
-			this.txtPassword.Size = new System.Drawing.Size(100, 20);
+			this.txtPassword.Size = new System.Drawing.Size(192, 20);
 			this.txtPassword.TabIndex = 5;
-			//
+			// 
 			// label3
-			//
+			// 
 			this.label3.AutoSize = true;
 			this.label3.Location = new System.Drawing.Point(32, 27);
 			this.label3.Name = "label3";
 			this.label3.Size = new System.Drawing.Size(49, 13);
 			this.label3.TabIndex = 0;
 			this.label3.Text = "&Servidor:";
-			//
+			// 
 			// txtServer
-			//
+			// 
 			this.txtServer.Location = new System.Drawing.Point(151, 24);
 			this.txtServer.Name = "txtServer";
-			this.txtServer.Size = new System.Drawing.Size(100, 20);
+			this.txtServer.Size = new System.Drawing.Size(192, 20);
 			this.txtServer.TabIndex = 1;
-			//
+			// 
 			// chStorePassword
-			//
+			// 
 			this.chStorePassword.AutoSize = true;
 			this.chStorePassword.Checked = true;
 			this.chStorePassword.CheckState = System.Windows.Forms.CheckState.Checked;
@@ -137,14 +138,14 @@ namespace medea.winApp
 			this.chStorePassword.TabIndex = 8;
 			this.chStorePassword.Text = "Guardar contraseña";
 			this.chStorePassword.UseVisualStyleBackColor = true;
-			//
+			// 
 			// frmLogin
-			//
+			// 
 			this.AcceptButton = this.cmdOK;
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.CancelButton = this.cmdCancel;
-			this.ClientSize = new System.Drawing.Size(319, 193);
+			this.ClientSize = new System.Drawing.Size(393, 193);
 			this.Controls.Add(this.chStorePassword);
 			this.Controls.Add(this.txtPassword);
 			this.Controls.Add(this.txtServer);

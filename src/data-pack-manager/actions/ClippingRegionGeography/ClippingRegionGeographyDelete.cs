@@ -35,7 +35,7 @@ namespace medea.actions
 		public override void Call()
 		{
 			Progress.Total = 1;
-			context.Data.Session.Query<ClippingRegionGeographyItem>()
+			context.Data.Session.Query<ClippingRegionItemGeographyItem>()
 				.Where(x => x.ClippingRegionGeography.Id == current.Id).DeleteQ();
 			context.Data.Session.Delete(current);
 			Progress.Increment();

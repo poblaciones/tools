@@ -220,6 +220,8 @@ namespace medea.winApp
 			var iCode = cmbFieldCodeName.GetValue();
 			var iCaption = cmbFieldCaptionName.GetValue();
 			Call(new ClippingRegionSave(current, uFile.FileAdded, iParent, iCode, iCaption, uFile.Basename, UI.CurrentCountry));
+
+			Call(new MetadataClearRemoteCache(current.Metadata));
 		}
 
 		private bool SelectedParentIsCountries()

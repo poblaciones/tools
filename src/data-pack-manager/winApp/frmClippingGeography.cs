@@ -103,7 +103,7 @@ namespace medea.winApp
 				var sel = GetSelectedItem();
 				if (sel.ItemsCaptions.Count == 0)
 				{
-					sel.ItemsCaptions = UI.GetItems<ClippingRegionGeographyItem>()
+					sel.ItemsCaptions = UI.GetItems<ClippingRegionItemGeographyItem>()
 						.Where(x => x.ClippingRegionGeography == sel).Take(Settings.CantItems)
 						.Select(x => new ClippingRegionGeographyCaption(x.Id.Value, x.ClippingRegionItem.Caption,
 							x.GeographyItem.Caption, x.GeographyItem.Code)).ToList();
@@ -156,16 +156,16 @@ namespace medea.winApp
 
 			if (UI.ConfirmDelete(this))
 			{
-				var items = new List<ClippingRegionGeographyItem>();
+				var items = new List<ClippingRegionItemGeographyItem>();
 				foreach (ListViewItem item in lstItems.SelectedItems)
 				{
-					var ci = item.Tag as ClippingRegionGeographyItem;
+					var ci = item.Tag as ClippingRegionItemGeographyItem;
 					items.Add(ci);
 				}
 				if (items.Count > 0)
 				{
 					var c = GetSelectedItem();
-					Invoker.CallProgress(new ClippingRegionGeographyItemsDelete(items));
+					Invoker.CallProgress(new ClippingRegionItemGeographyItemsDelete(items));
 					LoadItems();
 				}
 			}
@@ -176,7 +176,7 @@ namespace medea.winApp
 			var copy = "";
 			foreach (ListViewItem item in lstItems.SelectedItems)
 			{
-				var ci = item.Tag as ClippingRegionGeographyItem;
+				var ci = item.Tag as ClippingRegionItemGeographyItem;
 				copy += ci.ToString() + System.Environment.NewLine;
 			}
 			if(copy.Trim() != "")

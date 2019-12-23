@@ -22,12 +22,12 @@ namespace medea.entities
 {
 	public class ClippingRegionGeography : ClippingRegionGeographyBase<ClippingRegionGeography>
 	{
-		public virtual IList<ClippingRegionGeographyItem> ClippingRegionGeographyItems { get; set; }
+		public virtual IList<ClippingRegionItemGeographyItem> ClippingRegionItemGeographyItems { get; set; }
 		public virtual List<ClippingRegionGeographyCaption> ItemsCaptions { get; set; }
 
 		public ClippingRegionGeography()
 		{
-			ClippingRegionGeographyItems = new List<ClippingRegionGeographyItem>();
+			ClippingRegionItemGeographyItems = new List<ClippingRegionItemGeographyItem>();
 			ItemsCaptions = new List<ClippingRegionGeographyCaption>();
 		}
 

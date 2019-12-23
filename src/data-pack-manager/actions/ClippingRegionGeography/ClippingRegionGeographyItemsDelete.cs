@@ -24,12 +24,12 @@ using medea.entities;
 
 namespace medea.actions
 {
-	public class ClippingRegionGeographyItemsDelete : action
+	public class ClippingRegionItemGeographyItemsDelete : action
 	{
-		List<ClippingRegionGeographyItem> currentItems;
+		List<ClippingRegionItemGeographyItem> currentItems;
 		List<int> toDelete;
 
-		public ClippingRegionGeographyItemsDelete(List<ClippingRegionGeographyItem> items)
+		public ClippingRegionItemGeographyItemsDelete(List<ClippingRegionItemGeographyItem> items)
 		{
 			currentItems = items;
 			toDelete = new List<int>();
@@ -40,10 +40,10 @@ namespace medea.actions
 			Progress.Total = 1;
 			foreach (var item in currentItems)
 			{
-				item.ClippingRegionGeography.ClippingRegionGeographyItems.Remove(item);
+				item.ClippingRegionGeography.ClippingRegionItemGeographyItems.Remove(item);
 				toDelete.Add(item.Id.Value);
 			}
-			context.Data.Session.Query<ClippingRegionGeographyItem>().Where(x => toDelete.Contains(x.Id.Value)).DeleteQ();
+			context.Data.Session.Query<ClippingRegionItemGeographyItem>().Where(x => toDelete.Contains(x.Id.Value)).DeleteQ();
 			Progress.Increment();
 		}
 	}

@@ -173,9 +173,9 @@
     <Compile Include="Data Access Entities\ClippingRegionItemBase.cs">
       <DependentUpon>ClippingRegionItem.cs</DependentUpon>
     </Compile>
-    <Compile Include="Data Access Entities\ClippingRegionGeographyItem.cs" />
+    <Compile Include="Data Access Entities\ClippingRegionItemGeographyItem.cs" />
     <Compile Include="Data Access Entities\ClippingRegionItemGeographyItemBase.cs">
-      <DependentUpon>ClippingRegionGeographyItem.cs</DependentUpon>
+      <DependentUpon>ClippingRegionItemGeographyItem.cs</DependentUpon>
     </Compile>
     <Compile Include="Data Access Entities\FileChunk.cs" />
     <Compile Include="Data Access Entities\FileChunkBase.cs">
@@ -242,10 +242,14 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Data Mappers\ClippingRegionGeography.hbm.xml" />
-    <EmbeddedResource Include="Data Mappers\ClippingRegionGeographyItem.hbm.xml" />
+    <EmbeddedResource Include="Data Mappers\ClippingRegionItemGeographyItem.hbm.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
+    <None Include="app.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

@@ -269,6 +269,8 @@ namespace medea.winApp
 				filedbf = uFile.Basename + ".dbf";
 			Call(new GeographySave(current, uFile.FileAdded, household,
 					 children, population, urbanity, parent, code, caption, uFile.Basename, filedbf));
+
+			Call(new MetadataClearRemoteCache(current.Metadata));
 		}
 
 		private void ControlsToValues()

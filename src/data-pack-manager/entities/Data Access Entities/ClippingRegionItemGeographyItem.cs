@@ -16,46 +16,37 @@
 *    You should have received a copy of the GNU General Public License
 *    along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
-using medea.common;
-using medea.entities;
-
-namespace medea.actions
+namespace medea.entities
 {
-	public class ClippingRegionGeographySave : action
+	public class ClippingRegionItemGeographyItem : ClippingRegionItemGeographyItemBase<ClippingRegionItemGeographyItem>
 	{
-		private ClippingRegionGeography current;
-
-		public ClippingRegionGeographySave(ClippingRegionGeography crc)
+		public ClippingRegionItemGeographyItem()
+			: base()
 		{
-			current = crc;
 		}
 
-		public override void Call()
+		public ClippingRegionItemGeographyItem(ClippingRegionGeography current, int geographyItemId, int clippingRegionItemId, double percent)
+			: this()
 		{
-			Save();
-			SaveItems();
-			VersionUpdater.Increment();
+			ClippingRegionGeography = current;
+			GeographyItem = new GeographyItem();
+			GeographyItem.Id = geographyItemId;
+			ClippingRegionItem = new ClippingRegionItem();
+			ClippingRegionItem.Id = clippingRegionItemId;
+			IntersectionPercent = percent;
 		}
 
-		private void SaveItems()
+		public virtual string[] ToArray()
 		{
-			var session = context.Data.Session;
-
-			Progress.Caption = "Guardando ítems de región por geografía";
-
-			var sql = InsertGenerator.FromList(current.ClippingRegionItemGeographyItems);
-			context.Data.Session.SqlActions.BulkInsert(sql, Progress);
-			context.Data.Session.Flush();
-			current.ClippingRegionItemGeographyItems.Clear();
+			return new string[] {
+				ClippingRegionItem.GetCaption(),
+				GeographyItem.GetCaption(),
+			};
 		}
 
-		private void Save()
+		public override string ToString()
 		{
-			Progress.Caption = "Actualizando región por geografía";
-			Progress.Total = 1;
-			context.Data.Session.SaveOrUpdate(current);
-			context.Data.Session.Flush();
-			Progress.Increment();
+			return string.Join("\t", ToArray());
 		}
 	}
 }

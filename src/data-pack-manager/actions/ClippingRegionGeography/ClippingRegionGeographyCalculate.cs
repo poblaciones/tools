@@ -78,9 +78,9 @@ namespace medea.actions
 							if (percent > 50)
 							{
 								percent = System.Math.Round(percent, 1);
-								var item = new ClippingRegionGeographyItem(current, geographyItem.Key,
+								var item = new ClippingRegionItemGeographyItem(current, geographyItem.Key,
 								cliId, percent);
-								current.ClippingRegionGeographyItems.Add(item);
+								current.ClippingRegionItemGeographyItems.Add(item);
 							}
 						}
 						catch (NetTopologySuite.Geometries.TopologyException)

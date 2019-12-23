@@ -20,7 +20,7 @@ using medea.common;
 
 namespace medea.entities
 {
-	public abstract class ClippingRegionGeographyItemBase<T> : ActiveBaseEntity<T>, IIdentifiable
+	public abstract class ClippingRegionItemGeographyItemBase<T> : ActiveBaseEntity<T>, IIdentifiable
 	where T: ActiveBaseEntity<T>, new()
 	{
 		

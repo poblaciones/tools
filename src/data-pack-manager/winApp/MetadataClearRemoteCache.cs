@@ -16,37 +16,40 @@
 *    You should have received a copy of the GNU General Public License
 *    along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
-namespace medea.entities
+using medea.common;
+using medea.controls;
+using medea.entities;
+
+namespace medea.winApp
 {
-	public class ClippingRegionGeographyItem : ClippingRegionGeographyItemBase<ClippingRegionGeographyItem>
+	public class MetadataClearRemoteCache : action
 	{
-		public ClippingRegionGeographyItem()
-			: base()
-		{
-		}
+		private Metadata current;
 
-		public ClippingRegionGeographyItem(ClippingRegionGeography current, int geographyItemId, int clippingRegionItemId, double percent)
-			: this()
+		public MetadataClearRemoteCache(Metadata current)
 		{
-			ClippingRegionGeography = current;
-			GeographyItem = new GeographyItem();
-			GeographyItem.Id = geographyItemId;
-			ClippingRegionItem = new ClippingRegionItem();
-			ClippingRegionItem.Id = clippingRegionItemId;
-			IntersectionPercent = percent;
+			this.current = current;
 		}
-
-		public virtual string[] ToArray()
+		public override void Call()
 		{
-			return new string[] {
-				ClippingRegionItem.GetCaption(),
-				GeographyItem.GetCaption(),
-			};
+			Progress.Caption = "Vaciando caché de PDFs";
+			Progress.Total = 1;
+
+			var start = ResolveStartUrl();
+			HttpResult res = null;
+			while (res == null || res.Completed == false)
+			{
+				res = HttpInvoker.CallProgress(start, null, false);
+				if (res == null)
+					return;
+			}
 		}
-
-		public override string ToString()
+		
+		private string ResolveStartUrl()
 		{
-			return string.Join("\t", ToArray());
+			string start = "services/admin/clearMetadataPdfCache";
+			start += "?m=" + this.current.Id;
+			return start;
 		}
 	}
 }

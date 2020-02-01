@@ -170,8 +170,8 @@ namespace medea.winApp
 				if (cmbParentItem.HasSelectedItem == false && cmbParent.HasSelectedItem)
 					msg += "Es necesario seleccionar un Padre en Campos si se selecciona uno en General.\n";
 			}
-			if (!cmbParent.HasSelectedItem)
-				msg += "Debe indicar un valor para 'Padre'.\n";
+			//if (!cmbParent.HasSelectedItem)
+			//	msg += "Debe indicar un valor para 'Padre'.\n";
 			int dummy;
 			if (!int.TryParse(txtPriority.Text, out dummy))
 				msg += "Debe indicar una prioridad numérica.\n";
@@ -215,13 +215,15 @@ namespace medea.winApp
 			current.Symbol = cmbSymbology.GetSelectedItemTag();
 
 			var iParent = cmbParentItem.GetValue();
-			if (SelectedParentIsCountries())
+			if (iParent == "" || SelectedParentIsCountries())
 				iParent = null;
 			var iCode = cmbFieldCodeName.GetValue();
 			var iCaption = cmbFieldCaptionName.GetValue();
 			Call(new ClippingRegionSave(current, uFile.FileAdded, iParent, iCode, iCaption, uFile.Basename, UI.CurrentCountry));
-
+			if (current.Metadata != null)
+			{ 
 			Call(new MetadataClearRemoteCache(current.Metadata));
+			}
 		}
 
 		private bool SelectedParentIsCountries()

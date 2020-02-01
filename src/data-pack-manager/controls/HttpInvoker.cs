@@ -116,10 +116,10 @@ namespace medea.controls
 			}
 			WebClientEx wc = new WebClientEx(CookieContainer);
 			this.lastUrl = fullurl;
+			HttpResult res = new HttpResult();
 			string json = wc.DownloadString(fullurl);
 			Dictionary<string, string> htmlAttributes = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
 
-			HttpResult res = new HttpResult();
 			if (htmlAttributes.ContainsKey("key")) res.Key = htmlAttributes["key"];
 			if (htmlAttributes.ContainsKey("status")) res.Caption = htmlAttributes["status"];
 			if (htmlAttributes.ContainsKey("totalSteps")) res.Total = int.Parse(htmlAttributes["totalSteps"]);
@@ -128,7 +128,6 @@ namespace medea.controls
 			if (htmlAttributes.ContainsKey("extra")) res.Extra = JsonConvert.DeserializeObject<Dictionary<string, string>>(htmlAttributes["extra"]);
 			if (htmlAttributes.ContainsKey("slice")) res.SubValue = int.Parse(htmlAttributes["slice"]);
 			if (htmlAttributes.ContainsKey("done")) res.Completed = htmlAttributes["done"] == "true";
-
 			return res;
 		}
 		public static string ConfigurationGet(string key, string defaultValue = null)

@@ -61,8 +61,11 @@ namespace medea.actions
 
 		private void Save()
 		{
-			MetadataSave met = new MetadataSave(this.current.Metadata);
-			met.Call();
+			if (this.current.Metadata != null)
+			{ 
+				MetadataSave met = new MetadataSave(this.current.Metadata);
+				met.Call();
+			}
 
 			Progress.Caption = "Actualizando región";
 			Progress.Total = 1;

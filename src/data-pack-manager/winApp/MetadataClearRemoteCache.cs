@@ -37,17 +37,12 @@ namespace medea.winApp
 
 			var start = ResolveStartUrl();
 			HttpResult res = null;
-			while (res == null || res.Completed == false)
-			{
-				res = HttpInvoker.CallProgress(start, null, false);
-				if (res == null)
-					return;
-			}
+			res = HttpInvoker.CallProgress(start, null, false);
 		}
 		
 		private string ResolveStartUrl()
 		{
-			string start = "services/admin/clearMetadataPdfCache";
+			string start = "services/admin/ClearMetadataPdfCache";
 			start += "?m=" + this.current.Id;
 			return start;
 		}

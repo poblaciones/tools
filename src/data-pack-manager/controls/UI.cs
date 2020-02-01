@@ -91,9 +91,10 @@ namespace medea.controls
 			if (url != null)
 				err = "URL: " + url + Environment.NewLine;
 			err += "Se ha producido un error: " + e.Message;
-#if DEBUG
+
 			if (e.InnerException != null)
 				err += "\n\nInnerException: " + e.InnerException.Message;
+#if DEBUG
 
 			err += "\n\n" + e.ToString();
 			if (e.InnerException != null)

@@ -25,6 +25,7 @@ using System.Collections.Specialized;
 using System.Net;
 using System.Collections.Generic;
 using Newtonsoft.Json;
+using System.IO;
 
 namespace medea.controls
 {
@@ -63,10 +64,26 @@ public class WebClientEx : WebClient
 
     protected override WebResponse GetWebResponse(WebRequest request)
     {
+				try
+			{
+		
         WebResponse response = base.GetWebResponse(request);
         ReadCookies(response);
         return response;
-    }
+    	}
+			catch(WebException ex)
+			{
+				if (ex.Response != null)
+				{
+					using (var reader = new StreamReader(ex.Response.GetResponseStream()))
+					{
+						string result = reader.ReadToEnd();
+						throw new Exception(result);
+					}
+				}
+				throw ex;
+			}
+		}
 
     private void ReadCookies(WebResponse r)
     {

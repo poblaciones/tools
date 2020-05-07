@@ -3,6 +3,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -85,7 +86,7 @@ namespace stress_tester
 		{
 			foreach(ListViewItem item in lw.Items)
 			{
-				UpdateListViewItem(item, "", "", "", "");
+				UpdateListViewItem(item, "", "", "", "", "");
 			}
 		}
 		private void ProcessResponsesToListView(ConcurrentBag<Response> responses)
@@ -96,13 +97,18 @@ namespace stress_tester
 				{
 					if ((item.Tag as Request).Id == r.Id)
 					{
-						UpdateListViewItem(item, formatMs(r.StartTime), ((int)r.Ellapsed).ToString(), r.Code.ToString(), r.Length.ToString() );
+						var hitsText = item.SubItems[6].Text;
+						var hits = 0;
+						if (hitsText != "")
+							hits = int.Parse(hitsText);
+						hits++;
+						UpdateListViewItem(item, formatMs(r.StartTime), ((int)r.Ellapsed).ToString(), r.Code.ToString(), r.Length.ToString(), hits.ToString() );
 					}
 				}
 			}
 		}
 
-		private void UpdateListViewItem(ListViewItem item, string start, string ellapsed, string code, string length)
+		private void UpdateListViewItem(ListViewItem item, string start, string ellapsed, string code, string length, string hits)
 		{
 			// effective
 			item.SubItems[2].Text = start;
@@ -112,6 +118,8 @@ namespace stress_tester
 			item.SubItems[4].Text = code;
 			// length
 			item.SubItems[5].Text = length;
+			// hits
+			item.SubItems[6].Text = hits;
 		}
 
 		private void numClients_ValueChanged(object sender, EventArgs e)
@@ -145,12 +153,13 @@ namespace stress_tester
 			openClients.Set(clients.Count);
 			ClearListview();
 			// Los completa
+			Random ra = new Random();
 			foreach (var client in clients)
 			{
 				client.Initialize(Current.Context.FilteredList);
 				if (Current.Context.RandomOffsets)
 				{
-					double offset = new Random().NextDouble() * Current.Context.ScriptTime;
+					double offset = ra.NextDouble() * Current.Context.ScriptTime;
 					client.startDateOffset = TimeSpan.FromMilliseconds(offset);
 				}
 				client.Finished += Client_Finished;
@@ -239,6 +248,7 @@ namespace stress_tester
 				li.SubItems.Add(""); 
 				li.SubItems.Add(""); 
 				li.SubItems.Add(""); 
+				li.SubItems.Add(""); 
 				lw.Items.Add(li);
 			}
 			// actualiza totales
@@ -313,7 +323,7 @@ namespace stress_tester
 
 		private void frmMain_FormClosed(object sender, FormClosedEventArgs e)
 		{
-			Application.Exit();
+			Process.GetCurrentProcess().Kill();
 		}
 
 		private void timRefresh_Tick(object sender, EventArgs e)

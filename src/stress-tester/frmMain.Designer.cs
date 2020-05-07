@@ -77,6 +77,7 @@
 			this.chRandom = new System.Windows.Forms.CheckBox();
 			this.label14 = new System.Windows.Forms.Label();
 			this.lblAvgTime = new System.Windows.Forms.Label();
+			this.columnHeader7 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			((System.ComponentModel.ISupportInitialize)(this.numParalells)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.numClients)).BeginInit();
 			this.grpInput.SuspendLayout();
@@ -97,7 +98,8 @@
             this.columnHeader3,
             this.columnHeader4,
             this.columnHeader5,
-            this.columnHeader6});
+            this.columnHeader6,
+            this.columnHeader7});
 			this.lw.FullRowSelect = true;
 			this.lw.HideSelection = false;
 			this.lw.Location = new System.Drawing.Point(12, 223);
@@ -601,6 +603,10 @@
 			this.lblAvgTime.TabIndex = 4;
 			this.lblAvgTime.Text = "-";
 			// 
+			// columnHeader7
+			// 
+			this.columnHeader7.Text = "Hits";
+			// 
 			// frmMain
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -683,6 +689,7 @@
 		private System.Windows.Forms.CheckBox chRandom;
 		private System.Windows.Forms.Label lblAvgTime;
 		private System.Windows.Forms.Label label14;
+		private System.Windows.Forms.ColumnHeader columnHeader7;
 	}
 }
 

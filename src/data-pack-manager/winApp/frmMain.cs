@@ -236,5 +236,15 @@ namespace medea.winApp
 			var f = new frmsimplify();
 			f.ShowDialog(this);
 		}
+
+		private void btnGradient_Click(object sender, EventArgs e)
+		{
+			Display(new frmGradient());
+		}
+
+		private void frmMain_FormClosed(object sender, FormClosedEventArgs e)
+		{
+			Application.Exit();
+		}
 	}
 }

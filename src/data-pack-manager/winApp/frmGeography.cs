@@ -111,6 +111,8 @@ namespace medea.winApp
 				dict.Add("Nombre", geography.Caption);
 				dict.Add("Revisión", geography.Revision);
 				dict.Add("Máximo zoom", geography.MaxZoom.ToString());
+				dict.Add("Gradiente", (geography.Gradient == null ? "" : geography.Gradient.Caption));
+				dict.Add("Luminancia de gradiente", (geography.GradientLuminance == null ? "" : geography.GradientLuminance.ToString()));
 
 				dict.Add("Campo código", geography.FieldCodeName);
 				dict.Add("Campo descripción", geography.FieldCaptionName);

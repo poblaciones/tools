@@ -51,7 +51,6 @@ namespace medea.winApp
 			this.cmsItems = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.mnuCopyItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-			this.mnuDeleteItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.cmsList = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.mnuDelete = new System.Windows.Forms.ToolStripMenuItem();
 			this.splitContainer2 = new System.Windows.Forms.SplitContainer();
@@ -92,9 +91,7 @@ namespace medea.winApp
 			//
 			this.cmsItems.ImageScalingSize = new System.Drawing.Size(28, 28);
 			this.cmsItems.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.mnuCopyItem,
-            this.toolStripSeparator1,
-            this.mnuDeleteItem});
+            this.mnuCopyItem});
 			this.cmsItems.Name = "cmsTree";
 			this.cmsItems.Size = new System.Drawing.Size(118, 54);
 			//
@@ -109,13 +106,6 @@ namespace medea.winApp
 			//
 			this.toolStripSeparator1.Name = "toolStripSeparator1";
 			this.toolStripSeparator1.Size = new System.Drawing.Size(114, 6);
-			//
-			// mnuDeleteItem
-			//
-			this.mnuDeleteItem.Name = "mnuDeleteItem";
-			this.mnuDeleteItem.Size = new System.Drawing.Size(117, 22);
-			this.mnuDeleteItem.Text = "&Eliminar";
-			this.mnuDeleteItem.Click += new System.EventHandler(this.mnuDeleteItem_Click);
 			//
 			// cmsList
 			//
@@ -388,7 +378,6 @@ namespace medea.winApp
 		private System.Windows.Forms.ContextMenuStrip cmsList;
 		private System.Windows.Forms.ToolStripMenuItem mnuDelete;
 		private System.Windows.Forms.ContextMenuStrip cmsItems;
-		private System.Windows.Forms.ToolStripMenuItem mnuDeleteItem;
 		private System.Windows.Forms.ToolStripMenuItem mnuCopyItem;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
 		private uHeader uHeader1;

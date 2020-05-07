@@ -166,6 +166,11 @@ namespace medea.controls
 			if (TableCache.ContainsKey("dataset"))
 				TableCache.Remove("dataset");
 		}
+		
+		public static IList<Gradient> GetGradients()
+		{
+			return UI.GetItems<Gradient>().Where(x => x.Country == UI.CurrentCountry).OrderBy(x => x.Caption).ToList();
+		}
 
 		public static IList<Geography> GetGeographies()
 		{

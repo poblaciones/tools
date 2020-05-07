@@ -205,29 +205,6 @@ namespace medea.winApp
 			btnDelete.PerformClick();
 		}
 
-		private void mnuDeleteItem_Click(object sender, EventArgs e)
-		{
-			if (NoneSelected())
-				return;
-
-			if (UI.ConfirmDeleteRecursive(this))
-			{
-				List<ClippingRegionItem> items = new List<ClippingRegionItem>();
-				foreach (ListViewItem item in lstItems.SelectedItems)
-				{
-					var ci = item.Tag as ClippingRegionItem;
-					items.Add(ci);
-				}
-				if (items.Count > 0)
-				{
-					var c = GetSelectedNode();
-					Invoker.CallProgress(new ClippingRegionItemsDelete(items));
-					c.ClippingRegionItemsCount = null;
-					uEntity.Fill(GetDetail(c));
-					LoadItems(c);
-				}
-			}
-		}
 
 		private void mnuCopyItem_Click(object sender, EventArgs e)
 		{

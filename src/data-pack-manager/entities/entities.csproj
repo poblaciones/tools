@@ -129,6 +129,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Data Access Entities\Gradient.cs" />
+    <Compile Include="Data Access Entities\GradientBase.cs">
+      <DependentUpon>Gradient.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Data Access Entities\GradientItem.cs" />
+    <Compile Include="Data Access Entities\GradientItemBase.cs">
+      <DependentUpon>GradientItem.cs</DependentUpon>
+    </Compile>
     <Compile Include="Data Access Entities\Metadata.cs" />
     <Compile Include="Data Access Entities\Institution.cs" />
     <Compile Include="Data Access Entities\InstitutionBase.cs">
@@ -290,6 +298,14 @@
     <EmbeddedResource Include="Data Mappers\MetadataSource.hbm.xml">
       <SubType>Designer</SubType>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Data Mappers\GradientItem.hbm.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Data Mappers\Gradient.hbm.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

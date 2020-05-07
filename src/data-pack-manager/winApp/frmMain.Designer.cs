@@ -47,6 +47,7 @@ namespace medea.winApp
 		private void InitializeComponent()
 		{
 			this.panel1 = new System.Windows.Forms.Panel();
+			this.btnGradient = new System.Windows.Forms.Button();
 			this.btnSimplify = new System.Windows.Forms.Button();
 			this.menClippingGeography = new System.Windows.Forms.Button();
 			this.menClipping = new System.Windows.Forms.Button();
@@ -63,10 +64,11 @@ namespace medea.winApp
 			this.panel1.SuspendLayout();
 			this.panGlobalSettings.SuspendLayout();
 			this.SuspendLayout();
-			//
+			// 
 			// panel1
-			//
+			// 
 			this.panel1.BackColor = System.Drawing.Color.Silver;
+			this.panel1.Controls.Add(this.btnGradient);
 			this.panel1.Controls.Add(this.btnSimplify);
 			this.panel1.Controls.Add(this.menClippingGeography);
 			this.panel1.Controls.Add(this.menClipping);
@@ -79,9 +81,21 @@ namespace medea.winApp
 			this.panel1.Padding = new System.Windows.Forms.Padding(6);
 			this.panel1.Size = new System.Drawing.Size(814, 40);
 			this.panel1.TabIndex = 0;
-			//
+			// 
+			// btnGradient
+			// 
+			this.btnGradient.BackColor = System.Drawing.Color.Gainsboro;
+			this.btnGradient.Dock = System.Windows.Forms.DockStyle.Left;
+			this.btnGradient.Location = new System.Drawing.Point(324, 6);
+			this.btnGradient.Name = "btnGradient";
+			this.btnGradient.Size = new System.Drawing.Size(89, 28);
+			this.btnGradient.TabIndex = 14;
+			this.btnGradient.Text = "Gradientes";
+			this.btnGradient.UseVisualStyleBackColor = false;
+			this.btnGradient.Click += new System.EventHandler(this.btnGradient_Click);
+			// 
 			// btnSimplify
-			//
+			// 
 			this.btnSimplify.BackColor = System.Drawing.Color.Gainsboro;
 			this.btnSimplify.Dock = System.Windows.Forms.DockStyle.Right;
 			this.btnSimplify.Location = new System.Drawing.Point(595, 6);
@@ -91,9 +105,9 @@ namespace medea.winApp
 			this.btnSimplify.Text = "Resimplificar";
 			this.btnSimplify.UseVisualStyleBackColor = false;
 			this.btnSimplify.Click += new System.EventHandler(this.btnSimplify_Click);
-			//
+			// 
 			// menClippingGeography
-			//
+			// 
 			this.menClippingGeography.BackColor = System.Drawing.Color.Gainsboro;
 			this.menClippingGeography.Dock = System.Windows.Forms.DockStyle.Left;
 			this.menClippingGeography.Location = new System.Drawing.Point(185, 6);
@@ -103,9 +117,9 @@ namespace medea.winApp
 			this.menClippingGeography.Text = "Regiones x Geografía";
 			this.menClippingGeography.UseVisualStyleBackColor = false;
 			this.menClippingGeography.Click += new System.EventHandler(this.menClippingGeography_Click);
-			//
+			// 
 			// menClipping
-			//
+			// 
 			this.menClipping.BackColor = System.Drawing.Color.Gainsboro;
 			this.menClipping.Dock = System.Windows.Forms.DockStyle.Left;
 			this.menClipping.Location = new System.Drawing.Point(96, 6);
@@ -115,9 +129,9 @@ namespace medea.winApp
 			this.menClipping.Text = "Regiones";
 			this.menClipping.UseVisualStyleBackColor = false;
 			this.menClipping.Click += new System.EventHandler(this.menClipping_Click);
-			//
+			// 
 			// menGeography
-			//
+			// 
 			this.menGeography.BackColor = System.Drawing.Color.Gainsboro;
 			this.menGeography.Dock = System.Windows.Forms.DockStyle.Left;
 			this.menGeography.Location = new System.Drawing.Point(6, 6);
@@ -127,9 +141,9 @@ namespace medea.winApp
 			this.menGeography.Text = "Geografías";
 			this.menGeography.UseVisualStyleBackColor = false;
 			this.menGeography.Click += new System.EventHandler(this.menGeography_Click);
-			//
+			// 
 			// menCheckNH
-			//
+			// 
 			this.menCheckNH.BackColor = System.Drawing.Color.Gainsboro;
 			this.menCheckNH.Dock = System.Windows.Forms.DockStyle.Right;
 			this.menCheckNH.Location = new System.Drawing.Point(691, 6);
@@ -139,9 +153,9 @@ namespace medea.winApp
 			this.menCheckNH.Text = "Chequear HBMs";
 			this.menCheckNH.UseVisualStyleBackColor = false;
 			this.menCheckNH.Click += new System.EventHandler(this.menCheckNH_Click);
-			//
+			// 
 			// btnNewMain
-			//
+			// 
 			this.btnNewMain.BackColor = System.Drawing.Color.Gainsboro;
 			this.btnNewMain.Dock = System.Windows.Forms.DockStyle.Right;
 			this.btnNewMain.Location = new System.Drawing.Point(787, 6);
@@ -151,18 +165,18 @@ namespace medea.winApp
 			this.btnNewMain.Text = "..";
 			this.btnNewMain.UseVisualStyleBackColor = false;
 			this.btnNewMain.Click += new System.EventHandler(this.btnNewMain_Click);
-			//
+			// 
 			// panMain
-			//
+			// 
 			this.panMain.BackColor = System.Drawing.Color.WhiteSmoke;
 			this.panMain.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.panMain.Location = new System.Drawing.Point(5, 71);
 			this.panMain.Name = "panMain";
 			this.panMain.Size = new System.Drawing.Size(814, 197);
 			this.panMain.TabIndex = 1;
-			//
+			// 
 			// panGlobalSettings
-			//
+			// 
 			this.panGlobalSettings.Controls.Add(this.btnCountryEdit);
 			this.panGlobalSettings.Controls.Add(this.cmbCountry);
 			this.panGlobalSettings.Controls.Add(this.lblUser);
@@ -173,9 +187,9 @@ namespace medea.winApp
 			this.panGlobalSettings.Name = "panGlobalSettings";
 			this.panGlobalSettings.Size = new System.Drawing.Size(814, 26);
 			this.panGlobalSettings.TabIndex = 12;
-			//
+			// 
 			// btnCountryEdit
-			//
+			// 
 			this.btnCountryEdit.Location = new System.Drawing.Point(226, 3);
 			this.btnCountryEdit.Name = "btnCountryEdit";
 			this.btnCountryEdit.Size = new System.Drawing.Size(25, 20);
@@ -183,9 +197,9 @@ namespace medea.winApp
 			this.btnCountryEdit.Text = "...";
 			this.btnCountryEdit.UseVisualStyleBackColor = true;
 			this.btnCountryEdit.Click += new System.EventHandler(this.btnCountryEdit_Click);
-			//
+			// 
 			// cmbCountry
-			//
+			// 
 			this.cmbCountry.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.cmbCountry.FormattingEnabled = true;
 			this.cmbCountry.Location = new System.Drawing.Point(52, 3);
@@ -194,9 +208,9 @@ namespace medea.winApp
 			this.cmbCountry.Size = new System.Drawing.Size(168, 21);
 			this.cmbCountry.TabIndex = 5;
 			this.cmbCountry.SelectedIndexChanged += new System.EventHandler(this.cmbCountry_SelectedIndexChanged);
-			//
+			// 
 			// lblUser
-			//
+			// 
 			this.lblUser.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.lblUser.AutoSize = true;
 			this.lblUser.Location = new System.Drawing.Point(645, 5);
@@ -204,9 +218,9 @@ namespace medea.winApp
 			this.lblUser.Size = new System.Drawing.Size(13, 13);
 			this.lblUser.TabIndex = 1;
 			this.lblUser.Text = "--";
-			//
+			// 
 			// label2
-			//
+			// 
 			this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.label2.AutoSize = true;
 			this.label2.Location = new System.Drawing.Point(596, 5);
@@ -214,18 +228,18 @@ namespace medea.winApp
 			this.label2.Size = new System.Drawing.Size(46, 13);
 			this.label2.TabIndex = 1;
 			this.label2.Text = "Usuario:";
-			//
+			// 
 			// label1
-			//
+			// 
 			this.label1.AutoSize = true;
 			this.label1.Location = new System.Drawing.Point(3, 6);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(32, 13);
 			this.label1.TabIndex = 0;
 			this.label1.Text = "País:";
-			//
+			// 
 			// frmMain
-			//
+			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.Color.Gainsboro;
@@ -237,6 +251,7 @@ namespace medea.winApp
 			this.Padding = new System.Windows.Forms.Padding(5);
 			this.Text = "Administración";
 			this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+			this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.frmMain_FormClosed);
 			this.Load += new System.EventHandler(this.frmMain_Load);
 			this.panel1.ResumeLayout(false);
 			this.panGlobalSettings.ResumeLayout(false);
@@ -261,5 +276,6 @@ namespace medea.winApp
 		private System.Windows.Forms.Label label2;
 		private System.Windows.Forms.Label lblUser;
 		private System.Windows.Forms.Button btnSimplify;
+		private System.Windows.Forms.Button btnGradient;
 	}
 }

@@ -64,8 +64,16 @@ namespace medea.controls
 			Thread t = new Thread(new ThreadStart(invoke));
 			t.Name = "MedeaInvokerThread";
 			t.Start();
-			panProgress.ShowDialog(Form.ActiveForm);
+			if (panProgress.InvokeRequired)
+			{
+				 MethodInvoker methodInvokerDelegate = delegate() 
+                { panProgress.ShowDialog(Form.ActiveForm); };
+				panProgress.Invoke(methodInvokerDelegate);
+			} 
+			else 
+				panProgress.ShowDialog(Form.ActiveForm);
 		}
+
 		public static string Server;
 		public static string GetServer(string v = null)
 		{

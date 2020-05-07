@@ -1,0 +1,16 @@
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" namespace="medea.entities" assembly="medea.data">
+	<class name="Gradient" table="gradient">
+		<id name="Id" column="grd_id" unsaved-value="null">
+			<generator class="native" />
+		</id>
+		
+		<property name="Caption" column="grd_caption" not-null="true" length="100" />
+		<property name="MaxZoomLevel" column="grd_max_zoom_level" not-null="true" />
+		<property name="ImageType" column="grd_image_type" not-null="true" />
+
+		<many-to-one name="Country" class="ClippingRegionItem">
+			<column name="grd_country_id" not-null="true" />
+		</many-to-one>
+
+	</class>
+</hibernate-mapping>

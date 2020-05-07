@@ -56,6 +56,7 @@ namespace medea.controls
 				return myCp;
 			}
 		}
+
 		private void HidePictures()
 		{
 			setValues(pictureBox1, false);

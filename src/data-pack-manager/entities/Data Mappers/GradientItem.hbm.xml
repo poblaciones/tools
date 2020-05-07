@@ -1,0 +1,16 @@
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" namespace="medea.entities" assembly="medea.data">
+	<class name="GradientItem" table="gradient_item">
+		<id name="Id" column="gri_id" unsaved-value="null">
+			<generator class="native" />
+		</id>
+		<property name="X" column="gri_x" not-null="true" />
+		<property name="Y" column="gri_y" not-null="true" />
+		<property name="Z" column="gri_z" not-null="true" />
+		<property name="Content" column="gri_content" not-null="true" lazy="true" />
+		
+		<many-to-one name="Gradient" class="Gradient">
+			<column name="gri_gradient_id" not-null="true" />
+		</many-to-one>
+
+	</class>
+</hibernate-mapping>

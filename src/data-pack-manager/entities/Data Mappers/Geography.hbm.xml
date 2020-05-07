@@ -8,6 +8,7 @@
 		<property name="IsTrackingLevel" column="geo_is_tracking_level" not-null="true" />
 		<property name="MaxZoom" column="geo_max_zoom" not-null="true" />
 		<property name="MinZoom" column="geo_min_zoom" not-null="true" />
+		<property name="GradientLuminance" column="geo_gradient_luminance" not-null="false" />
 		<property name="PartialCoverage" column="geo_partial_coverage" not-null="false" length="500" />
 		<property name="FieldUrbanityName" column="geo_field_urbanity_name" not-null="false" length="50" />
 		<property name="FieldCaptionName" column="geo_field_caption_name" not-null="false" length="50" />
@@ -16,6 +17,9 @@
 		<property name="FieldCodeType" column="geo_field_code_type" not-null="false" length="1" />
 		<many-to-one name="Parent" class="Geography">
 			<column name="geo_parent_id" not-null="false" />
+		</many-to-one>
+		<many-to-one name="Gradient" class="Gradient">
+			<column name="geo_gradient_id" not-null="false" />
 		</many-to-one>
 		<many-to-one name="Country" class="ClippingRegionItem">
 			<column name="geo_country_id" not-null="true" />

@@ -36,11 +36,13 @@ namespace medea.entities
 		private int _maxZoom;
 		private int _minZoom;
 		private string _fieldCodeName;
-		private string _fieldCodeSize;
+		private int _fieldCodeSize = 10;
+		private float? _gradientLuminance;
 		private string _fieldUrbanityName;
 		private string _partialCoverage;
 		private string _fieldCodeType;
 		private Geography _parent;
+		private Gradient _gradient;
 		private IList<Geography> _children;
 		private ClippingRegionItem _country;
 		#endregion
@@ -62,7 +64,11 @@ namespace medea.entities
 			get { return _metadata; }
 			set { _metadata = value; }
 		}
-
+		public virtual Gradient Gradient
+		{
+			get { return _gradient; }
+			set { _gradient = value; }
+		}
 		public virtual bool IsTrackingLevel
 		{
 			get { return _isTrackingLevel; }
@@ -78,6 +84,13 @@ namespace medea.entities
 			get { return _maxZoom; }
 			set { _maxZoom = value; }
 		}
+
+		public virtual float ? GradientLuminance
+		{
+			get { return _gradientLuminance; }
+			set { _gradientLuminance = value; }
+		}
+
 
 		public virtual ClippingRegionItem Country
 		{
@@ -101,7 +114,7 @@ namespace medea.entities
 			get { return _fieldCodeName; }
 			set { _fieldCodeName = value; }
 		}
-		public virtual string FieldCodeSize
+		public virtual int FieldCodeSize
 		{
 			get { return _fieldCodeSize; }
 			set { _fieldCodeSize = value; }

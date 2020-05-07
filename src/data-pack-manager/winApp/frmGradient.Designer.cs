@@ -19,7 +19,7 @@
 using medea.controls;
 namespace medea.winApp
 {
-	partial class frmClippingRegion
+	partial class frmGradient
 	{
 		/// <summary>
 		/// Required designer variable.
@@ -52,28 +52,29 @@ namespace medea.winApp
 			this.mnuCopyItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
 			this.mnuDeleteItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.trvList = new System.Windows.Forms.TreeView();
+			this.listView = new System.Windows.Forms.ListView();
 			this.cmsTree = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.mnuEdit = new System.Windows.Forms.ToolStripMenuItem();
 			this.mnuDelete = new System.Windows.Forms.ToolStripMenuItem();
 			this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-			this.panel2 = new medea.controls.uHeader();
 			this.splitContainer2 = new System.Windows.Forms.SplitContainer();
-			this.uEntity = new medea.controls.uEntity();
 			this.chkItems = new System.Windows.Forms.CheckBox();
-			this.uHeader1 = new medea.controls.uHeader();
 			this.lstContainer = new System.Windows.Forms.SplitContainer();
 			this.lstItems = new System.Windows.Forms.ListView();
-			this.colCode = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-			this.colCaption = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-			this.colParent = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+			this.colX = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+			this.colY = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+			this.colZ = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.lstCount = new System.Windows.Forms.Label();
-			this.uGeometry1 = new medea.controls.uGeometry();
-			this.uHeader2 = new medea.controls.uHeader();
 			this.pnlActions = new System.Windows.Forms.Panel();
 			this.btnNew = new System.Windows.Forms.Button();
 			this.btnEdit = new System.Windows.Forms.Button();
 			this.btnDelete = new System.Windows.Forms.Button();
+			this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+			this.panel2 = new medea.controls.uHeader();
+			this.uEntity = new medea.controls.uEntity();
+			this.uHeader1 = new medea.controls.uHeader();
+			this.uGeometry1 = new medea.controls.uGeometry();
+			this.uHeader2 = new medea.controls.uHeader();
 			this.cmsItems.SuspendLayout();
 			this.cmsTree.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -118,18 +119,20 @@ namespace medea.winApp
 			this.mnuDeleteItem.Name = "mnuDeleteItem";
 			this.mnuDeleteItem.Size = new System.Drawing.Size(109, 22);
 			// 
-			// trvList
+			// listView
 			// 
-			this.trvList.ContextMenuStrip = this.cmsTree;
-			this.trvList.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.trvList.HideSelection = false;
-			this.trvList.Location = new System.Drawing.Point(0, 26);
-			this.trvList.Name = "trvList";
-			this.trvList.Size = new System.Drawing.Size(184, 256);
-			this.trvList.TabIndex = 1;
-			this.trvList.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.trvList_AfterSelect);
-			this.trvList.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.trvList_NodeMouseDoubleClick);
-			this.trvList.KeyDown += new System.Windows.Forms.KeyEventHandler(this.trvList_KeyDown);
+			this.listView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnHeader1});
+			this.listView.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.listView.HideSelection = false;
+			this.listView.Location = new System.Drawing.Point(0, 26);
+			this.listView.Name = "listView";
+			this.listView.Size = new System.Drawing.Size(184, 256);
+			this.listView.TabIndex = 0;
+			this.listView.UseCompatibleStateImageBehavior = false;
+			this.listView.View = System.Windows.Forms.View.Details;
+			this.listView.SelectedIndexChanged += new System.EventHandler(this.listView_SelectedIndexChanged);
+			this.listView.DoubleClick += new System.EventHandler(this.listView_DoubleClick);
 			// 
 			// cmsTree
 			// 
@@ -162,7 +165,7 @@ namespace medea.winApp
 			// 
 			// splitContainer1.Panel1
 			// 
-			this.splitContainer1.Panel1.Controls.Add(this.trvList);
+			this.splitContainer1.Panel1.Controls.Add(this.listView);
 			this.splitContainer1.Panel1.Controls.Add(this.panel2);
 			// 
 			// splitContainer1.Panel2
@@ -172,17 +175,6 @@ namespace medea.winApp
 			this.splitContainer1.SplitterDistance = 184;
 			this.splitContainer1.SplitterWidth = 6;
 			this.splitContainer1.TabIndex = 2;
-			// 
-			// panel2
-			// 
-			this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
-			this.panel2.ForeColor = System.Drawing.Color.Black;
-			this.panel2.Location = new System.Drawing.Point(0, 0);
-			this.panel2.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-			this.panel2.Name = "panel2";
-			this.panel2.Size = new System.Drawing.Size(184, 26);
-			this.panel2.TabIndex = 0;
-			this.panel2.Text = "Regiones";
 			// 
 			// splitContainer2
 			// 
@@ -206,16 +198,6 @@ namespace medea.winApp
 			this.splitContainer2.SplitterWidth = 6;
 			this.splitContainer2.TabIndex = 0;
 			// 
-			// uEntity
-			// 
-			this.uEntity.BackColor = System.Drawing.SystemColors.Control;
-			this.uEntity.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.uEntity.Location = new System.Drawing.Point(0, 26);
-			this.uEntity.Margin = new System.Windows.Forms.Padding(6);
-			this.uEntity.Name = "uEntity";
-			this.uEntity.Size = new System.Drawing.Size(371, 115);
-			this.uEntity.TabIndex = 1;
-			// 
 			// chkItems
 			// 
 			this.chkItems.AutoSize = true;
@@ -230,18 +212,8 @@ namespace medea.winApp
 			this.chkItems.TabIndex = 2;
 			this.chkItems.Text = "Mostrar ítems";
 			this.chkItems.UseVisualStyleBackColor = false;
+			this.chkItems.Visible = false;
 			this.chkItems.CheckedChanged += new System.EventHandler(this.chkItems_CheckedChanged);
-			// 
-			// uHeader1
-			// 
-			this.uHeader1.Dock = System.Windows.Forms.DockStyle.Top;
-			this.uHeader1.ForeColor = System.Drawing.Color.Black;
-			this.uHeader1.Location = new System.Drawing.Point(0, 0);
-			this.uHeader1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-			this.uHeader1.Name = "uHeader1";
-			this.uHeader1.Size = new System.Drawing.Size(371, 26);
-			this.uHeader1.TabIndex = 0;
-			this.uHeader1.Text = "Detalle";
 			// 
 			// lstContainer
 			// 
@@ -267,9 +239,9 @@ namespace medea.winApp
 			// lstItems
 			// 
 			this.lstItems.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.colCode,
-            this.colCaption,
-            this.colParent});
+            this.colX,
+            this.colY,
+            this.colZ});
 			this.lstItems.ContextMenuStrip = this.cmsItems;
 			this.lstItems.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.lstItems.FullRowSelect = true;
@@ -282,20 +254,20 @@ namespace medea.winApp
 			this.lstItems.View = System.Windows.Forms.View.Details;
 			this.lstItems.SelectedIndexChanged += new System.EventHandler(this.lstItems_SelectedIndexChanged);
 			// 
-			// colCode
+			// colX
 			// 
-			this.colCode.Text = "Código";
-			this.colCode.Width = 93;
+			this.colX.Text = "X";
+			this.colX.Width = 93;
 			// 
-			// colCaption
+			// colY
 			// 
-			this.colCaption.Text = "Descripción";
-			this.colCaption.Width = 171;
+			this.colY.Text = "Y";
+			this.colY.Width = 171;
 			// 
-			// colParent
+			// colZ
 			// 
-			this.colParent.Text = "Padre";
-			this.colParent.Width = 155;
+			this.colZ.Text = "Z";
+			this.colZ.Width = 155;
 			// 
 			// lstCount
 			// 
@@ -307,27 +279,6 @@ namespace medea.winApp
 			this.lstCount.Size = new System.Drawing.Size(22, 19);
 			this.lstCount.TabIndex = 2;
 			this.lstCount.Text = "0.";
-			// 
-			// uGeometry1
-			// 
-			this.uGeometry1.BackColor = System.Drawing.Color.WhiteSmoke;
-			this.uGeometry1.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.uGeometry1.Location = new System.Drawing.Point(0, 0);
-			this.uGeometry1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-			this.uGeometry1.Name = "uGeometry1";
-			this.uGeometry1.Size = new System.Drawing.Size(96, 100);
-			this.uGeometry1.TabIndex = 0;
-			// 
-			// uHeader2
-			// 
-			this.uHeader2.Dock = System.Windows.Forms.DockStyle.Top;
-			this.uHeader2.ForeColor = System.Drawing.Color.Black;
-			this.uHeader2.Location = new System.Drawing.Point(0, 0);
-			this.uHeader2.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-			this.uHeader2.Name = "uHeader2";
-			this.uHeader2.Size = new System.Drawing.Size(371, 26);
-			this.uHeader2.TabIndex = 0;
-			this.uHeader2.Text = "Items";
 			// 
 			// pnlActions
 			// 
@@ -346,7 +297,7 @@ namespace medea.winApp
 			this.btnNew.Name = "btnNew";
 			this.btnNew.Size = new System.Drawing.Size(75, 23);
 			this.btnNew.TabIndex = 0;
-			this.btnNew.Text = "Nueva...";
+			this.btnNew.Text = "Nuevo...";
 			this.btnNew.UseVisualStyleBackColor = true;
 			this.btnNew.Click += new System.EventHandler(this.btnNew_Click);
 			// 
@@ -372,17 +323,75 @@ namespace medea.winApp
 			this.btnDelete.UseVisualStyleBackColor = true;
 			this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
 			// 
-			// frmClippingRegion
+			// columnHeader1
+			// 
+			this.columnHeader1.Text = "Nombre";
+			this.columnHeader1.Width = 150;
+			// 
+			// panel2
+			// 
+			this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
+			this.panel2.ForeColor = System.Drawing.Color.Black;
+			this.panel2.Location = new System.Drawing.Point(0, 0);
+			this.panel2.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+			this.panel2.Name = "panel2";
+			this.panel2.Size = new System.Drawing.Size(184, 26);
+			this.panel2.TabIndex = 0;
+			this.panel2.Text = "Gradientes";
+			// 
+			// uEntity
+			// 
+			this.uEntity.BackColor = System.Drawing.SystemColors.Control;
+			this.uEntity.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.uEntity.Location = new System.Drawing.Point(0, 26);
+			this.uEntity.Margin = new System.Windows.Forms.Padding(6);
+			this.uEntity.Name = "uEntity";
+			this.uEntity.Size = new System.Drawing.Size(371, 115);
+			this.uEntity.TabIndex = 1;
+			// 
+			// uHeader1
+			// 
+			this.uHeader1.Dock = System.Windows.Forms.DockStyle.Top;
+			this.uHeader1.ForeColor = System.Drawing.Color.Black;
+			this.uHeader1.Location = new System.Drawing.Point(0, 0);
+			this.uHeader1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+			this.uHeader1.Name = "uHeader1";
+			this.uHeader1.Size = new System.Drawing.Size(371, 26);
+			this.uHeader1.TabIndex = 0;
+			this.uHeader1.Text = "Detalle";
+			// 
+			// uGeometry1
+			// 
+			this.uGeometry1.BackColor = System.Drawing.Color.WhiteSmoke;
+			this.uGeometry1.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.uGeometry1.Location = new System.Drawing.Point(0, 0);
+			this.uGeometry1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+			this.uGeometry1.Name = "uGeometry1";
+			this.uGeometry1.Size = new System.Drawing.Size(96, 100);
+			this.uGeometry1.TabIndex = 0;
+			// 
+			// uHeader2
+			// 
+			this.uHeader2.Dock = System.Windows.Forms.DockStyle.Top;
+			this.uHeader2.ForeColor = System.Drawing.Color.Black;
+			this.uHeader2.Location = new System.Drawing.Point(0, 0);
+			this.uHeader2.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+			this.uHeader2.Name = "uHeader2";
+			this.uHeader2.Size = new System.Drawing.Size(371, 26);
+			this.uHeader2.TabIndex = 0;
+			this.uHeader2.Text = "Items";
+			// 
+			// frmGradient
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(561, 317);
 			this.Controls.Add(this.splitContainer1);
 			this.Controls.Add(this.pnlActions);
-			this.Name = "frmClippingRegion";
+			this.Name = "frmGradient";
 			this.ShowInTaskbar = false;
-			this.Text = "Regiones";
-			this.Load += new System.EventHandler(this.frmClippingRegion_Load);
+			this.Text = "Gradientes";
+			this.Load += new System.EventHandler(this.frmGradient_Load);
 			this.cmsItems.ResumeLayout(false);
 			this.cmsTree.ResumeLayout(false);
 			this.splitContainer1.Panel1.ResumeLayout(false);
@@ -406,7 +415,7 @@ namespace medea.winApp
 
 		#endregion
 
-		private System.Windows.Forms.TreeView trvList;
+		private System.Windows.Forms.ListView listView;
 		private System.Windows.Forms.SplitContainer splitContainer1;
 		private System.Windows.Forms.SplitContainer splitContainer2;
 		private System.Windows.Forms.Panel pnlActions;
@@ -425,13 +434,14 @@ namespace medea.winApp
 		private uHeader uHeader1;
 		private System.Windows.Forms.SplitContainer lstContainer;
 		private System.Windows.Forms.ListView lstItems;
-		private System.Windows.Forms.ColumnHeader colCode;
-		private System.Windows.Forms.ColumnHeader colCaption;
-		private System.Windows.Forms.ColumnHeader colParent;
+		private System.Windows.Forms.ColumnHeader colX;
+		private System.Windows.Forms.ColumnHeader colY;
+		private System.Windows.Forms.ColumnHeader colZ;
 		private uGeometry uGeometry1;
 		private uHeader uHeader2;
 		private System.Windows.Forms.CheckBox chkItems;
 		private System.Windows.Forms.Label lstCount;
+		private System.Windows.Forms.ColumnHeader columnHeader1;
 	}
 }
 

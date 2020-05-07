@@ -52,6 +52,8 @@ namespace medea.winApp
 			{
 				var parents = UI.GetGeographies().ToList();
 				cmbParent.FillRecursive(parents);
+
+				cmbGradient.Fill(UI.GetGradients(), x => x.Caption);
 			}
 		}
 
@@ -69,7 +71,6 @@ namespace medea.winApp
 
 			current.FieldCaptionName = "";
 			current.FieldCodeName = "";
-			//currentGeography.FieldCodeType = "";
 
 			cmbParentItem.Items.Clear();
 			cmbFieldCodeName.Items.Clear();
@@ -159,6 +160,10 @@ namespace medea.winApp
 			txtRevision.Text = current.Revision;
 			cmbParent.SelectItem(current.Parent);
 			txtMaxZoom.Text = current.MaxZoom.ToString();
+			txtFieldCodeSize.Text = current.FieldCodeSize.ToString();
+			cmbGradient.SelectItem<Gradient>(current.Gradient);
+			txtLuminance.Text = (current.GradientLuminance.HasValue ? current.GradientLuminance.Value.ToString() : "");
+
 			chPartialCoverage.Checked = current.PartialCoverage != null;
 			if (chPartialCoverage.Checked)
 				txtCoverage.Text = current.PartialCoverage;
@@ -239,7 +244,7 @@ namespace medea.winApp
 			int zoom;
 			if (int.TryParse(controlZoom.Text, out zoom) == false)
 				msg += "Debe indicar un valor numérico para '" + label + "'.\n";
-			else if (zoom < 1 || zoom > 21)
+			else if (zoom < 0 || zoom > 21)
 				msg += "El valor para '" + label + "' debe ser entre 1 y 22.\n";
 
 			return msg;
@@ -280,6 +285,10 @@ namespace medea.winApp
 			current.MaxZoom = int.Parse(txtMaxZoom.Text);
 			foreach (var child in current.Children)
 				child.MinZoom = current.MaxZoom + 1;
+
+			current.Gradient = cmbGradient.GetSelectedItem<Gradient>();
+			current.GradientLuminance = (txtLuminance.Text == "" ? (float?) null : float.Parse(txtLuminance.Text.Replace(",", "."), System.Globalization.CultureInfo.InvariantCulture));
+			
 			if (current.Parent != null)
 				current.MinZoom = current.Parent.MaxZoom + 1;
 			else
@@ -302,6 +311,7 @@ namespace medea.winApp
 			{
 				current.FieldCaptionName = cmbFieldCaptionName.GetValue();
 				current.FieldCodeName = cmbFieldCodeName.GetValue();
+				current.FieldCodeSize = int.Parse(txtFieldCodeSize.Text);
 				current.FieldUrbanityName = cmbUrbanity.GetValue();
 			}
 

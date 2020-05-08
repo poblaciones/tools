@@ -350,11 +350,32 @@ namespace stress_tester
 		{
 			if (e.KeyCode == Keys.Delete && btnDelete.Enabled)
 				btnDelete.PerformClick();
+			if (e.KeyCode == Keys.C && (e.Modifiers & Keys.Control) == Keys.Control)
+				CopyRow();
+
+		}
+
+		private void CopyRow()
+		{
+			string text = "";
+			foreach(ListViewItem i in lw.SelectedItems)
+			{
+				if (text != "") text += Environment.NewLine;
+				Request r = i.Tag as Request;
+				text += r.Url;
+			}
+			Clipboard.Clear();
+			Clipboard.SetText(text);
 		}
 
 		private void chRandom_CheckedChanged(object sender, EventArgs e)
 		{
 			FormToContext();
+		}
+
+		private void lw_SelectedIndexChanged(object sender, EventArgs e)
+		{
+
 		}
 	}
 }

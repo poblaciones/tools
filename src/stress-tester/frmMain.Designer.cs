@@ -108,6 +108,7 @@
 			this.lw.TabIndex = 0;
 			this.lw.UseCompatibleStateImageBehavior = false;
 			this.lw.View = System.Windows.Forms.View.Details;
+			this.lw.SelectedIndexChanged += new System.EventHandler(this.lw_SelectedIndexChanged);
 			this.lw.KeyDown += new System.Windows.Forms.KeyEventHandler(this.lw_KeyDown);
 			this.lw.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.lw_KeyPress);
 			// 

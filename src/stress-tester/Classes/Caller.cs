@@ -45,8 +45,9 @@ namespace stress_tester
 				var httpClient = new WebClient();
 				response.Id = r.Id;
 				response.StartTime = this.client.GetRelativeTime() + this.client.startDateOffset.TotalMilliseconds;
-
-				var text = httpClient.DownloadData(r.Url);
+				var url = r.Url;
+//				url = url.Replace("mapa.", "epu.");
+				var text = httpClient.DownloadData(url);
 				if (text.Length == 0)
 					throw new Exception("Empty response");
 

@@ -21,6 +21,8 @@ namespace stress_tester
 
 		public frmMain()
 		{
+			System.Net.ServicePointManager.DefaultConnectionLimit = 10000;
+				
 			InitializeComponent();
 			lw.Columns[0].Width = 300;
 		}
@@ -36,8 +38,13 @@ namespace stress_tester
 			Current.Context.RetryMilliseconds = (int) numRetryMs.Value;
 			Current.Context.RandomOffsets = chRandom.Checked;
 
-			Current.Context.Filter = txtFilter.Text;
 			Current.Context.UseFilter = chFilter.Checked;
+			Current.Context.Filter = txtFilter.Text;
+
+			Current.Context.UseReplace = chReplace.Checked;
+			Current.Context.ReplaceFrom = txtFrom.Text;
+			Current.Context.ReplaceTo = txtTo.Text;
+
 			if (chAutoSave.Checked)
 					AutoSave();
 		}
@@ -47,12 +54,18 @@ namespace stress_tester
 			isRestoring = true;
 			numClients.Value = Current.Context.Clients;
 			numLoops.Value = Current.Context.Loops;
-			numParalells.Value = Current.Context.ParallelRequests;
+			numParalells.Value = (Current.Context.ParallelRequests == 0 ? 1 : Current.Context.ParallelRequests);
 			numRetries.Value = Current.Context.Retries;
 			numRetryMs.Value = Current.Context.RetryMilliseconds;
 			txtFilter.Text = Current.Context.Filter;
 			chFilter.Checked = Current.Context.UseFilter;
 			chRandom.Checked = Current.Context.RandomOffsets;
+
+			chReplace.Checked = Current.Context.UseReplace;
+			txtFrom.Text = Current.Context.ReplaceFrom;
+			txtTo.Text = Current.Context.ReplaceTo;
+
+
 			isRestoring = false;
 		}
 
@@ -91,18 +104,23 @@ namespace stress_tester
 		}
 		private void ProcessResponsesToListView(ConcurrentBag<Response> responses)
 		{
+			List<Guid> done = new List<Guid>();
 			foreach (var r in responses.ToArray())
 			{
-				foreach(ListViewItem item in lw.Items)
+				if (!done.Contains(r.Id))
 				{
-					if ((item.Tag as Request).Id == r.Id)
+					done.Add(r.Id);
+					foreach (ListViewItem item in lw.Items)
 					{
-						var hitsText = item.SubItems[6].Text;
-						var hits = 0;
-						if (hitsText != "")
-							hits = int.Parse(hitsText);
-						hits++;
-						UpdateListViewItem(item, formatMs(r.StartTime), ((int)r.Ellapsed).ToString(), r.Code.ToString(), r.Length.ToString(), hits.ToString() );
+						if ((item.Tag as Request).Id == r.Id)
+						{
+							var hitsText = item.SubItems[6].Text;
+							var hits = 0;
+							if (hitsText != "")
+								hits = int.Parse(hitsText);
+							hits++;
+							UpdateListViewItem(item, formatMs(r.StartTime), ((int)r.Ellapsed).ToString(), r.Code.ToString(), r.Length.ToString(), hits.ToString());
+						}
 					}
 				}
 			}
@@ -375,6 +393,24 @@ namespace stress_tester
 
 		private void lw_SelectedIndexChanged(object sender, EventArgs e)
 		{
+
+		}
+
+		private void chReplace_CheckedChanged(object sender, EventArgs e)
+		{
+						FormToContext();
+
+		}
+
+		private void txtFrom_TextChanged(object sender, EventArgs e)
+		{
+						FormToContext();
+
+		}
+
+		private void txtTo_TextChanged(object sender, EventArgs e)
+		{
+						FormToContext();
 
 		}
 	}

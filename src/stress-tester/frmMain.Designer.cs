@@ -36,10 +36,12 @@
 			this.columnHeader4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.columnHeader5 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.columnHeader6 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+			this.columnHeader7 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.cmdRun = new System.Windows.Forms.Button();
 			this.numParalells = new System.Windows.Forms.NumericUpDown();
 			this.numClients = new System.Windows.Forms.NumericUpDown();
 			this.grpInput = new System.Windows.Forms.GroupBox();
+			this.chRandom = new System.Windows.Forms.CheckBox();
 			this.label6 = new System.Windows.Forms.Label();
 			this.label5 = new System.Windows.Forms.Label();
 			this.label10 = new System.Windows.Forms.Label();
@@ -54,11 +56,19 @@
 			this.numRetries = new System.Windows.Forms.NumericUpDown();
 			this.numLoops = new System.Windows.Forms.NumericUpDown();
 			this.groupBox2 = new System.Windows.Forms.GroupBox();
+			this.lblTotalBytes = new System.Windows.Forms.Label();
+			this.lblAvgTime = new System.Windows.Forms.Label();
 			this.lblTotalTime = new System.Windows.Forms.Label();
+			this.label12 = new System.Windows.Forms.Label();
+			this.label14 = new System.Windows.Forms.Label();
 			this.label3 = new System.Windows.Forms.Label();
 			this.lblRetries = new System.Windows.Forms.Label();
+			this.lblMaxExecuting = new System.Windows.Forms.Label();
+			this.lblExecuting = new System.Windows.Forms.Label();
 			this.lblErrors = new System.Windows.Forms.Label();
 			this.label9 = new System.Windows.Forms.Label();
+			this.label13 = new System.Windows.Forms.Label();
+			this.label11 = new System.Windows.Forms.Label();
 			this.label4 = new System.Windows.Forms.Label();
 			this.lblHits = new System.Windows.Forms.Label();
 			this.label2 = new System.Windows.Forms.Label();
@@ -68,16 +78,9 @@
 			this.chAutoSave = new System.Windows.Forms.CheckBox();
 			this.timRefresh = new System.Windows.Forms.Timer(this.components);
 			this.btnDelete = new System.Windows.Forms.Button();
-			this.label11 = new System.Windows.Forms.Label();
-			this.lblExecuting = new System.Windows.Forms.Label();
-			this.label12 = new System.Windows.Forms.Label();
-			this.lblTotalBytes = new System.Windows.Forms.Label();
-			this.label13 = new System.Windows.Forms.Label();
-			this.lblMaxExecuting = new System.Windows.Forms.Label();
-			this.chRandom = new System.Windows.Forms.CheckBox();
-			this.label14 = new System.Windows.Forms.Label();
-			this.lblAvgTime = new System.Windows.Forms.Label();
-			this.columnHeader7 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+			this.chReplace = new System.Windows.Forms.CheckBox();
+			this.txtFrom = new System.Windows.Forms.TextBox();
+			this.txtTo = new System.Windows.Forms.TextBox();
 			((System.ComponentModel.ISupportInitialize)(this.numParalells)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.numClients)).BeginInit();
 			this.grpInput.SuspendLayout();
@@ -104,7 +107,7 @@
 			this.lw.HideSelection = false;
 			this.lw.Location = new System.Drawing.Point(12, 223);
 			this.lw.Name = "lw";
-			this.lw.Size = new System.Drawing.Size(741, 260);
+			this.lw.Size = new System.Drawing.Size(869, 260);
 			this.lw.TabIndex = 0;
 			this.lw.UseCompatibleStateImageBehavior = false;
 			this.lw.View = System.Windows.Forms.View.Details;
@@ -142,12 +145,16 @@
 			this.columnHeader6.Text = "Length";
 			this.columnHeader6.Width = 83;
 			// 
+			// columnHeader7
+			// 
+			this.columnHeader7.Text = "Hits";
+			// 
 			// cmdRun
 			// 
 			this.cmdRun.Location = new System.Drawing.Point(480, 19);
 			this.cmdRun.Name = "cmdRun";
 			this.cmdRun.Size = new System.Drawing.Size(101, 46);
-			this.cmdRun.TabIndex = 1;
+			this.cmdRun.TabIndex = 12;
 			this.cmdRun.Text = "Run";
 			this.cmdRun.UseVisualStyleBackColor = true;
 			this.cmdRun.Click += new System.EventHandler(this.cmdRun_Click);
@@ -162,7 +169,7 @@
             0});
 			this.numParalells.Name = "numParalells";
 			this.numParalells.Size = new System.Drawing.Size(109, 20);
-			this.numParalells.TabIndex = 2;
+			this.numParalells.TabIndex = 4;
 			this.numParalells.Value = new decimal(new int[] {
             5,
             0,
@@ -180,7 +187,7 @@
             0});
 			this.numClients.Name = "numClients";
 			this.numClients.Size = new System.Drawing.Size(109, 20);
-			this.numClients.TabIndex = 3;
+			this.numClients.TabIndex = 2;
 			this.numClients.Value = new decimal(new int[] {
             1,
             0,
@@ -211,10 +218,24 @@
 			this.grpInput.Controls.Add(this.numParalells);
 			this.grpInput.Location = new System.Drawing.Point(12, 12);
 			this.grpInput.Name = "grpInput";
-			this.grpInput.Size = new System.Drawing.Size(741, 99);
+			this.grpInput.Size = new System.Drawing.Size(869, 99);
 			this.grpInput.TabIndex = 4;
 			this.grpInput.TabStop = false;
 			this.grpInput.Text = "Input";
+			// 
+			// chRandom
+			// 
+			this.chRandom.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.chRandom.AutoSize = true;
+			this.chRandom.Checked = true;
+			this.chRandom.CheckState = System.Windows.Forms.CheckState.Checked;
+			this.chRandom.Location = new System.Drawing.Point(261, 74);
+			this.chRandom.Name = "chRandom";
+			this.chRandom.Size = new System.Drawing.Size(100, 17);
+			this.chRandom.TabIndex = 11;
+			this.chRandom.Text = "Random offsets";
+			this.chRandom.UseVisualStyleBackColor = true;
+			this.chRandom.CheckedChanged += new System.EventHandler(this.chRandom_CheckedChanged);
 			// 
 			// label6
 			// 
@@ -273,7 +294,7 @@
 			// cmdSave
 			// 
 			this.cmdSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.cmdSave.Location = new System.Drawing.Point(658, 66);
+			this.cmdSave.Location = new System.Drawing.Point(786, 66);
 			this.cmdSave.Name = "cmdSave";
 			this.cmdSave.Size = new System.Drawing.Size(77, 20);
 			this.cmdSave.TabIndex = 1;
@@ -293,7 +314,7 @@
 			// btnImport
 			// 
 			this.btnImport.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.btnImport.Location = new System.Drawing.Point(658, 42);
+			this.btnImport.Location = new System.Drawing.Point(786, 42);
 			this.btnImport.Name = "btnImport";
 			this.btnImport.Size = new System.Drawing.Size(77, 20);
 			this.btnImport.TabIndex = 1;
@@ -304,7 +325,7 @@
 			// cmdOpen
 			// 
 			this.cmdOpen.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.cmdOpen.Location = new System.Drawing.Point(658, 19);
+			this.cmdOpen.Location = new System.Drawing.Point(786, 19);
 			this.cmdOpen.Name = "cmdOpen";
 			this.cmdOpen.Size = new System.Drawing.Size(77, 20);
 			this.cmdOpen.TabIndex = 1;
@@ -322,7 +343,7 @@
             0});
 			this.numRetryMs.Name = "numRetryMs";
 			this.numRetryMs.Size = new System.Drawing.Size(100, 20);
-			this.numRetryMs.TabIndex = 3;
+			this.numRetryMs.TabIndex = 10;
 			this.numRetryMs.Value = new decimal(new int[] {
             2000,
             0,
@@ -335,7 +356,7 @@
 			this.numRetries.Location = new System.Drawing.Point(350, 19);
 			this.numRetries.Name = "numRetries";
 			this.numRetries.Size = new System.Drawing.Size(100, 20);
-			this.numRetries.TabIndex = 3;
+			this.numRetries.TabIndex = 8;
 			this.numRetries.ValueChanged += new System.EventHandler(this.nmRetries_ValueChanged);
 			// 
 			// numLoops
@@ -348,7 +369,7 @@
             0});
 			this.numLoops.Name = "numLoops";
 			this.numLoops.Size = new System.Drawing.Size(109, 20);
-			this.numLoops.TabIndex = 2;
+			this.numLoops.TabIndex = 6;
 			this.numLoops.Value = new decimal(new int[] {
             1,
             0,
@@ -378,10 +399,28 @@
 			this.groupBox2.Controls.Add(this.label2);
 			this.groupBox2.Location = new System.Drawing.Point(12, 117);
 			this.groupBox2.Name = "groupBox2";
-			this.groupBox2.Size = new System.Drawing.Size(741, 86);
+			this.groupBox2.Size = new System.Drawing.Size(869, 86);
 			this.groupBox2.TabIndex = 4;
 			this.groupBox2.TabStop = false;
 			this.groupBox2.Text = "Output";
+			// 
+			// lblTotalBytes
+			// 
+			this.lblTotalBytes.AutoSize = true;
+			this.lblTotalBytes.Location = new System.Drawing.Point(419, 56);
+			this.lblTotalBytes.Name = "lblTotalBytes";
+			this.lblTotalBytes.Size = new System.Drawing.Size(10, 13);
+			this.lblTotalBytes.TabIndex = 4;
+			this.lblTotalBytes.Text = "-";
+			// 
+			// lblAvgTime
+			// 
+			this.lblAvgTime.AutoSize = true;
+			this.lblAvgTime.Location = new System.Drawing.Point(419, 29);
+			this.lblAvgTime.Name = "lblAvgTime";
+			this.lblAvgTime.Size = new System.Drawing.Size(10, 13);
+			this.lblAvgTime.TabIndex = 4;
+			this.lblAvgTime.Text = "-";
 			// 
 			// lblTotalTime
 			// 
@@ -391,6 +430,24 @@
 			this.lblTotalTime.Size = new System.Drawing.Size(10, 13);
 			this.lblTotalTime.TabIndex = 4;
 			this.lblTotalTime.Text = "-";
+			// 
+			// label12
+			// 
+			this.label12.AutoSize = true;
+			this.label12.Location = new System.Drawing.Point(347, 56);
+			this.label12.Name = "label12";
+			this.label12.Size = new System.Drawing.Size(62, 13);
+			this.label12.TabIndex = 4;
+			this.label12.Text = "Total bytes:";
+			// 
+			// label14
+			// 
+			this.label14.AutoSize = true;
+			this.label14.Location = new System.Drawing.Point(347, 29);
+			this.label14.Name = "label14";
+			this.label14.Size = new System.Drawing.Size(54, 13);
+			this.label14.TabIndex = 4;
+			this.label14.Text = "Avg. time:";
 			// 
 			// label3
 			// 
@@ -410,6 +467,24 @@
 			this.lblRetries.TabIndex = 4;
 			this.lblRetries.Text = "-";
 			// 
+			// lblMaxExecuting
+			// 
+			this.lblMaxExecuting.AutoSize = true;
+			this.lblMaxExecuting.Location = new System.Drawing.Point(573, 25);
+			this.lblMaxExecuting.Name = "lblMaxExecuting";
+			this.lblMaxExecuting.Size = new System.Drawing.Size(10, 13);
+			this.lblMaxExecuting.TabIndex = 4;
+			this.lblMaxExecuting.Text = "-";
+			// 
+			// lblExecuting
+			// 
+			this.lblExecuting.AutoSize = true;
+			this.lblExecuting.Location = new System.Drawing.Point(571, 56);
+			this.lblExecuting.Name = "lblExecuting";
+			this.lblExecuting.Size = new System.Drawing.Size(10, 13);
+			this.lblExecuting.TabIndex = 4;
+			this.lblExecuting.Text = "-";
+			// 
 			// lblErrors
 			// 
 			this.lblErrors.AutoSize = true;
@@ -427,6 +502,24 @@
 			this.label9.Size = new System.Drawing.Size(43, 13);
 			this.label9.TabIndex = 4;
 			this.label9.Text = "Retries:";
+			// 
+			// label13
+			// 
+			this.label13.AutoSize = true;
+			this.label13.Location = new System.Drawing.Point(477, 25);
+			this.label13.Name = "label13";
+			this.label13.Size = new System.Drawing.Size(83, 13);
+			this.label13.TabIndex = 4;
+			this.label13.Text = "Max. Executing:";
+			// 
+			// label11
+			// 
+			this.label11.AutoSize = true;
+			this.label11.Location = new System.Drawing.Point(477, 56);
+			this.label11.Name = "label11";
+			this.label11.Size = new System.Drawing.Size(57, 13);
+			this.label11.TabIndex = 4;
+			this.label11.Text = "Executing:";
 			// 
 			// label4
 			// 
@@ -464,7 +557,7 @@
 			this.chFilter.Location = new System.Drawing.Point(12, 489);
 			this.chFilter.Name = "chFilter";
 			this.chFilter.Size = new System.Drawing.Size(51, 17);
-			this.chFilter.TabIndex = 5;
+			this.chFilter.TabIndex = 0;
 			this.chFilter.Text = "Filter:";
 			this.chFilter.UseVisualStyleBackColor = true;
 			this.chFilter.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
@@ -475,14 +568,14 @@
 			this.txtFilter.Location = new System.Drawing.Point(61, 486);
 			this.txtFilter.Name = "txtFilter";
 			this.txtFilter.Size = new System.Drawing.Size(181, 20);
-			this.txtFilter.TabIndex = 6;
+			this.txtFilter.TabIndex = 1;
 			this.txtFilter.Text = "https://mapa.poblaciones.org";
 			this.txtFilter.TextChanged += new System.EventHandler(this.txtFilter_TextChanged);
 			// 
 			// lblCount
 			// 
 			this.lblCount.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.lblCount.Location = new System.Drawing.Point(670, 489);
+			this.lblCount.Location = new System.Drawing.Point(798, 489);
 			this.lblCount.Name = "lblCount";
 			this.lblCount.Size = new System.Drawing.Size(79, 14);
 			this.lblCount.TabIndex = 7;
@@ -498,124 +591,72 @@
 			this.chAutoSave.Location = new System.Drawing.Point(262, 489);
 			this.chAutoSave.Name = "chAutoSave";
 			this.chAutoSave.Size = new System.Drawing.Size(102, 17);
-			this.chAutoSave.TabIndex = 5;
+			this.chAutoSave.TabIndex = 2;
 			this.chAutoSave.Text = "Autosave / load";
 			this.chAutoSave.UseVisualStyleBackColor = true;
 			this.chAutoSave.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
 			// 
 			// timRefresh
 			// 
+			this.timRefresh.Interval = 1000;
 			this.timRefresh.Tick += new System.EventHandler(this.timRefresh_Tick);
 			// 
 			// btnDelete
 			// 
 			this.btnDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.btnDelete.Location = new System.Drawing.Point(458, 486);
+			this.btnDelete.Location = new System.Drawing.Point(671, 487);
 			this.btnDelete.Name = "btnDelete";
 			this.btnDelete.Size = new System.Drawing.Size(77, 20);
-			this.btnDelete.TabIndex = 1;
+			this.btnDelete.TabIndex = 6;
 			this.btnDelete.Text = "Delete";
 			this.btnDelete.UseVisualStyleBackColor = true;
 			this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
 			// 
-			// label11
+			// chReplace
 			// 
-			this.label11.AutoSize = true;
-			this.label11.Location = new System.Drawing.Point(477, 56);
-			this.label11.Name = "label11";
-			this.label11.Size = new System.Drawing.Size(57, 13);
-			this.label11.TabIndex = 4;
-			this.label11.Text = "Executing:";
+			this.chReplace.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.chReplace.AutoSize = true;
+			this.chReplace.Checked = true;
+			this.chReplace.CheckState = System.Windows.Forms.CheckState.Checked;
+			this.chReplace.Location = new System.Drawing.Point(453, 490);
+			this.chReplace.Name = "chReplace";
+			this.chReplace.Size = new System.Drawing.Size(69, 17);
+			this.chReplace.TabIndex = 3;
+			this.chReplace.Text = "Replace:";
+			this.chReplace.UseVisualStyleBackColor = true;
+			this.chReplace.CheckedChanged += new System.EventHandler(this.chReplace_CheckedChanged);
 			// 
-			// lblExecuting
+			// txtFrom
 			// 
-			this.lblExecuting.AutoSize = true;
-			this.lblExecuting.Location = new System.Drawing.Point(571, 56);
-			this.lblExecuting.Name = "lblExecuting";
-			this.lblExecuting.Size = new System.Drawing.Size(10, 13);
-			this.lblExecuting.TabIndex = 4;
-			this.lblExecuting.Text = "-";
+			this.txtFrom.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.txtFrom.Location = new System.Drawing.Point(522, 487);
+			this.txtFrom.Name = "txtFrom";
+			this.txtFrom.Size = new System.Drawing.Size(40, 20);
+			this.txtFrom.TabIndex = 4;
+			this.txtFrom.Text = "mapa.";
+			this.txtFrom.TextChanged += new System.EventHandler(this.txtFrom_TextChanged);
 			// 
-			// label12
+			// txtTo
 			// 
-			this.label12.AutoSize = true;
-			this.label12.Location = new System.Drawing.Point(347, 56);
-			this.label12.Name = "label12";
-			this.label12.Size = new System.Drawing.Size(62, 13);
-			this.label12.TabIndex = 4;
-			this.label12.Text = "Total bytes:";
-			// 
-			// lblTotalBytes
-			// 
-			this.lblTotalBytes.AutoSize = true;
-			this.lblTotalBytes.Location = new System.Drawing.Point(419, 56);
-			this.lblTotalBytes.Name = "lblTotalBytes";
-			this.lblTotalBytes.Size = new System.Drawing.Size(10, 13);
-			this.lblTotalBytes.TabIndex = 4;
-			this.lblTotalBytes.Text = "-";
-			// 
-			// label13
-			// 
-			this.label13.AutoSize = true;
-			this.label13.Location = new System.Drawing.Point(477, 25);
-			this.label13.Name = "label13";
-			this.label13.Size = new System.Drawing.Size(83, 13);
-			this.label13.TabIndex = 4;
-			this.label13.Text = "Max. Executing:";
-			// 
-			// lblMaxExecuting
-			// 
-			this.lblMaxExecuting.AutoSize = true;
-			this.lblMaxExecuting.Location = new System.Drawing.Point(573, 25);
-			this.lblMaxExecuting.Name = "lblMaxExecuting";
-			this.lblMaxExecuting.Size = new System.Drawing.Size(10, 13);
-			this.lblMaxExecuting.TabIndex = 4;
-			this.lblMaxExecuting.Text = "-";
-			// 
-			// chRandom
-			// 
-			this.chRandom.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.chRandom.AutoSize = true;
-			this.chRandom.Checked = true;
-			this.chRandom.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.chRandom.Location = new System.Drawing.Point(261, 74);
-			this.chRandom.Name = "chRandom";
-			this.chRandom.Size = new System.Drawing.Size(100, 17);
-			this.chRandom.TabIndex = 6;
-			this.chRandom.Text = "Random offsets";
-			this.chRandom.UseVisualStyleBackColor = true;
-			this.chRandom.CheckedChanged += new System.EventHandler(this.chRandom_CheckedChanged);
-			// 
-			// label14
-			// 
-			this.label14.AutoSize = true;
-			this.label14.Location = new System.Drawing.Point(347, 29);
-			this.label14.Name = "label14";
-			this.label14.Size = new System.Drawing.Size(54, 13);
-			this.label14.TabIndex = 4;
-			this.label14.Text = "Avg. time:";
-			// 
-			// lblAvgTime
-			// 
-			this.lblAvgTime.AutoSize = true;
-			this.lblAvgTime.Location = new System.Drawing.Point(419, 29);
-			this.lblAvgTime.Name = "lblAvgTime";
-			this.lblAvgTime.Size = new System.Drawing.Size(10, 13);
-			this.lblAvgTime.TabIndex = 4;
-			this.lblAvgTime.Text = "-";
-			// 
-			// columnHeader7
-			// 
-			this.columnHeader7.Text = "Hits";
+			this.txtTo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.txtTo.Location = new System.Drawing.Point(568, 487);
+			this.txtTo.Name = "txtTo";
+			this.txtTo.Size = new System.Drawing.Size(40, 20);
+			this.txtTo.TabIndex = 5;
+			this.txtTo.Text = "svr2.";
+			this.txtTo.TextChanged += new System.EventHandler(this.txtTo_TextChanged);
 			// 
 			// frmMain
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(765, 512);
+			this.ClientSize = new System.Drawing.Size(893, 512);
 			this.Controls.Add(this.lblCount);
+			this.Controls.Add(this.txtTo);
+			this.Controls.Add(this.txtFrom);
 			this.Controls.Add(this.txtFilter);
 			this.Controls.Add(this.btnDelete);
+			this.Controls.Add(this.chReplace);
 			this.Controls.Add(this.chAutoSave);
 			this.Controls.Add(this.chFilter);
 			this.Controls.Add(this.groupBox2);
@@ -691,6 +732,9 @@
 		private System.Windows.Forms.Label lblAvgTime;
 		private System.Windows.Forms.Label label14;
 		private System.Windows.Forms.ColumnHeader columnHeader7;
+		private System.Windows.Forms.CheckBox chReplace;
+		private System.Windows.Forms.TextBox txtFrom;
+		private System.Windows.Forms.TextBox txtTo;
 	}
 }
 

@@ -9,8 +9,7 @@ namespace stress_tester
 		private Client client { get; set; }
 		public Synchronized<bool> isCalling;
 		private Request request;
-		private DateTime startTime;
-
+		
 		public Caller(Client client)
 		{
 			this.client = client;
@@ -30,14 +29,14 @@ namespace stress_tester
 		{
 			this.request = request;
 			Current.Context.Results.ExecutingIncrement();
-			this.startTime = DateTime.Now;
-
 			Thread t = new Thread(new ParameterizedThreadStart(CallAsync));
 			t.Start(request);
 		}
 
 		private void CallAsync(object req)
 		{
+			DateTime startTime = DateTime.Now;
+
 			Request r = (Request) req;
 			var response = new Response();
 			try
@@ -46,15 +45,25 @@ namespace stress_tester
 				response.Id = r.Id;
 				response.StartTime = this.client.GetRelativeTime() + this.client.startDateOffset.TotalMilliseconds;
 				var url = r.Url;
-//				url = url.Replace("mapa.", "epu.");
+				if (Current.Context.UseReplace)
+				{
+					url = url.Replace(Current.Context.ReplaceFrom, Current.Context.ReplaceTo);
+				}
 				var text = httpClient.DownloadData(url);
 				if (text.Length == 0)
 					throw new Exception("Empty response");
+
+				DateTime now = DateTime.Now;
+				double ellapsed = now.Subtract(startTime).TotalMilliseconds;
+				response.Ellapsed = ellapsed;
 
 				Success(response, text.Length);
 			}
 			catch (Exception e)
 			{
+				DateTime now = DateTime.Now;
+				double ellapsed = now.Subtract(startTime).TotalMilliseconds;
+				response.Ellapsed = ellapsed;
 				if (e is WebException)
 				{
 					WebException we = (WebException)e;
@@ -72,6 +81,7 @@ namespace stress_tester
 				}
 				Failed(response);
 			}
+			
 		}
 		private void Success(Response response, int size)
 		{
@@ -95,11 +105,8 @@ namespace stress_tester
 		}
 		private void Finished(Response response)
 		{
-			DateTime now = DateTime.Now;
 			Current.Context.Results.Hits.Increment();
-			double ellapsed = now.Subtract(startTime).TotalMilliseconds;
-			Current.Context.Results.TotalTime.Increment((int) ellapsed);
-			response.Ellapsed = ellapsed;
+			Current.Context.Results.TotalTime.Increment((int) response.Ellapsed);
 
 			Current.Context.Results.Executing.Decrement();
 			Current.Context.Results.Responses.Add(response);

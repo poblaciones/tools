@@ -14,6 +14,9 @@ namespace stress_tester
 		public List<Request> List = new List<Request>();
 		public string Filter { get; set; }
 		public bool UseFilter { get; set; }
+		public bool UseReplace { get; set; }
+		public string ReplaceFrom { get; set; }
+		public string ReplaceTo { get; set; }
 		public bool RandomOffsets { get; set; }
 
 		public List<Request> FilteredList

@@ -32,7 +32,7 @@ class Procesador:
         try:
             print(self.ruta['text'])
             params = self.ruta['text'].split('.')
-            comando = "python3 kmx2csv.py " + \
+            comando = "python3 kmx2csv3.py " + \
                 params[1] + " " + self.ruta['text'] + " ."
             print(comando)
             os.system(comando)

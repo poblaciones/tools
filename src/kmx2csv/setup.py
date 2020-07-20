@@ -1,12 +1,12 @@
 # setup.py build
 import os
 import sys
-from cx_freeze import setup, Executable
+from cx_Freeze import setup, Executable
 
-PY_PATH = 'C:/Users/Fernando/AppData/Local/Programs/Python/Python37'
+PY_PATH = './libs/'
 
-os.environ['TCL_LIBRARY'] = os.path.join(PY_PATH, 'tcl/tcl8.6')
-os.environ['TK_LIBRARY'] = os.path.join(PY_PATH, 'tcl/tk8.6')
+os.environ['TCL_LIBRARY'] = os.path.join(PY_PATH, 'tcl8.6')
+os.environ['TK_LIBRARY'] = os.path.join(PY_PATH, 'tk8.6')
 
 icon_file = 'ico.xbm'
 if sys.platform.startswith('win'):
@@ -21,7 +21,7 @@ setup(
             "includes": [],
             "packages": ["tkinter"],
             "include_files": [icon_file,
-                              "kmx2csv.py",
-                              os.path.join(PY_PATH, 'DLLs/tcl86t.dll'),
-                              os.path.join(PY_PATH, 'DLLs/tk86t.dll')]}},
+                              "kmx2csv3.py",
+                              os.path.join(PY_PATH, 'tcl86t.dll'),
+                              os.path.join(PY_PATH, 'tk86t.dll')]}},
     executables=[Executable("executeRun.py", base="Win32GUI")])

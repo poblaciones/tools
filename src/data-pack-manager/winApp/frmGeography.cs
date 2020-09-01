@@ -109,6 +109,8 @@ namespace medea.winApp
 				var dict = new Dictionary<string, string>();
 				dict.Add("Id", geography.Id.ToString());
 				dict.Add("Nombre", geography.Caption);
+				if (geography.RootCaption != null)
+					dict.Add("Grupo", geography.RootCaption);
 				dict.Add("Revisión", geography.Revision);
 				dict.Add("Máximo zoom", geography.MaxZoom.ToString());
 				dict.Add("Gradiente", (geography.Gradient == null ? "" : geography.Gradient.Caption));

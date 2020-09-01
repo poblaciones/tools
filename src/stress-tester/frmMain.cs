@@ -105,6 +105,7 @@ namespace stress_tester
 		private void ProcessResponsesToListView(ConcurrentBag<Response> responses)
 		{
 			List<Guid> done = new List<Guid>();
+			
 			foreach (var r in responses.ToArray())
 			{
 				if (!done.Contains(r.Id))
@@ -172,15 +173,20 @@ namespace stress_tester
 			ClearListview();
 			// Los completa
 			Random ra = new Random();
+			int i = 0;
 			foreach (var client in clients)
 			{
 				client.Initialize(Current.Context.FilteredList);
-				if (Current.Context.RandomOffsets)
+				if (Current.Context.RandomOffsets && i > 0)
 				{
 					double offset = ra.NextDouble() * Current.Context.ScriptTime;
 					client.startDateOffset = TimeSpan.FromMilliseconds(offset);
 				}
+				else
+					client.startDateOffset = TimeSpan.FromMilliseconds(0);
+
 				client.Finished += Client_Finished;
+				i++;
 			}
 			// Los inicia
 			foreach (var client in clients)
@@ -412,6 +418,27 @@ namespace stress_tester
 		{
 						FormToContext();
 
+		}
+
+		private void btnCopy_Click(object sender, EventArgs e)
+		{
+			
+			 StringBuilder sb = new StringBuilder();
+			  foreach (ColumnHeader item in lw.Columns)
+              sb.Append(item.Text +"\t");
+				sb.AppendLine();
+
+        foreach (var item in lw.Items)
+        {
+            ListViewItem l = item as ListViewItem;
+            if (l != null)
+                foreach (ListViewItem.ListViewSubItem sub in l.SubItems)
+                    sb.Append(sub.Text+"\t");
+            sb.AppendLine();
+        }
+			Clipboard.Clear();
+        Clipboard.SetText(sb.ToString());
+			
 		}
 	}
 }

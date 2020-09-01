@@ -89,6 +89,7 @@ namespace medea.winApp
 				NHibernateSession.DbSettings["User"] = res.Extra["User"];
 				NHibernateSession.DbSettings["SslMode"] = res.Extra["SslMode"];
 				NHibernateSession.DbSettings["PasswordPlain"] = res.Extra["PasswordPlain"];
+				NHibernateSession.DbSettings["SslMode"] = "Preferred";
 				UI.CurrentUserEmail = getCurrentUser();
 				lblUser.Text = getCurrentUser();
 				return true;

@@ -77,53 +77,46 @@ namespace medea.winApp
 			this.cmbParentItem = new medea.controls.uComboBox();
 			this.lblRecords = new System.Windows.Forms.Label();
 			this.lblShapeType = new System.Windows.Forms.Label();
-			this.groupBox2 = new System.Windows.Forms.GroupBox();
-			this.uFileMissings = new medea.controls.uFile();
-			this.txtCoverage = new System.Windows.Forms.TextBox();
-			this.chPartialCoverage = new System.Windows.Forms.CheckBox();
-			this.label2 = new System.Windows.Forms.Label();
-			this.label1 = new System.Windows.Forms.Label();
-			this.lblCoverage = new System.Windows.Forms.Label();
 			this.label4 = new System.Windows.Forms.Label();
 			this.groupBox4 = new System.Windows.Forms.GroupBox();
+			this.txtLuminance = new System.Windows.Forms.TextBox();
 			this.txtMaxZoom = new System.Windows.Forms.TextBox();
+			this.label7 = new System.Windows.Forms.Label();
 			this.label6 = new System.Windows.Forms.Label();
 			this.label13 = new System.Windows.Forms.Label();
 			this.cmbGradient = new medea.controls.uComboBox();
-			this.groupBox1 = new System.Windows.Forms.GroupBox();
 			this.btnEditMetadata = new System.Windows.Forms.Button();
-			this.label7 = new System.Windows.Forms.Label();
-			this.txtLuminance = new System.Windows.Forms.TextBox();
+			this.txtRootCaption = new System.Windows.Forms.TextBox();
+			this.label1 = new System.Windows.Forms.Label();
 			this.panMain.SuspendLayout();
 			this.grpGeneral.SuspendLayout();
 			this.grpItems.SuspendLayout();
 			this.grpCampos.SuspendLayout();
-			this.groupBox2.SuspendLayout();
 			this.groupBox4.SuspendLayout();
-			this.groupBox1.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// panButtons
 			// 
-			this.panButtons.Location = new System.Drawing.Point(0, 491);
-			this.panButtons.Size = new System.Drawing.Size(813, 55);
+			this.panButtons.Location = new System.Drawing.Point(0, 506);
+			this.panButtons.Size = new System.Drawing.Size(599, 55);
 			// 
 			// panMain
 			// 
-			this.panMain.Controls.Add(this.groupBox1);
 			this.panMain.Controls.Add(this.groupBox4);
-			this.panMain.Controls.Add(this.groupBox2);
 			this.panMain.Controls.Add(this.lblShapeType);
 			this.panMain.Controls.Add(this.label4);
 			this.panMain.Controls.Add(this.lblRecords);
 			this.panMain.Controls.Add(this.grpGeneral);
 			this.panMain.Controls.Add(this.grpItems);
 			this.panMain.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-			this.panMain.Size = new System.Drawing.Size(813, 491);
+			this.panMain.Size = new System.Drawing.Size(599, 506);
 			// 
 			// grpGeneral
 			// 
+			this.grpGeneral.Controls.Add(this.btnEditMetadata);
+			this.grpGeneral.Controls.Add(this.label1);
 			this.grpGeneral.Controls.Add(this.lblRevision);
+			this.grpGeneral.Controls.Add(this.txtRootCaption);
 			this.grpGeneral.Controls.Add(this.txtRevision);
 			this.grpGeneral.Controls.Add(this.label9);
 			this.grpGeneral.Controls.Add(this.txtCaption);
@@ -132,7 +125,7 @@ namespace medea.winApp
 			this.grpGeneral.Controls.Add(this.cmbParent);
 			this.grpGeneral.Location = new System.Drawing.Point(12, 12);
 			this.grpGeneral.Name = "grpGeneral";
-			this.grpGeneral.Size = new System.Drawing.Size(293, 119);
+			this.grpGeneral.Size = new System.Drawing.Size(573, 136);
 			this.grpGeneral.TabIndex = 0;
 			this.grpGeneral.TabStop = false;
 			this.grpGeneral.Text = "General";
@@ -140,7 +133,7 @@ namespace medea.winApp
 			// lblRevision
 			// 
 			this.lblRevision.AutoSize = true;
-			this.lblRevision.Location = new System.Drawing.Point(15, 65);
+			this.lblRevision.Location = new System.Drawing.Point(15, 70);
 			this.lblRevision.Name = "lblRevision";
 			this.lblRevision.Size = new System.Drawing.Size(78, 13);
 			this.lblRevision.TabIndex = 11;
@@ -148,7 +141,7 @@ namespace medea.winApp
 			// 
 			// txtRevision
 			// 
-			this.txtRevision.Location = new System.Drawing.Point(96, 61);
+			this.txtRevision.Location = new System.Drawing.Point(96, 66);
 			this.txtRevision.MaxLength = 10;
 			this.txtRevision.Name = "txtRevision";
 			this.txtRevision.Size = new System.Drawing.Size(58, 20);
@@ -168,7 +161,7 @@ namespace medea.winApp
 			this.txtCaption.Location = new System.Drawing.Point(96, 19);
 			this.txtCaption.MaxLength = 100;
 			this.txtCaption.Name = "txtCaption";
-			this.txtCaption.Size = new System.Drawing.Size(191, 20);
+			this.txtCaption.Size = new System.Drawing.Size(330, 20);
 			this.txtCaption.TabIndex = 1;
 			// 
 			// lblCaption
@@ -183,7 +176,7 @@ namespace medea.winApp
 			// lblParent
 			// 
 			this.lblParent.AutoSize = true;
-			this.lblParent.Location = new System.Drawing.Point(15, 91);
+			this.lblParent.Location = new System.Drawing.Point(15, 101);
 			this.lblParent.Name = "lblParent";
 			this.lblParent.Size = new System.Drawing.Size(38, 13);
 			this.lblParent.TabIndex = 4;
@@ -193,7 +186,7 @@ namespace medea.winApp
 			// 
 			this.cmbParent.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.cmbParent.FormattingEnabled = true;
-			this.cmbParent.Location = new System.Drawing.Point(96, 87);
+			this.cmbParent.Location = new System.Drawing.Point(96, 97);
 			this.cmbParent.Name = "cmbParent";
 			this.cmbParent.Optional = true;
 			this.cmbParent.Size = new System.Drawing.Size(181, 21);
@@ -204,7 +197,7 @@ namespace medea.winApp
 			// 
 			this.grpItems.Controls.Add(this.uFile);
 			this.grpItems.Controls.Add(this.grpCampos);
-			this.grpItems.Location = new System.Drawing.Point(12, 137);
+			this.grpItems.Location = new System.Drawing.Point(14, 154);
 			this.grpItems.Name = "grpItems";
 			this.grpItems.Size = new System.Drawing.Size(293, 337);
 			this.grpItems.TabIndex = 3;
@@ -419,84 +412,6 @@ namespace medea.winApp
 			this.lblShapeType.Text = "Tipo shp:";
 			this.lblShapeType.Visible = false;
 			// 
-			// groupBox2
-			// 
-			this.groupBox2.Controls.Add(this.uFileMissings);
-			this.groupBox2.Controls.Add(this.txtCoverage);
-			this.groupBox2.Controls.Add(this.chPartialCoverage);
-			this.groupBox2.Controls.Add(this.label2);
-			this.groupBox2.Controls.Add(this.label1);
-			this.groupBox2.Controls.Add(this.lblCoverage);
-			this.groupBox2.Location = new System.Drawing.Point(316, 137);
-			this.groupBox2.Name = "groupBox2";
-			this.groupBox2.Size = new System.Drawing.Size(490, 234);
-			this.groupBox2.TabIndex = 4;
-			this.groupBox2.TabStop = false;
-			this.groupBox2.Text = "Cobertura parcial";
-			// 
-			// uFileMissings
-			// 
-			this.uFileMissings.BackColor = System.Drawing.SystemColors.Control;
-			this.uFileMissings.Enabled = false;
-			this.uFileMissings.EnabledButtons = true;
-			this.uFileMissings.FileAdded = false;
-			this.uFileMissings.FileDeleted = false;
-			this.uFileMissings.Location = new System.Drawing.Point(98, 122);
-			this.uFileMissings.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-			this.uFileMissings.Name = "uFileMissings";
-			this.uFileMissings.SelectedFile = null;
-			this.uFileMissings.Size = new System.Drawing.Size(191, 57);
-			this.uFileMissings.TabIndex = 4;
-			// 
-			// txtCoverage
-			// 
-			this.txtCoverage.Enabled = false;
-			this.txtCoverage.Location = new System.Drawing.Point(99, 46);
-			this.txtCoverage.MaxLength = 500;
-			this.txtCoverage.Multiline = true;
-			this.txtCoverage.Name = "txtCoverage";
-			this.txtCoverage.Size = new System.Drawing.Size(330, 68);
-			this.txtCoverage.TabIndex = 2;
-			// 
-			// chPartialCoverage
-			// 
-			this.chPartialCoverage.AutoSize = true;
-			this.chPartialCoverage.Location = new System.Drawing.Point(8, 23);
-			this.chPartialCoverage.Name = "chPartialCoverage";
-			this.chPartialCoverage.Size = new System.Drawing.Size(212, 17);
-			this.chPartialCoverage.TabIndex = 0;
-			this.chPartialCoverage.Text = "Ofrece solamente una cobertura parcial";
-			this.chPartialCoverage.UseVisualStyleBackColor = true;
-			this.chPartialCoverage.CheckedChanged += new System.EventHandler(this.chPartialCoverage_CheckedChanged);
-			// 
-			// label2
-			// 
-			this.label2.Location = new System.Drawing.Point(8, 184);
-			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(313, 45);
-			this.label2.TabIndex = 5;
-			this.label2.Text = "*** Las áreas faltantes deben estar contenidas en un archivo dbf con igual estruc" +
-    "tura de campos que el archivo de Items (iguales campos para padre, código, pobla" +
-    "ción, hogares, niños).";
-			// 
-			// label1
-			// 
-			this.label1.AutoSize = true;
-			this.label1.Location = new System.Drawing.Point(8, 125);
-			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(92, 13);
-			this.label1.TabIndex = 3;
-			this.label1.Text = "Áreas faltantes***:";
-			// 
-			// lblCoverage
-			// 
-			this.lblCoverage.AutoSize = true;
-			this.lblCoverage.Location = new System.Drawing.Point(7, 49);
-			this.lblCoverage.Name = "lblCoverage";
-			this.lblCoverage.Size = new System.Drawing.Size(83, 13);
-			this.lblCoverage.TabIndex = 1;
-			this.lblCoverage.Text = "Áreas cubiertas:";
-			// 
 			// label4
 			// 
 			this.label4.Location = new System.Drawing.Point(315, 419);
@@ -513,12 +428,20 @@ namespace medea.winApp
 			this.groupBox4.Controls.Add(this.label6);
 			this.groupBox4.Controls.Add(this.label13);
 			this.groupBox4.Controls.Add(this.cmbGradient);
-			this.groupBox4.Location = new System.Drawing.Point(327, 12);
+			this.groupBox4.Location = new System.Drawing.Point(316, 154);
 			this.groupBox4.Name = "groupBox4";
 			this.groupBox4.Size = new System.Drawing.Size(267, 119);
 			this.groupBox4.TabIndex = 11;
 			this.groupBox4.TabStop = false;
 			this.groupBox4.Text = "Escala y gradiente";
+			// 
+			// txtLuminance
+			// 
+			this.txtLuminance.Location = new System.Drawing.Point(127, 83);
+			this.txtLuminance.MaxLength = 255;
+			this.txtLuminance.Name = "txtLuminance";
+			this.txtLuminance.Size = new System.Drawing.Size(99, 20);
+			this.txtLuminance.TabIndex = 5;
 			// 
 			// txtMaxZoom
 			// 
@@ -527,6 +450,15 @@ namespace medea.winApp
 			this.txtMaxZoom.Name = "txtMaxZoom";
 			this.txtMaxZoom.Size = new System.Drawing.Size(48, 20);
 			this.txtMaxZoom.TabIndex = 5;
+			// 
+			// label7
+			// 
+			this.label7.AutoSize = true;
+			this.label7.Location = new System.Drawing.Point(124, 61);
+			this.label7.Name = "label7";
+			this.label7.Size = new System.Drawing.Size(102, 13);
+			this.label7.TabIndex = 4;
+			this.label7.Text = "Luminosidad (0 a 1):";
 			// 
 			// label6
 			// 
@@ -556,19 +488,10 @@ namespace medea.winApp
 			this.cmbGradient.Size = new System.Drawing.Size(102, 21);
 			this.cmbGradient.TabIndex = 10;
 			// 
-			// groupBox1
-			// 
-			this.groupBox1.Controls.Add(this.btnEditMetadata);
-			this.groupBox1.Location = new System.Drawing.Point(600, 12);
-			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(201, 119);
-			this.groupBox1.TabIndex = 11;
-			this.groupBox1.TabStop = false;
-			this.groupBox1.Text = "Metadatos";
-			// 
 			// btnEditMetadata
 			// 
-			this.btnEditMetadata.Location = new System.Drawing.Point(38, 30);
+			this.btnEditMetadata.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.btnEditMetadata.Location = new System.Drawing.Point(441, 19);
 			this.btnEditMetadata.Name = "btnEditMetadata";
 			this.btnEditMetadata.Size = new System.Drawing.Size(120, 39);
 			this.btnEditMetadata.TabIndex = 0;
@@ -576,28 +499,28 @@ namespace medea.winApp
 			this.btnEditMetadata.UseVisualStyleBackColor = true;
 			this.btnEditMetadata.Click += new System.EventHandler(this.btnEditMetadata_Click);
 			// 
-			// label7
+			// txtRootCaption
 			// 
-			this.label7.AutoSize = true;
-			this.label7.Location = new System.Drawing.Point(124, 61);
-			this.label7.Name = "label7";
-			this.label7.Size = new System.Drawing.Size(102, 13);
-			this.label7.TabIndex = 4;
-			this.label7.Text = "Luminosidad (0 a 1):";
+			this.txtRootCaption.Location = new System.Drawing.Point(332, 67);
+			this.txtRootCaption.MaxLength = 10;
+			this.txtRootCaption.Name = "txtRootCaption";
+			this.txtRootCaption.Size = new System.Drawing.Size(229, 20);
+			this.txtRootCaption.TabIndex = 10;
 			// 
-			// txtLuminance
+			// label1
 			// 
-			this.txtLuminance.Location = new System.Drawing.Point(127, 83);
-			this.txtLuminance.MaxLength = 255;
-			this.txtLuminance.Name = "txtLuminance";
-			this.txtLuminance.Size = new System.Drawing.Size(99, 20);
-			this.txtLuminance.TabIndex = 5;
+			this.label1.AutoSize = true;
+			this.label1.Location = new System.Drawing.Point(287, 70);
+			this.label1.Name = "label1";
+			this.label1.Size = new System.Drawing.Size(39, 13);
+			this.label1.TabIndex = 11;
+			this.label1.Text = "Grupo:";
 			// 
 			// frmGeographyEdit
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(813, 546);
+			this.ClientSize = new System.Drawing.Size(599, 561);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
 			this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
 			this.Name = "frmGeographyEdit";
@@ -610,11 +533,8 @@ namespace medea.winApp
 			this.grpItems.ResumeLayout(false);
 			this.grpCampos.ResumeLayout(false);
 			this.grpCampos.PerformLayout();
-			this.groupBox2.ResumeLayout(false);
-			this.groupBox2.PerformLayout();
 			this.groupBox4.ResumeLayout(false);
 			this.groupBox4.PerformLayout();
-			this.groupBox1.ResumeLayout(false);
 			this.ResumeLayout(false);
 
 		}
@@ -643,13 +563,6 @@ namespace medea.winApp
 		private controls.uComboBox cmbPopulation;
 		private System.Windows.Forms.Label lblRecords;
 		private System.Windows.Forms.Label lblShapeType;
-		private System.Windows.Forms.GroupBox groupBox2;
-		private System.Windows.Forms.TextBox txtCoverage;
-		private System.Windows.Forms.CheckBox chPartialCoverage;
-		private System.Windows.Forms.Label lblCoverage;
-		private uFile uFileMissings;
-		private System.Windows.Forms.Label label1;
-		private System.Windows.Forms.Label label2;
 		private System.Windows.Forms.Label label3;
 		private uComboBox cmbUrbanity;
 		private System.Windows.Forms.Label label4;
@@ -657,7 +570,6 @@ namespace medea.winApp
 		private System.Windows.Forms.GroupBox groupBox4;
 		private System.Windows.Forms.TextBox txtMaxZoom;
 		private System.Windows.Forms.Label label13;
-		private System.Windows.Forms.GroupBox groupBox1;
 		private System.Windows.Forms.Button btnEditMetadata;
 		private System.Windows.Forms.Label lblRevision;
 		private System.Windows.Forms.TextBox txtRevision;
@@ -667,6 +579,8 @@ namespace medea.winApp
 		private uComboBox cmbGradient;
 		private System.Windows.Forms.TextBox txtLuminance;
 		private System.Windows.Forms.Label label7;
+		private System.Windows.Forms.Label label1;
+		private System.Windows.Forms.TextBox txtRootCaption;
 	}
 }
 

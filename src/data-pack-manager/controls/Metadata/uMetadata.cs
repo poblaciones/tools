@@ -33,14 +33,6 @@ namespace medea.controls
 		public Metadata current;
 		private bool isNew = true;
 
-		public void ShowType()
-		{
-			radResearch.Visible = true;
-			radMapping.Visible = true;
-			radPublic.Visible = true;
-			lblType.Visible = true;
-		}
-
 		public uMetadata()
 		{
 			InitializeComponent();
@@ -68,21 +60,8 @@ namespace medea.controls
 			current.PeriodCaption = txtPeriod.Text;
 
 			current.MetadataSources = uSource.Current;
-			if (radMapping.Visible)
-			{
-				if (radPublic.Checked)
-					current.MetadataType = WorkTypeEnum.PublicData;
-				else if (radMapping.Checked)
-					current.MetadataType = WorkTypeEnum.Mapping;
-				else if (radResearch.Checked)
-					current.MetadataType = WorkTypeEnum.Research;
-			}
-			if (radCompleto.Checked)
-				current.MetadataStatus = MetadataStatusEnum.Complete;
-			else if (radParcial.Checked)
-				current.MetadataStatus = MetadataStatusEnum.Partial;
-			else if (radBorrador.Checked)
-				current.MetadataStatus = MetadataStatusEnum.Draft;
+		
+			current.MetadataStatus = MetadataStatusEnum.Complete;
 		}
 
 		public bool ValidateValues()
@@ -97,8 +76,6 @@ namespace medea.controls
 				msg += "Debe indicar un valor para 'Resumen'.\n";
 			if (txtReleaseDate.Text.Trim() == "")
 				msg += "Debe indicar un valor para 'Fecha de publicación'.\n";
-			if (!radCompleto.Checked && !radParcial.Checked && !radBorrador.Checked)
-				msg += "Debe indicar un valor para 'Estado'.\n";
 
 			if (msg != "")
 			{
@@ -124,13 +101,6 @@ namespace medea.controls
 			txtPeriod.Text = current.PeriodCaption;
 			SetType(current.MetadataType);
 			uSource.LoadData(current, metadata.MetadataSources);
-
-			if (current.MetadataType == WorkTypeEnum.Mapping)
-				radMapping.Checked = true;
-			else if (current.MetadataType == WorkTypeEnum.PublicData)
-				radPublic.Checked = true;
-			else if (current.MetadataType == WorkTypeEnum.Research)
-				radResearch.Checked = true;
 
 			uFiles.LoadData(current);
 			txtReleaseDate.Text = current.ReleaseDate;

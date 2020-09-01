@@ -297,7 +297,7 @@ namespace medea.Data
 			if (password == null) password = "";
 
 			string port = ConfigurationGet("DatabasePort", "1521");
-			string ssl = ConfigurationGet("SslMode", "Required");
+			string ssl = ConfigurationGet("SslMode", "Preferred");
 
 			if (databaseType == DatabaseTypeEnum.SqlServer)
 			// sql

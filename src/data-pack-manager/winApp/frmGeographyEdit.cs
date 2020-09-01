@@ -45,9 +45,6 @@ namespace medea.winApp
 			uFile.RequiredExtensions.AddRange(new string[] { "shp", "dbf", "prj" });
 			uFile.AutoProcessFileSelection = true;
 
-			uFileMissings.RequiredExtensions.AddRange(new string[] { "dbf" });
-			uFile.AutoProcessFileSelection = true;
-
 			using (new WaitCursor())
 			{
 				var parents = UI.GetGeographies().ToList();
@@ -87,8 +84,6 @@ namespace medea.winApp
 			cmbHousehold.Enabled = true;
 			cmbPopulation.Enabled = true;
 
-			chPartialCoverage.Enabled = true;
-			chPartialCoverage_CheckedChanged(null, null);
 		}
 
 		private void uFile_Selected(object sender, EventArgs e)
@@ -158,15 +153,12 @@ namespace medea.winApp
 			current = geography;
 			txtCaption.Text = current.Caption;
 			txtRevision.Text = current.Revision;
+			txtRootCaption.Text = current.RootCaption;
 			cmbParent.SelectItem(current.Parent);
 			txtMaxZoom.Text = current.MaxZoom.ToString();
 			txtFieldCodeSize.Text = current.FieldCodeSize.ToString();
 			cmbGradient.SelectItem<Gradient>(current.Gradient);
 			txtLuminance.Text = (current.GradientLuminance.HasValue ? current.GradientLuminance.Value.ToString() : "");
-
-			chPartialCoverage.Checked = current.PartialCoverage != null;
-			if (chPartialCoverage.Checked)
-				txtCoverage.Text = current.PartialCoverage;
 
 			if (uFile.HasFile)
 			{
@@ -179,8 +171,6 @@ namespace medea.winApp
 				cmbParent.Enabled = false;
 				cmbUrbanity.Enabled = false;
 				uFile.EnabledButtons = false;
-				chPartialCoverage.Enabled = false;
-				uFileMissings.Enabled = false;
 
 				if (string.IsNullOrEmpty(current.FieldCodeName) == false)
 				{
@@ -228,8 +218,6 @@ namespace medea.winApp
 				if (cmbHousehold.HasSelectedItem == false)
 					msg += "Debe indicar un valor para 'Hogares' cuando hay un archivo.\n";
 			}
-			if (chPartialCoverage.Checked && txtCoverage.Text.Trim() == "")
-				msg += "Debe indicar un detalle para la cobertura parcial.\n";
 
 			if (msg != "")
 			{
@@ -268,12 +256,9 @@ namespace medea.winApp
 			var code = cmbFieldCodeName.GetValue();
 			var caption = cmbFieldCaptionName.GetValue();
 			var urbanity = cmbUrbanity.GetValue();
-			string filedbf = null;
 
-			if (chPartialCoverage.Checked && uFileMissings.FileAdded)
-				filedbf = uFile.Basename + ".dbf";
 			Call(new GeographySave(current, uFile.FileAdded, household,
-					 children, population, urbanity, parent, code, caption, uFile.Basename, filedbf));
+					 children, population, urbanity, parent, code, caption, uFile.Basename));
 
 			Call(new MetadataClearRemoteCache(current.Metadata));
 		}
@@ -282,6 +267,7 @@ namespace medea.winApp
 		{
 			current.Caption = txtCaption.Text.Trim();
 			current.Revision = txtRevision.Text.Trim();
+			current.RootCaption = txtRootCaption.Text.Trim();
 			current.MaxZoom = int.Parse(txtMaxZoom.Text);
 			foreach (var child in current.Children)
 				child.MinZoom = current.MaxZoom + 1;
@@ -294,12 +280,6 @@ namespace medea.winApp
 			else
 				current.MinZoom = 0;
 
-			if (chPartialCoverage.Checked)
-			{
-				current.PartialCoverage = txtCoverage.Text.Trim();
-			}
-			else
-				current.PartialCoverage = null;
 			if (cmbParent.Enabled)
 			{
 				current.Parent = null;
@@ -327,14 +307,12 @@ namespace medea.winApp
 			{
 				var c = cmbParent.GetSelectedItem<Geography>();
 				cmbParentItem.SelectContainsText(c.FieldCodeName);
+				txtRootCaption.Enabled = false;
 			}
-		}
-
-		private void chPartialCoverage_CheckedChanged(object sender, EventArgs e)
-		{
-			txtCoverage.Enabled = chPartialCoverage.Checked;
-			uFileMissings.Enabled = chPartialCoverage.Checked && uFile.Enabled;
-
+			else
+			{
+				txtRootCaption.Enabled = cmbParent.Enabled;
+			}
 		}
 
 		private void btnEditMetadata_Click(object sender, EventArgs e)

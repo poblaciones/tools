@@ -58,6 +58,8 @@ namespace medea.actions
 				return;
 			}
 			Progress.Total = keepItems.Count + 1;
+			PublicId.SetId(current);
+
 			context.Data.Session.SaveOrUpdate(current);
 
 			foreach (var chunk in keepItems)

@@ -82,6 +82,7 @@ namespace medea.common
 		public static bool Validate(string file)
 		{
 			var text = File.ReadAllText(file).Trim();
+			text = text.Replace("\0", "");
 			if (text.StartsWith("GEOGCS[\"" + proj + "\""))
 				return true;
 			else

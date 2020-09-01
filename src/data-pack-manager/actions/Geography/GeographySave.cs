@@ -32,7 +32,6 @@ namespace medea.actions
 		private Geography current;
 		private bool fileAdded;
 		string Basename;
-		string dbfMissingFilename;
 
 		string iHousehold;
 		string iChildren;
@@ -44,7 +43,7 @@ namespace medea.actions
 
 		public GeographySave(Geography geography, bool fileAdded, string household,
 					string children, string population, string urbanity, string parent, string code,
-			string caption, string basename, string dbfFilename)
+			string caption, string basename)
 		{
 			Basename = basename;
 			iHousehold = household;
@@ -55,7 +54,6 @@ namespace medea.actions
 			iCode = code;
 			iCaption = caption;
 			current = geography;
-			dbfMissingFilename = dbfFilename;
 			this.fileAdded = fileAdded;
 		}
 
@@ -101,11 +99,7 @@ namespace medea.actions
 
 			Progress.Caption = "Validando ítems";
 			ShapeOperations.ValidateParentAndShapes(Progress, ci, Basename + ".shp", iCode, iParent);
-			if (dbfMissingFilename != null)
-			{
-				Progress.Caption = "Validando ítems faltantes";
-				ShapeOperations.ValidateParentAndShapes(Progress, ci, dbfMissingFilename, iCode, iParent);
-			}
+		
 			return ci;
 		}
 
@@ -121,11 +115,7 @@ namespace medea.actions
 			current.GeographyItems.Clear();
 			Progress.Total = 0;
 			var features = ShapeFile.ReadShapefile(Basename + ".shp");
-			if (dbfMissingFilename != null)
-			{
-				var featuresMissing = ShapeFile.ReadDbasefile(dbfMissingFilename);
-				features.AddRange(featuresMissing);
-			}
+		
 			Progress.Total = features.Count;
 			Dictionary<string, bool> done = new Dictionary<string,bool>();
 

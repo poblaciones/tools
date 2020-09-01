@@ -81,6 +81,7 @@
 			this.chReplace = new System.Windows.Forms.CheckBox();
 			this.txtFrom = new System.Windows.Forms.TextBox();
 			this.txtTo = new System.Windows.Forms.TextBox();
+			this.btnCopy = new System.Windows.Forms.Button();
 			((System.ComponentModel.ISupportInitialize)(this.numParalells)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.numClients)).BeginInit();
 			this.grpInput.SuspendLayout();
@@ -604,7 +605,7 @@
 			// btnDelete
 			// 
 			this.btnDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.btnDelete.Location = new System.Drawing.Point(671, 487);
+			this.btnDelete.Location = new System.Drawing.Point(723, 487);
 			this.btnDelete.Name = "btnDelete";
 			this.btnDelete.Size = new System.Drawing.Size(77, 20);
 			this.btnDelete.TabIndex = 6;
@@ -646,6 +647,17 @@
 			this.txtTo.Text = "svr2.";
 			this.txtTo.TextChanged += new System.EventHandler(this.txtTo_TextChanged);
 			// 
+			// btnCopy
+			// 
+			this.btnCopy.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.btnCopy.Location = new System.Drawing.Point(640, 487);
+			this.btnCopy.Name = "btnCopy";
+			this.btnCopy.Size = new System.Drawing.Size(77, 20);
+			this.btnCopy.TabIndex = 6;
+			this.btnCopy.Text = "Copy";
+			this.btnCopy.UseVisualStyleBackColor = true;
+			this.btnCopy.Click += new System.EventHandler(this.btnCopy_Click);
+			// 
 			// frmMain
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -655,6 +667,7 @@
 			this.Controls.Add(this.txtTo);
 			this.Controls.Add(this.txtFrom);
 			this.Controls.Add(this.txtFilter);
+			this.Controls.Add(this.btnCopy);
 			this.Controls.Add(this.btnDelete);
 			this.Controls.Add(this.chReplace);
 			this.Controls.Add(this.chAutoSave);
@@ -735,6 +748,7 @@
 		private System.Windows.Forms.CheckBox chReplace;
 		private System.Windows.Forms.TextBox txtFrom;
 		private System.Windows.Forms.TextBox txtTo;
+		private System.Windows.Forms.Button btnCopy;
 	}
 }
 

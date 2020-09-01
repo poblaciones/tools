@@ -8,6 +8,7 @@
 		<property name="IsTrackingLevel" column="geo_is_tracking_level" not-null="true" />
 		<property name="MaxZoom" column="geo_max_zoom" not-null="true" />
 		<property name="MinZoom" column="geo_min_zoom" not-null="true" />
+		<property name="RootCaption" column="geo_root_caption" not-null="false" />
 		<property name="GradientLuminance" column="geo_gradient_luminance" not-null="false" />
 		<property name="PartialCoverage" column="geo_partial_coverage" not-null="false" length="500" />
 		<property name="FieldUrbanityName" column="geo_field_urbanity_name" not-null="false" length="50" />

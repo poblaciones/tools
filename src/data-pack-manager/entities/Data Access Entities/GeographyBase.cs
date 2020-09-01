@@ -41,6 +41,7 @@ namespace medea.entities
 		private string _fieldUrbanityName;
 		private string _partialCoverage;
 		private string _fieldCodeType;
+		private string _rootCaption;
 		private Geography _parent;
 		private Gradient _gradient;
 		private IList<Geography> _children;
@@ -54,10 +55,16 @@ namespace medea.entities
 		{
 			get { return _caption; }
 			set { _caption = value; }
-		}public virtual string Revision
+		}
+		public virtual string Revision
 		{
 			get { return _revision; }
 			set { _revision = value; }
+		}
+		public virtual string RootCaption
+		{
+			get { return _rootCaption; }
+			set { _rootCaption = value; }
 		}
 		public virtual Metadata Metadata
 		{

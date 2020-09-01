@@ -65,6 +65,7 @@ namespace medea.actions
 			foreach(var file in current.Files)
 				if (file.FileAdded && file.File != null)
 			{
+				PublicId.SetId(file);
 				FileSave fs = new FileSave(this, file.File);
 				fs.Call();
 			}

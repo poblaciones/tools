@@ -103,6 +103,16 @@ namespace medea.controls
 			}
 			catch(Exception ex)
 			{
+				string start = "<p class=\"break-long-words trace-message\">";
+				if (ex.InnerException != null && ex.InnerException.Message.Contains(start))
+				{
+					var text = ex.InnerException.Message;
+					var n = text.IndexOf(start);
+					var iStart = n + start.Length;
+					var iEnd = text.IndexOf("<", iStart + 1);
+					var newMessage = text.Substring(iStart, iEnd - iStart);
+					ex = new Exception(newMessage);
+				}
 				panProgress.Invoke(new EventHandler(showError), new object[] { ex, null });
 			}
 		}

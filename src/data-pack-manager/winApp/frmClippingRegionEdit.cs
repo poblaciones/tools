@@ -130,7 +130,7 @@ namespace medea.winApp
 			txtMaxZoom.Text = current.LabelsMaxZoom.ToString();
 			cmbParent.SelectItem(current.Parent);
 			txtPriority.Text = current.Priority.ToString();
-			cmbSymbology.SetSelectedByTag(current.Symbol);
+			txtSymbol.Text = current.Symbol;
 
 			if (uFile.HasFile)
 			{
@@ -212,7 +212,7 @@ namespace medea.winApp
 			//if(name.StartsWith(Path.GetTempPath()))
 			//Si zipeo borrar directo, si unzipeo borrar directorio...
 			//System.IO.File.Delete(name);
-			current.Symbol = cmbSymbology.GetSelectedItemTag();
+			current.Symbol = txtSymbol.Text;
 
 			var iParent = cmbParentItem.GetValue();
 			if (iParent == "" || SelectedParentIsCountries())

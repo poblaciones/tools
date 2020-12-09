@@ -208,9 +208,6 @@
       <DependentUpon>uSource.cs</DependentUpon>
     </Compile>
     <Compile Include="Invoker.cs" />
-    <Compile Include="uFontawesomeCombo.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="uSvgComboItem.cs" />
     <Compile Include="uSvgCombo.cs">
       <SubType>Component</SubType>

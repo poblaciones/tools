@@ -113,7 +113,7 @@ namespace medea.controls
 			this.lblContact.Name = "lblContact";
 			this.lblContact.Size = new System.Drawing.Size(90, 13);
 			this.lblContact.TabIndex = 28;
-			this.lblContact.Text = "Correo elctrónico:";
+			this.lblContact.Text = "Correo electrónico:";
 			//
 			// txtPerson
 			//

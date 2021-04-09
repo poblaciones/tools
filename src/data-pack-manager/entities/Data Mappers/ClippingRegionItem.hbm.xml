@@ -3,9 +3,10 @@
 		<id name="Id" column="cli_id" unsaved-value="0">
 			<generator class="native" />
 		</id>
-		<property name="Caption" column="cli_caption" not-null="false" length="100" />
+		<property name="Caption" column="cli_caption" not-null="true" length="100" />
+		<property name="AreaM2" column="cli_area_m2" not-null="false" />
 		<property name="Wiki" column="cli_wiki" not-null="false" length="255" />
-		<property name="Code" column="cli_code" not-null="true" length="100" />
+		<property name="Code" column="cli_code" not-null="true" length="20" />
 		<property name="Centroid" column="cli_centroid" not-null="false" lazy="true" update="false" type="NHibernate.Spatial.Type.MySQLGeometryType, NHibernate.Spatial.MySql" />
 		<property name="Geometry" column="cli_geometry" not-null="false" lazy="true" update="false" type="NHibernate.Spatial.Type.MySQLGeometryType, NHibernate.Spatial.MySql" />
 		<property name="GeometryR1" column="cli_geometry_r1" not-null="false" lazy="true" update="false" type="NHibernate.Spatial.Type.MySQLGeometryType, NHibernate.Spatial.MySql" />

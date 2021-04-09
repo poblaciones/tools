@@ -38,9 +38,34 @@ namespace medea.actions
 			//
 			string sql = "SELECT IFNULL(MAX(" + idColumn + "), 0) + 100 id FROM " + table + " WHERE " + idColumn + " % 100 = 0";
 			int nextId = context.Data.Session.SqlActions.ExecuteScalarIntNoFlush(sql);
-			while(used.ContainsKey(table) && used[table].Contains(nextId))
+			while (used.ContainsKey(table) && used[table].Contains(nextId))
 			{
 				nextId += 100;
+			}
+			element.Id = nextId;
+			if (!used.ContainsKey(table))
+				used.Add(table, new List<int>());
+			used[table].Add(nextId);
+		}
+
+		public static void SetLowestFreeId(dynamic element)
+		{
+			if (element.Id != null)
+				return;
+
+			string table = ObjectMetadata.GetTableName(element.GetType());
+			string idColumn = ObjectMetadata.GetKeyColumn(element.GetType());
+			//
+			string sql = "SELECT MIN(t1." + idColumn + " + 1) AS nextID "
+											+ " FROM (SELECT 0 as " + idColumn + " UNION SELECT " + idColumn + " FROM " + table + ") as t1 "
+											+ "	 LEFT JOIN " + table + " t2 "
+											+ "			 ON t1." + idColumn + " + 1 = t2." + idColumn + " "
+											+ " WHERE t2." + idColumn + " IS NULL";
+
+			int nextId = context.Data.Session.SqlActions.ExecuteScalarIntNoFlush(sql);
+			while (used.ContainsKey(table) && used[table].Contains(nextId))
+			{
+				nextId += 1;
 			}
 			element.Id = nextId;
 			if (!used.ContainsKey(table))

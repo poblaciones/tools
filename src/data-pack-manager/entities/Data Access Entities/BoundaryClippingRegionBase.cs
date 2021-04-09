@@ -16,112 +16,58 @@
 *    You should have received a copy of the GNU General Public License
 *    along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
-using System.Collections.Generic;
 using medea.common;
-using NetTopologySuite.Geometries;
 
 namespace medea.entities
 {
-	public abstract class ClippingRegionItemBase<T> : ActiveBaseEntity<T>, IIdentifiable
+	public abstract class BoundaryClippingRegionBase<T> : ActiveBaseEntity<T>, IIdentifiable
 	where T: ActiveBaseEntity<T>, new()
 	{
-
-		#region Campos privados
-
-		private string _caption;
-		private string _wiki;
-		private Point _centroid;
-		private Geometry _geometry;
-		private Geometry _geometryR1;
-		private ClippingRegion _clippingRegion;
-		private string _code;
-		private int? _id;
-		private ClippingRegionItem _parent;
-		private IList<ClippingRegionItem> _children;
-		private double _areaM2;
 		
+		#region Campos privados
+		
+		private int? _id;
+		private ClippingRegion _clippingRegion;
+		private Boundary _boundary;
+
 		#endregion
 
 
 		#region Propiedades públicas
-		public virtual string Wiki
-		{
-			get { return _wiki; }
-			set { _wiki = value; }
-		}
-
-		public virtual string Caption
-		{
-			get { return _caption; }
-			set { _caption = value; }
-		}
-
-		
-		public virtual double AreaM2
-		{
-			get { return _areaM2; }
-			set { _areaM2 = value; }
-		}
-
-		public virtual Geometry Geometry
-		{
-			get { return _geometry; }
-			set { _geometry = value; }
-		}
-		public virtual Geometry GeometryR1
-		{
-			get { return _geometryR1; }
-			set { _geometryR1 = value; }
-		}
-		public virtual Point Centroid
-		{
-			get { return _centroid; }
-			set { _centroid = value; }
-		}
 
 		public virtual ClippingRegion ClippingRegion
 		{
 			get { return _clippingRegion; }
 			set { _clippingRegion = value; }
 		}
-		public virtual string Code
+		public virtual Boundary Boundary
 		{
-			get { return _code; }
-			set { _code = value; }
+			get { return _boundary; }
+			set { _boundary = value; }
 		}
 		public virtual int? Id
 		{
 			get { return _id; }
 			set { _id = value; }
 		}
-		public virtual ClippingRegionItem Parent
-		{
-			get { return _parent; }
-			set { _parent = value; }
-		}
-
+		
 		#endregion
-
-
+		
+		
 		#region Colecciones públicas
-
-		public virtual IList<ClippingRegionItem> Children
-		{
-			get { return _children; }
-			set { _children = value; }
-		}
-
+		
+		
 		#endregion
-
-
+		
+		
 		#region Overrides
-
+		
 		public override int GetHashCode()
 		{
 			return Id.GetValueOrDefault();
 		}
-
+		
 		#endregion
-
+		
 	}
 }

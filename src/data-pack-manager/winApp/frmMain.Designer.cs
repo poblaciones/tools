@@ -61,6 +61,7 @@ namespace medea.winApp
 			this.lblUser = new System.Windows.Forms.Label();
 			this.label2 = new System.Windows.Forms.Label();
 			this.label1 = new System.Windows.Forms.Label();
+			this.btnBoundary = new System.Windows.Forms.Button();
 			this.panel1.SuspendLayout();
 			this.panGlobalSettings.SuspendLayout();
 			this.SuspendLayout();
@@ -70,11 +71,12 @@ namespace medea.winApp
 			this.panel1.BackColor = System.Drawing.Color.Silver;
 			this.panel1.Controls.Add(this.btnGradient);
 			this.panel1.Controls.Add(this.btnSimplify);
+			this.panel1.Controls.Add(this.menCheckNH);
+			this.panel1.Controls.Add(this.btnNewMain);
+			this.panel1.Controls.Add(this.btnBoundary);
 			this.panel1.Controls.Add(this.menClippingGeography);
 			this.panel1.Controls.Add(this.menClipping);
 			this.panel1.Controls.Add(this.menGeography);
-			this.panel1.Controls.Add(this.menCheckNH);
-			this.panel1.Controls.Add(this.btnNewMain);
 			this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
 			this.panel1.Location = new System.Drawing.Point(5, 5);
 			this.panel1.Name = "panel1";
@@ -86,7 +88,7 @@ namespace medea.winApp
 			// 
 			this.btnGradient.BackColor = System.Drawing.Color.Gainsboro;
 			this.btnGradient.Dock = System.Windows.Forms.DockStyle.Left;
-			this.btnGradient.Location = new System.Drawing.Point(324, 6);
+			this.btnGradient.Location = new System.Drawing.Point(413, 6);
 			this.btnGradient.Name = "btnGradient";
 			this.btnGradient.Size = new System.Drawing.Size(89, 28);
 			this.btnGradient.TabIndex = 14;
@@ -238,6 +240,18 @@ namespace medea.winApp
 			this.label1.TabIndex = 0;
 			this.label1.Text = "País:";
 			// 
+			// btnBoundary
+			// 
+			this.btnBoundary.BackColor = System.Drawing.Color.Gainsboro;
+			this.btnBoundary.Dock = System.Windows.Forms.DockStyle.Left;
+			this.btnBoundary.Location = new System.Drawing.Point(324, 6);
+			this.btnBoundary.Name = "btnBoundary";
+			this.btnBoundary.Size = new System.Drawing.Size(89, 28);
+			this.btnBoundary.TabIndex = 15;
+			this.btnBoundary.Text = "Delimitaciones";
+			this.btnBoundary.UseVisualStyleBackColor = false;
+			this.btnBoundary.Click += new System.EventHandler(this.btnBoundary_Click);
+			// 
 			// frmMain
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -277,5 +291,6 @@ namespace medea.winApp
 		private System.Windows.Forms.Label lblUser;
 		private System.Windows.Forms.Button btnSimplify;
 		private System.Windows.Forms.Button btnGradient;
+		private System.Windows.Forms.Button btnBoundary;
 	}
 }

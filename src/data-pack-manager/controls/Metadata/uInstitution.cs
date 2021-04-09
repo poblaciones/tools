@@ -45,7 +45,7 @@ namespace medea.controls
 		{
 			if (loadItems)
 				LoadInstitutions();
-			if (isLoading) return;
+			if (isLoading || institution == null) return;
 			isLoading = true;
 			current = institution;
 			if (current.IsNew == false)

@@ -33,10 +33,11 @@ namespace medea.actions
 		{
 			Progress.Caption = "Actualizando metadatos";
 			Progress.Total = 1;
-
-			PublicId.SetId(current.Contact);
-			PublicId.SetId(current.Institution);
-			PublicId.SetId(current);
+			if (current == null)
+				return;
+			PublicId.SetLowestFreeId(current.Contact);
+			PublicId.SetLowestFreeId(current.Institution);
+			PublicId.SetLowestFreeId(current);
 
 			context.Data.Session.SaveOrUpdate(current.Contact);
 			context.Data.Session.SaveOrUpdate(current.Institution);
@@ -46,10 +47,10 @@ namespace medea.actions
 			{
 				foreach(var src in current.MetadataSources)
 				{
-					PublicId.SetId(src.Source.Contact);
-					PublicId.SetId(src);
-					PublicId.SetId(src.Source.Institution);
-					PublicId.SetId(src.Source);
+					PublicId.SetLowestFreeId(src.Source.Contact);
+					PublicId.SetLowestFreeId(src);
+					PublicId.SetLowestFreeId(src.Source.Institution);
+					PublicId.SetLowestFreeId(src.Source);
 
 					context.Data.Session.SaveOrUpdate(src.Source.Contact);
 
@@ -65,7 +66,7 @@ namespace medea.actions
 			foreach(var file in current.Files)
 				if (file.FileAdded && file.File != null)
 			{
-				PublicId.SetId(file);
+				PublicId.SetLowestFreeId(file);
 				FileSave fs = new FileSave(this, file.File);
 				fs.Call();
 			}

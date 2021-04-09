@@ -16,37 +16,32 @@
 *    You should have received a copy of the GNU General Public License
 *    along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
-using medea.common;
-using medea.controls;
-using medea.entities;
+using System.Collections.Generic;
 
-namespace medea.winApp
+namespace medea.entities
 {
-	public class MetadataClearRemoteCache : action
+	public class BoundaryClippingRegion : BoundaryClippingRegionBase<BoundaryClippingRegion>
 	{
-		private Metadata current;
+		public virtual IList<ClippingRegionItemGeographyItem> ClippingRegionItemGeographyItems { get; set; }
+		public virtual List<ClippingRegionGeographyCaption> ItemsCaptions { get; set; }
 
-		public MetadataClearRemoteCache(Metadata current)
+		public BoundaryClippingRegion()
 		{
-			this.current = current;
+			ClippingRegionItemGeographyItems = new List<ClippingRegionItemGeographyItem>();
+			ItemsCaptions = new List<ClippingRegionGeographyCaption>();
 		}
-		public override void Call()
-		{
-			Progress.Caption = "Vaciando caché de PDFs";
-			Progress.Total = 1;
 
-			if (this.current == null)
-				return;
-			var start = ResolveStartUrl();
-			HttpResult res = null;
-			res = HttpInvoker.CallProgress(start, null, false);
-		}
-		
-		private string ResolveStartUrl()
+		public virtual string[] ToArray()
 		{
-			string start = "services/admin/ClearMetadataPdfCache";
-			start += "?m=" + this.current.Id;
-			return start;
+			return new string[] {
+				ClippingRegion.Caption,
+				Boundary.Caption,
+			};
+		}
+
+		public override string ToString()
+		{
+			return string.Join("\t", ToArray());
 		}
 	}
 }

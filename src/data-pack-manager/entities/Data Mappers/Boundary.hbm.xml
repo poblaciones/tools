@@ -1,0 +1,27 @@
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" namespace="medea.entities" assembly="medea.data">
+	<class name="Boundary" table="boundary">
+		<id name="Id" column="bou_id" unsaved-value="null">
+			<generator class="native" />
+		</id>
+		
+		<property name="Caption" column="bou_caption" not-null="true" length="100" />
+		<property name="Order" column="bou_order" not-null="false" />
+		<property name="Private" column="bou_is_private" not-null="true" />
+
+		<many-to-one name="Group" class="BoundaryGroup">
+			<column name="bou_group_id" not-null="true" />
+		</many-to-one>
+
+		<many-to-one name="Metadata" class="Metadata" lazy="false">
+			<column name="bou_metadata_id" not-null="false" />
+		</many-to-one>
+		<many-to-one name="Geography" class="Geography">
+			<column name="bou_geography_id" not-null="false" />
+		</many-to-one>
+
+		<bag name="BoundaryClippingRegions" inverse="true" cascade="all-delete-orphan">
+			<key column="bcr_boundary_id" />
+			<one-to-many class="BoundaryClippingRegion" />
+		</bag>
+	</class>
+</hibernate-mapping>

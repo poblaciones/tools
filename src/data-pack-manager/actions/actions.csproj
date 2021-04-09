@@ -141,6 +141,8 @@
     <Compile Include="Geography\GeographySimplify.cs" />
     <Compile Include="ClippingRegion\ClippingRegionSimplify.cs" />
     <Compile Include="GeographyCache.cs" />
+    <Compile Include="Boundary\BoundaryDelete.cs" />
+    <Compile Include="Boundary\BoundarySave.cs" />
     <Compile Include="Gradient\GradientDelete.cs" />
     <Compile Include="Gradient\GradientSave.cs" />
     <Compile Include="Metadata\MetadataDelete.cs" />

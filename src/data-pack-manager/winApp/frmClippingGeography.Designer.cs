@@ -86,66 +86,66 @@ namespace medea.winApp
 			this.splitContainer1.Panel2.SuspendLayout();
 			this.splitContainer1.SuspendLayout();
 			this.SuspendLayout();
-			//
+			// 
 			// cmsItems
-			//
+			// 
 			this.cmsItems.ImageScalingSize = new System.Drawing.Size(28, 28);
 			this.cmsItems.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.mnuCopyItem});
 			this.cmsItems.Name = "cmsTree";
-			this.cmsItems.Size = new System.Drawing.Size(118, 54);
-			//
+			this.cmsItems.Size = new System.Drawing.Size(110, 26);
+			// 
 			// mnuCopyItem
-			//
+			// 
 			this.mnuCopyItem.Name = "mnuCopyItem";
-			this.mnuCopyItem.Size = new System.Drawing.Size(117, 22);
+			this.mnuCopyItem.Size = new System.Drawing.Size(109, 22);
 			this.mnuCopyItem.Text = "Copiar";
 			this.mnuCopyItem.Click += new System.EventHandler(this.mnuCopyItem_Click);
-			//
+			// 
 			// toolStripSeparator1
-			//
+			// 
 			this.toolStripSeparator1.Name = "toolStripSeparator1";
 			this.toolStripSeparator1.Size = new System.Drawing.Size(114, 6);
-			//
+			// 
 			// cmsList
-			//
+			// 
 			this.cmsList.ImageScalingSize = new System.Drawing.Size(28, 28);
 			this.cmsList.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.mnuDelete});
 			this.cmsList.Name = "cmsTree";
 			this.cmsList.Size = new System.Drawing.Size(118, 26);
-			//
+			// 
 			// mnuDelete
-			//
+			// 
 			this.mnuDelete.Name = "mnuDelete";
 			this.mnuDelete.Size = new System.Drawing.Size(117, 22);
 			this.mnuDelete.Text = "&Eliminar";
 			this.mnuDelete.Click += new System.EventHandler(this.mnuDelete_Click);
-			//
+			// 
 			// splitContainer2
-			//
+			// 
 			this.splitContainer2.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.splitContainer2.Location = new System.Drawing.Point(0, 0);
 			this.splitContainer2.Name = "splitContainer2";
 			this.splitContainer2.Orientation = System.Windows.Forms.Orientation.Horizontal;
-			//
+			// 
 			// splitContainer2.Panel1
-			//
+			// 
 			this.splitContainer2.Panel1.Controls.Add(this.lstClippingGeography);
 			this.splitContainer2.Panel1.Controls.Add(this.panel1);
 			this.splitContainer2.Panel1.Controls.Add(this.uHeader1);
-			//
+			// 
 			// splitContainer2.Panel2
-			//
+			// 
 			this.splitContainer2.Panel2.Controls.Add(this.pnlContainer);
 			this.splitContainer2.Panel2.Controls.Add(this.uHeader2);
 			this.splitContainer2.Size = new System.Drawing.Size(478, 408);
 			this.splitContainer2.SplitterDistance = 252;
 			this.splitContainer2.SplitterWidth = 6;
 			this.splitContainer2.TabIndex = 0;
-			//
+			// 
 			// lstClippingGeography
-			//
+			// 
 			this.lstClippingGeography.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.lstClippingGeography.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeader1,
@@ -163,19 +163,19 @@ namespace medea.winApp
 			this.lstClippingGeography.View = System.Windows.Forms.View.Details;
 			this.lstClippingGeography.SelectedIndexChanged += new System.EventHandler(this.lstClippingGeography_SelectedIndexChanged);
 			this.lstClippingGeography.KeyDown += new System.Windows.Forms.KeyEventHandler(this.lstClippingGeography_KeyDown);
-			//
+			// 
 			// columnHeader1
-			//
+			// 
 			this.columnHeader1.Text = "Región";
 			this.columnHeader1.Width = 167;
-			//
+			// 
 			// columnHeader2
-			//
+			// 
 			this.columnHeader2.Text = "Geografía";
 			this.columnHeader2.Width = 135;
-			//
+			// 
 			// panel1
-			//
+			// 
 			this.panel1.BackColor = System.Drawing.Color.Silver;
 			this.panel1.Controls.Add(this.btnDelete);
 			this.panel1.Controls.Add(this.chkItems);
@@ -185,9 +185,9 @@ namespace medea.winApp
 			this.panel1.Name = "panel1";
 			this.panel1.Size = new System.Drawing.Size(478, 54);
 			this.panel1.TabIndex = 4;
-			//
+			// 
 			// btnDelete
-			//
+			// 
 			this.btnDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.btnDelete.BackColor = System.Drawing.SystemColors.Control;
 			this.btnDelete.Location = new System.Drawing.Point(400, 6);
@@ -197,9 +197,9 @@ namespace medea.winApp
 			this.btnDelete.Text = "&Eliminar";
 			this.btnDelete.UseVisualStyleBackColor = false;
 			this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
-			//
+			// 
 			// chkItems
-			//
+			// 
 			this.chkItems.AutoSize = true;
 			this.chkItems.BackColor = System.Drawing.Color.Silver;
 			this.chkItems.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
@@ -211,9 +211,9 @@ namespace medea.winApp
 			this.chkItems.Text = "Mostrar ítems";
 			this.chkItems.UseVisualStyleBackColor = false;
 			this.chkItems.CheckedChanged += new System.EventHandler(this.chkItems_CheckedChanged);
-			//
+			// 
 			// btnNew
-			//
+			// 
 			this.btnNew.BackColor = System.Drawing.SystemColors.Control;
 			this.btnNew.Location = new System.Drawing.Point(3, 6);
 			this.btnNew.Name = "btnNew";
@@ -222,9 +222,9 @@ namespace medea.winApp
 			this.btnNew.Text = "Nueva...";
 			this.btnNew.UseVisualStyleBackColor = false;
 			this.btnNew.Click += new System.EventHandler(this.btnNew_Click);
-			//
+			// 
 			// uHeader1
-			//
+			// 
 			this.uHeader1.Dock = System.Windows.Forms.DockStyle.Top;
 			this.uHeader1.ForeColor = System.Drawing.Color.Black;
 			this.uHeader1.Location = new System.Drawing.Point(0, 0);
@@ -233,15 +233,15 @@ namespace medea.winApp
 			this.uHeader1.Size = new System.Drawing.Size(478, 26);
 			this.uHeader1.TabIndex = 0;
 			this.uHeader1.Text = "Geografías";
-			//
+			// 
 			// pnlContainer
-			//
+			// 
 			this.pnlContainer.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.pnlContainer.Location = new System.Drawing.Point(0, 26);
 			this.pnlContainer.Name = "pnlContainer";
-			//
+			// 
 			// pnlContainer.Panel1
-			//
+			// 
 			this.pnlContainer.Panel1.Controls.Add(this.lstItems);
 			this.pnlContainer.Panel1.Controls.Add(this.lstCount);
 			this.pnlContainer.Panel1MinSize = 300;
@@ -250,9 +250,9 @@ namespace medea.winApp
 			this.pnlContainer.SplitterDistance = 300;
 			this.pnlContainer.SplitterWidth = 5;
 			this.pnlContainer.TabIndex = 1;
-			//
+			// 
 			// lstItems
-			//
+			// 
 			this.lstItems.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.col0,
             this.col1});
@@ -266,19 +266,19 @@ namespace medea.winApp
 			this.lstItems.TabIndex = 0;
 			this.lstItems.UseCompatibleStateImageBehavior = false;
 			this.lstItems.View = System.Windows.Forms.View.Details;
-			//
+			// 
 			// col0
-			//
+			// 
 			this.col0.Text = "Región";
 			this.col0.Width = 143;
-			//
+			// 
 			// col1
-			//
+			// 
 			this.col1.Text = "Geografía";
 			this.col1.Width = 146;
-			//
+			// 
 			// lstCount
-			//
+			// 
 			this.lstCount.AutoSize = true;
 			this.lstCount.Dock = System.Windows.Forms.DockStyle.Bottom;
 			this.lstCount.Location = new System.Drawing.Point(0, 105);
@@ -287,9 +287,9 @@ namespace medea.winApp
 			this.lstCount.Size = new System.Drawing.Size(22, 19);
 			this.lstCount.TabIndex = 2;
 			this.lstCount.Text = "0.";
-			//
+			// 
 			// uHeader2
-			//
+			// 
 			this.uHeader2.Dock = System.Windows.Forms.DockStyle.Top;
 			this.uHeader2.ForeColor = System.Drawing.Color.Black;
 			this.uHeader2.Location = new System.Drawing.Point(0, 0);
@@ -298,28 +298,28 @@ namespace medea.winApp
 			this.uHeader2.Size = new System.Drawing.Size(478, 26);
 			this.uHeader2.TabIndex = 0;
 			this.uHeader2.Text = "Items";
-			//
+			// 
 			// splitContainer1
-			//
+			// 
 			this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.splitContainer1.Location = new System.Drawing.Point(0, 0);
 			this.splitContainer1.Name = "splitContainer1";
-			//
+			// 
 			// splitContainer1.Panel1
-			//
+			// 
 			this.splitContainer1.Panel1.Controls.Add(this.trvList);
 			this.splitContainer1.Panel1.Controls.Add(this.pnlRegions);
-			//
+			// 
 			// splitContainer1.Panel2
-			//
+			// 
 			this.splitContainer1.Panel2.Controls.Add(this.splitContainer2);
 			this.splitContainer1.Size = new System.Drawing.Size(680, 408);
 			this.splitContainer1.SplitterDistance = 196;
 			this.splitContainer1.SplitterWidth = 6;
 			this.splitContainer1.TabIndex = 3;
-			//
+			// 
 			// trvList
-			//
+			// 
 			this.trvList.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.trvList.HideSelection = false;
 			this.trvList.Location = new System.Drawing.Point(0, 26);
@@ -329,9 +329,9 @@ namespace medea.winApp
 			this.trvList.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.trvList_AfterSelect);
 			this.trvList.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.trvList_NodeMouseDoubleClick);
 			this.trvList.KeyDown += new System.Windows.Forms.KeyEventHandler(this.trvList_KeyDown);
-			//
+			// 
 			// pnlRegions
-			//
+			// 
 			this.pnlRegions.Dock = System.Windows.Forms.DockStyle.Top;
 			this.pnlRegions.ForeColor = System.Drawing.Color.Black;
 			this.pnlRegions.Location = new System.Drawing.Point(0, 0);
@@ -340,9 +340,9 @@ namespace medea.winApp
 			this.pnlRegions.Size = new System.Drawing.Size(196, 26);
 			this.pnlRegions.TabIndex = 0;
 			this.pnlRegions.Text = "Regiones x Geografía";
-			//
+			// 
 			// frmClippingGeography
-			//
+			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(680, 408);

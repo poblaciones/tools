@@ -16,37 +16,33 @@
 *    You should have received a copy of the GNU General Public License
 *    along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
+using System.Linq;
 using medea.common;
-using medea.controls;
 using medea.entities;
+using medea.Data;
 
-namespace medea.winApp
+namespace medea.actions
 {
-	public class MetadataClearRemoteCache : action
+	public class BoundaryDelete : action
 	{
-		private Metadata current;
+		private Boundary current;
 
-		public MetadataClearRemoteCache(Metadata current)
+		public BoundaryDelete(Boundary boundary)
 		{
-			this.current = current;
+			current = boundary;
 		}
+
 		public override void Call()
 		{
-			Progress.Caption = "Vaciando caché de PDFs";
 			Progress.Total = 1;
 
-			if (this.current == null)
-				return;
-			var start = ResolveStartUrl();
-			HttpResult res = null;
-			res = HttpInvoker.CallProgress(start, null, false);
+			Progress.Increment();
+
+			context.Data.Session.SqlActions.ExecuteNonQuery("DELETE FROM boundary_clipping_region WHERE bcr_boundary_id = "
+						+ current.Id.ToString());
+			context.Data.Session.Delete(current);
+			VersionUpdater.Increment();
 		}
-		
-		private string ResolveStartUrl()
-		{
-			string start = "services/admin/ClearMetadataPdfCache";
-			start += "?m=" + this.current.Id;
-			return start;
-		}
+
 	}
 }

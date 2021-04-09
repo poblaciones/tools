@@ -192,6 +192,7 @@
     <Compile Include="data\ConnectionSettings.cs" />
     <Compile Include="data\ObjectMetadata.cs" />
     <Compile Include="FormatTypeExtendedEnum.cs" />
+    <Compile Include="ObjectCaption.cs" />
     <Compile Include="Windows7Taskbar\COMTypes.cs" />
     <Compile Include="ISimplifiableItem.cs" />
     <Compile Include="KeepSelectedTree.cs" />

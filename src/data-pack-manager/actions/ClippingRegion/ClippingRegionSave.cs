@@ -129,6 +129,8 @@ namespace medea.actions
 				item.Geometry = (Geometry)feature.Geometry;
 				item.GeometryR1 = (Geometry) Simplifications.Simplify(feature.Geometry, QualityEnum.High);
 
+				item.AreaM2 = Projections.CalculateM2Area(feature.Geometry);
+
 				item.ClippingRegion = current;
 				current.ClippingRegionItems.Add(item);
 				Progress.Increment();

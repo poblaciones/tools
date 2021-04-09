@@ -17,36 +17,59 @@
 *    along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 using medea.common;
-using medea.controls;
-using medea.entities;
+using System.Collections.Generic;
 
-namespace medea.winApp
+namespace medea.entities
 {
-	public class MetadataClearRemoteCache : action
+	public abstract class BoundaryGroupBase<T> : ActiveBaseEntity<T>, IIdentifiable
+	where T: ActiveBaseEntity<T>, new()
 	{
-		private Metadata current;
 
-		public MetadataClearRemoteCache(Metadata current)
+		#region Campos privados
+
+		private int? _id;
+		private string _caption;
+		private int? _order;
+
+		#endregion
+
+
+		#region Propiedades públicas
+
+		public virtual int? Id
 		{
-			this.current = current;
+			get { return _id; }
+			set { _id = value; }
 		}
-		public override void Call()
-		{
-			Progress.Caption = "Vaciando caché de PDFs";
-			Progress.Total = 1;
 
-			if (this.current == null)
-				return;
-			var start = ResolveStartUrl();
-			HttpResult res = null;
-			res = HttpInvoker.CallProgress(start, null, false);
+		public virtual int? Order
+		{
+			get { return _order; }
+			set { _order = value; }
 		}
 		
-		private string ResolveStartUrl()
+		public virtual string Caption
 		{
-			string start = "services/admin/ClearMetadataPdfCache";
-			start += "?m=" + this.current.Id;
-			return start;
+			get { return _caption; }
+			set { _caption = value; }
 		}
+		
+		#endregion
+
+
+		#region Colecciones públicas
+
+		#endregion
+
+
+		#region Overrides
+
+		public override int GetHashCode()
+		{
+			return Id.GetValueOrDefault();
+		}
+
+		#endregion
+
 	}
 }

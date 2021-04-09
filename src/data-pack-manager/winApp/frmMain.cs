@@ -247,5 +247,10 @@ namespace medea.winApp
 		{
 			Application.Exit();
 		}
+
+		private void btnBoundary_Click(object sender, EventArgs e)
+		{
+			Display(new frmBoundary());
+		}
 	}
 }

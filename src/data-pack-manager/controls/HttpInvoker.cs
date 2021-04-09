@@ -71,7 +71,7 @@ namespace medea.controls
 				panProgress.Invoke(methodInvokerDelegate);
 			} 
 			else 
-				panProgress.ShowDialog(Form.ActiveForm);
+				panProgress.ShowDialog();
 		}
 
 		public static string Server;

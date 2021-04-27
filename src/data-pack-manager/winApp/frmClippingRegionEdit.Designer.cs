@@ -71,12 +71,13 @@ namespace medea.winApp
 			this.label8 = new System.Windows.Forms.Label();
 			this.chEnableLabels = new System.Windows.Forms.CheckBox();
 			this.txtMinZoom = new System.Windows.Forms.TextBox();
+			this.txtSymbol = new System.Windows.Forms.TextBox();
 			this.txtMaxZoom = new System.Windows.Forms.TextBox();
 			this.label6 = new System.Windows.Forms.Label();
 			this.label7 = new System.Windows.Forms.Label();
 			this.groupBox2 = new System.Windows.Forms.GroupBox();
 			this.btnEditMetadata = new System.Windows.Forms.Button();
-			this.txtSymbol = new System.Windows.Forms.TextBox();
+			this.chIndexCodes = new System.Windows.Forms.CheckBox();
 			this.panMain.SuspendLayout();
 			this.grpGeneral.SuspendLayout();
 			this.grpItems.SuspendLayout();
@@ -299,6 +300,7 @@ namespace medea.winApp
 			// 
 			// groupBox1
 			// 
+			this.groupBox1.Controls.Add(this.chIndexCodes);
 			this.groupBox1.Controls.Add(this.label10);
 			this.groupBox1.Controls.Add(this.label8);
 			this.groupBox1.Controls.Add(this.chEnableLabels);
@@ -355,6 +357,14 @@ namespace medea.winApp
 			this.txtMinZoom.TabIndex = 12;
 			this.txtMinZoom.Text = "0";
 			// 
+			// txtSymbol
+			// 
+			this.txtSymbol.Location = new System.Drawing.Point(94, 159);
+			this.txtSymbol.MaxLength = 100;
+			this.txtSymbol.Name = "txtSymbol";
+			this.txtSymbol.Size = new System.Drawing.Size(131, 20);
+			this.txtSymbol.TabIndex = 14;
+			// 
 			// txtMaxZoom
 			// 
 			this.txtMaxZoom.Location = new System.Drawing.Point(94, 127);
@@ -402,13 +412,16 @@ namespace medea.winApp
 			this.btnEditMetadata.UseVisualStyleBackColor = true;
 			this.btnEditMetadata.Click += new System.EventHandler(this.btnEditMetadata_Click);
 			// 
-			// txtSymbol
+			// chIndexCodes
 			// 
-			this.txtSymbol.Location = new System.Drawing.Point(94, 159);
-			this.txtSymbol.MaxLength = 100;
-			this.txtSymbol.Name = "txtSymbol";
-			this.txtSymbol.Size = new System.Drawing.Size(131, 20);
-			this.txtSymbol.TabIndex = 14;
+			this.chIndexCodes.AutoSize = true;
+			this.chIndexCodes.Location = new System.Drawing.Point(19, 186);
+			this.chIndexCodes.Margin = new System.Windows.Forms.Padding(2);
+			this.chIndexCodes.Name = "chIndexCodes";
+			this.chIndexCodes.Size = new System.Drawing.Size(101, 17);
+			this.chIndexCodes.TabIndex = 22;
+			this.chIndexCodes.Text = "Indexar códigos";
+			this.chIndexCodes.UseVisualStyleBackColor = true;
 			// 
 			// frmClippingRegionEdit
 			// 
@@ -466,6 +479,7 @@ namespace medea.winApp
 		private System.Windows.Forms.GroupBox groupBox2;
 		private System.Windows.Forms.Button btnEditMetadata;
 		private System.Windows.Forms.TextBox txtSymbol;
+		private System.Windows.Forms.CheckBox chIndexCodes;
 	}
 }
 

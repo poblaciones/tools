@@ -30,7 +30,7 @@ namespace medea.actions
 		public const int maxErrors = 20;
 
 		public static void ValidateParentAndShapes(Progress Progress,
-				Dictionary<string, int> items, string file, string codeColumn, string iParent)
+				Dictionary<string, int> items, string file, string codeColumn, string iParent, bool skipOrphans = false)
 		{
 			medea.context.Data.Session.Ping();
 			List<NetTopologySuite.Features.Feature> features;
@@ -44,11 +44,11 @@ namespace medea.actions
 			}
 			else
 				throw new Exception("Invalid extension.");
-			ValidateFeatures(Progress, items, codeColumn, iParent, features, validateGeo);
+			ValidateFeatures(Progress, items, codeColumn, iParent, features, validateGeo, skipOrphans);
 			medea.context.Data.Session.Ping();
 		}
 
-		private static void ValidateFeatures(Progress Progress, Dictionary<string, int> items, string codeColumn, string iParent, List<NetTopologySuite.Features.Feature> features, bool checkFeatures = true)
+		private static void ValidateFeatures(Progress Progress, Dictionary<string, int> items, string codeColumn, string iParent, List<NetTopologySuite.Features.Feature> features, bool checkFeatures = true, bool skipOrphans = false)
 		{
 			Progress.Total = features.Count;
 			List<string> invalid = new List<string>();
@@ -75,10 +75,13 @@ namespace medea.actions
 					string parent = (oParent == null ? null : oParent.ToString());
 					if (!items.ContainsKey(parent))
 					{
-						if (parent != code)
-							noParent.Add(code + "=>" + parent);
-						else
-							noParent.Add(code);
+						if (!skipOrphans)
+						{
+							if (parent != code)
+								noParent.Add(code + "=>" + parent);
+							else
+								noParent.Add(code);
+						}
 					}
 				}
 				if (noParent.Count > maxErrors || invalid.Count > maxErrors)

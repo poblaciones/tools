@@ -36,6 +36,7 @@ namespace medea.entities
 		private int _labelsMaxZoom;
 		private int _labelsMinZoom;
 		private bool _noAutocomplete;
+		private bool _indexCodes;
 		private int _priority;
 		private ClippingRegionItem _country;
 		private ClippingRegion _parent;
@@ -99,6 +100,11 @@ namespace medea.entities
 		{
 			get { return _noAutocomplete; }
 			set { _noAutocomplete = value; }
+		}
+		public virtual bool IndexCodes
+		{
+			get { return _indexCodes; }
+			set { _indexCodes = value; }
 		}
 		public virtual ClippingRegion Parent
 		{

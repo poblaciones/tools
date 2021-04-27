@@ -28,6 +28,8 @@ namespace medea.actions
 {
 	public class ClippingRegionSave : action
 	{
+		private bool skipOrphans = false;
+
 		private ClippingRegion current;
 		private bool fileAdded;
 		private string iParent;
@@ -89,7 +91,7 @@ namespace medea.actions
 					.ToDictionary(x => x.Code, x => x.Id);
 			}
 
-			ShapeOperations.ValidateParentAndShapes(Progress, ci, Basename + ".shp", iCode, iParent);
+			ShapeOperations.ValidateParentAndShapes(Progress, ci, Basename + ".shp", iCode, iParent, skipOrphans);
 
 			return ci;
 		}
@@ -116,10 +118,15 @@ namespace medea.actions
 					item.Caption = feature.Attributes[iCaption].ToString();
 				if (item.Caption.Contains("\n"))
 					item.Caption = item.Caption.Split('\n')[0];
+				var skipItem = false;
+
 				if (ci != null)
 				{
 					var parent = feature.Attributes[iParent].ToString();
-					item.Parent = new ClippingRegionItem(ci[parent]);
+					if (ci.ContainsKey(parent) == false && skipOrphans)
+						skipItem = true;
+					else
+						item.Parent = new ClippingRegionItem(ci[parent]);
 				}
 				else
 				{
@@ -132,7 +139,8 @@ namespace medea.actions
 				item.AreaM2 = Projections.CalculateM2Area(feature.Geometry);
 
 				item.ClippingRegion = current;
-				current.ClippingRegionItems.Add(item);
+				if (!skipItem)
+					current.ClippingRegionItems.Add(item);
 				Progress.Increment();
 			}
 

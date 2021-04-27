@@ -110,6 +110,7 @@ namespace medea.winApp
 				dict.Add("Campo código", clipping.FieldCodeName);
 				dict.Add("Prioridad", clipping.Priority.ToString());
 
+				dict.Add("Indexa códigos", !clipping.IndexCodes ? "No" : "Sí");
 				dict.Add("Mostrar en etiquetas y búsqueda", clipping.NoAutocomplete ? "No" : "Sí");
 
 				dict.Add("Mínimo nivel de zoom para labels", clipping.LabelsMinZoom.ToString());

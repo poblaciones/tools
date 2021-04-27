@@ -126,6 +126,7 @@ namespace medea.winApp
 			current = clipping;
 			txtCaption.Text = current.Caption;
 			chEnableLabels.Checked = !current.NoAutocomplete;
+			chIndexCodes.Checked = current.IndexCodes;
 			txtMinZoom.Text = current.LabelsMinZoom.ToString();
 			txtMaxZoom.Text = current.LabelsMaxZoom.ToString();
 			cmbParent.SelectItem(current.Parent);
@@ -190,6 +191,7 @@ namespace medea.winApp
 
 			current.Caption = txtCaption.Text.Trim();
 			current.NoAutocomplete = !chEnableLabels.Checked;
+			current.IndexCodes = chIndexCodes.Checked;
 			current.Priority = int.Parse(txtPriority.Text);
 			current.LabelsMaxZoom = int.Parse(txtMaxZoom.Text);
 			current.LabelsMinZoom = int.Parse(txtMinZoom.Text);

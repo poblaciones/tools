@@ -135,7 +135,9 @@ namespace medea.actions
 
 				item.Geometry = (Geometry)feature.Geometry;
 				item.GeometryR1 = (Geometry) Simplifications.Simplify(feature.Geometry, QualityEnum.High);
-
+				if (item.GeometryR1.IsEmpty)
+					item.GeometryR1 = item.Geometry;
+	
 				item.AreaM2 = Projections.CalculateM2Area(feature.Geometry);
 
 				item.ClippingRegion = current;

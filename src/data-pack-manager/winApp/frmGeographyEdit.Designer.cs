@@ -49,7 +49,10 @@ namespace medea.winApp
 		{
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmGeographyEdit));
 			this.grpGeneral = new System.Windows.Forms.GroupBox();
+			this.btnEditMetadata = new System.Windows.Forms.Button();
+			this.label1 = new System.Windows.Forms.Label();
 			this.lblRevision = new System.Windows.Forms.Label();
+			this.txtRootCaption = new System.Windows.Forms.TextBox();
 			this.txtRevision = new System.Windows.Forms.TextBox();
 			this.label9 = new System.Windows.Forms.Label();
 			this.txtCaption = new System.Windows.Forms.TextBox();
@@ -85,9 +88,8 @@ namespace medea.winApp
 			this.label6 = new System.Windows.Forms.Label();
 			this.label13 = new System.Windows.Forms.Label();
 			this.cmbGradient = new medea.controls.uComboBox();
-			this.btnEditMetadata = new System.Windows.Forms.Button();
-			this.txtRootCaption = new System.Windows.Forms.TextBox();
-			this.label1 = new System.Windows.Forms.Label();
+			this.chTracking = new System.Windows.Forms.CheckBox();
+			this.chClipping = new System.Windows.Forms.CheckBox();
 			this.panMain.SuspendLayout();
 			this.grpGeneral.SuspendLayout();
 			this.grpItems.SuspendLayout();
@@ -102,6 +104,8 @@ namespace medea.winApp
 			// 
 			// panMain
 			// 
+			this.panMain.Controls.Add(this.chClipping);
+			this.panMain.Controls.Add(this.chTracking);
 			this.panMain.Controls.Add(this.groupBox4);
 			this.panMain.Controls.Add(this.lblShapeType);
 			this.panMain.Controls.Add(this.label4);
@@ -130,6 +134,26 @@ namespace medea.winApp
 			this.grpGeneral.TabStop = false;
 			this.grpGeneral.Text = "General";
 			// 
+			// btnEditMetadata
+			// 
+			this.btnEditMetadata.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.btnEditMetadata.Location = new System.Drawing.Point(441, 19);
+			this.btnEditMetadata.Name = "btnEditMetadata";
+			this.btnEditMetadata.Size = new System.Drawing.Size(120, 39);
+			this.btnEditMetadata.TabIndex = 0;
+			this.btnEditMetadata.Text = "Editar Metadatos...";
+			this.btnEditMetadata.UseVisualStyleBackColor = true;
+			this.btnEditMetadata.Click += new System.EventHandler(this.btnEditMetadata_Click);
+			// 
+			// label1
+			// 
+			this.label1.AutoSize = true;
+			this.label1.Location = new System.Drawing.Point(287, 70);
+			this.label1.Name = "label1";
+			this.label1.Size = new System.Drawing.Size(39, 13);
+			this.label1.TabIndex = 11;
+			this.label1.Text = "Grupo:";
+			// 
 			// lblRevision
 			// 
 			this.lblRevision.AutoSize = true;
@@ -138,6 +162,14 @@ namespace medea.winApp
 			this.lblRevision.Size = new System.Drawing.Size(78, 13);
 			this.lblRevision.TabIndex = 11;
 			this.lblRevision.Text = "Revisión (año):";
+			// 
+			// txtRootCaption
+			// 
+			this.txtRootCaption.Location = new System.Drawing.Point(332, 67);
+			this.txtRootCaption.MaxLength = 10;
+			this.txtRootCaption.Name = "txtRootCaption";
+			this.txtRootCaption.Size = new System.Drawing.Size(229, 20);
+			this.txtRootCaption.TabIndex = 10;
 			// 
 			// txtRevision
 			// 
@@ -488,33 +520,25 @@ namespace medea.winApp
 			this.cmbGradient.Size = new System.Drawing.Size(102, 21);
 			this.cmbGradient.TabIndex = 10;
 			// 
-			// btnEditMetadata
+			// chTracking
 			// 
-			this.btnEditMetadata.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.btnEditMetadata.Location = new System.Drawing.Point(441, 19);
-			this.btnEditMetadata.Name = "btnEditMetadata";
-			this.btnEditMetadata.Size = new System.Drawing.Size(120, 39);
-			this.btnEditMetadata.TabIndex = 0;
-			this.btnEditMetadata.Text = "Editar Metadatos...";
-			this.btnEditMetadata.UseVisualStyleBackColor = true;
-			this.btnEditMetadata.Click += new System.EventHandler(this.btnEditMetadata_Click);
+			this.chTracking.AutoSize = true;
+			this.chTracking.Location = new System.Drawing.Point(318, 286);
+			this.chTracking.Name = "chTracking";
+			this.chTracking.Size = new System.Drawing.Size(119, 17);
+			this.chTracking.TabIndex = 12;
+			this.chTracking.Text = "Es nivel de tracking";
+			this.chTracking.UseVisualStyleBackColor = true;
 			// 
-			// txtRootCaption
+			// chClipping
 			// 
-			this.txtRootCaption.Location = new System.Drawing.Point(332, 67);
-			this.txtRootCaption.MaxLength = 10;
-			this.txtRootCaption.Name = "txtRootCaption";
-			this.txtRootCaption.Size = new System.Drawing.Size(229, 20);
-			this.txtRootCaption.TabIndex = 10;
-			// 
-			// label1
-			// 
-			this.label1.AutoSize = true;
-			this.label1.Location = new System.Drawing.Point(287, 70);
-			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(39, 13);
-			this.label1.TabIndex = 11;
-			this.label1.Text = "Grupo:";
+			this.chClipping.AutoSize = true;
+			this.chClipping.Location = new System.Drawing.Point(317, 309);
+			this.chClipping.Name = "chClipping";
+			this.chClipping.Size = new System.Drawing.Size(122, 17);
+			this.chClipping.TabIndex = 12;
+			this.chClipping.Text = "Se usa para clipping";
+			this.chClipping.UseVisualStyleBackColor = true;
 			// 
 			// frmGeographyEdit
 			// 
@@ -581,6 +605,8 @@ namespace medea.winApp
 		private System.Windows.Forms.Label label7;
 		private System.Windows.Forms.Label label1;
 		private System.Windows.Forms.TextBox txtRootCaption;
+		private System.Windows.Forms.CheckBox chClipping;
+		private System.Windows.Forms.CheckBox chTracking;
 	}
 }
 

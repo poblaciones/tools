@@ -41,6 +41,7 @@ namespace medea.entities
 		private string _fieldUrbanityName;
 		private string _partialCoverage;
 		private string _fieldCodeType;
+		private bool _UseForClipping;
 		private string _rootCaption;
 		private Geography _parent;
 		private Gradient _gradient;
@@ -75,6 +76,11 @@ namespace medea.entities
 		{
 			get { return _gradient; }
 			set { _gradient = value; }
+		}
+		public virtual bool UseForClipping
+		{
+			get { return _UseForClipping; }
+			set { _UseForClipping = value; }
 		}
 		public virtual bool IsTrackingLevel
 		{

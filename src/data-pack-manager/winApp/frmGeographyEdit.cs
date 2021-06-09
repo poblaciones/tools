@@ -155,6 +155,8 @@ namespace medea.winApp
 			txtRevision.Text = current.Revision;
 			txtRootCaption.Text = current.RootCaption;
 			cmbParent.SelectItem(current.Parent);
+			chClipping.Checked = current.UseForClipping;
+			chTracking.Checked = current.IsTrackingLevel;
 			txtMaxZoom.Text = current.MaxZoom.ToString();
 			txtFieldCodeSize.Text = current.FieldCodeSize.ToString();
 			cmbGradient.SelectItem<Gradient>(current.Gradient);
@@ -279,6 +281,8 @@ namespace medea.winApp
 				current.MinZoom = current.Parent.MaxZoom + 1;
 			else
 				current.MinZoom = 0;
+			current.UseForClipping = chClipping.Checked;
+			current.IsTrackingLevel = chTracking.Checked;
 
 			if (cmbParent.Enabled)
 			{

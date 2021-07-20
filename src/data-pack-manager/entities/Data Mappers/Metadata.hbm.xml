@@ -26,8 +26,6 @@
 		<property name="LastOnline" column="met_last_online" not-null="false" />
 		<property name="OnlineSince" column="met_online_since" not-null="false" />
 
-		<property name="ScheduleNextUpdate" column="met_schedule_next_update" not-null="false" />
-
 		<many-to-one name="Contact" class="Contact">
 			<column name="met_contact_id" not-null="false" />
 		</many-to-one>

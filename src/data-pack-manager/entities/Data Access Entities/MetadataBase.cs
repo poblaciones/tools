@@ -44,7 +44,6 @@ namespace medea.entities
 		private string _abstract;
 		private DateTime _create;
 		private DateTime _update;
-		private DateTime? _scheduleNextUpdate;
 		private DateTime? _lastOnline;
 		private DateTime? _onlineSince;
 
@@ -154,12 +153,7 @@ namespace medea.entities
 			get { return _lastOnline; }
 			set { _lastOnline = value; }
 		}
-		public virtual DateTime? ScheduleNextUpdate
-		{
-			get { return _scheduleNextUpdate; }
-			set { _scheduleNextUpdate = value; }
-		}
-
+		
 		public virtual Institution Institution
 		{
 			get { return _institution; }

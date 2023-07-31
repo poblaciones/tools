@@ -135,6 +135,7 @@ namespace medea.actions
 				else
 					item.Urbanity = UrbanityEnum.None;
 				item.Code = feature.Attributes[iCode].ToString();
+				item.CodeAsNumber = decimal.Parse(item.Code);
 				if (iCaption != "")
 					item.Caption = feature.Attributes[iCaption].ToString();
 
@@ -160,7 +161,7 @@ namespace medea.actions
 				{
 					l.Add(item);
 					done[item.Code] = true;
-					if (n % 100 == 99)
+				//	if (n % 100 == 99)
 					{
 						string sql = InsertGenerator.FromList(l);
 						context.Data.Session.SqlActions.ExecuteNonQuery(sql);

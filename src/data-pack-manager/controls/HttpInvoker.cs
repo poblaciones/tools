@@ -137,15 +137,17 @@ namespace medea.controls
 			HttpResult res = new HttpResult();
 			string json = wc.DownloadString(fullurl);
 			Dictionary<string, string> htmlAttributes = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
-
-			if (htmlAttributes.ContainsKey("key")) res.Key = htmlAttributes["key"];
-			if (htmlAttributes.ContainsKey("status")) res.Caption = htmlAttributes["status"];
-			if (htmlAttributes.ContainsKey("totalSteps")) res.Total = int.Parse(htmlAttributes["totalSteps"]);
-			if (htmlAttributes.ContainsKey("step")) res.Value = int.Parse(htmlAttributes["step"]);
-			if (htmlAttributes.ContainsKey("totalSlices")) res.SubTotal = int.Parse(htmlAttributes["totalSlices"]);
-			if (htmlAttributes.ContainsKey("extra")) res.Extra = JsonConvert.DeserializeObject<Dictionary<string, string>>(htmlAttributes["extra"]);
-			if (htmlAttributes.ContainsKey("slice")) res.SubValue = int.Parse(htmlAttributes["slice"]);
-			if (htmlAttributes.ContainsKey("done")) res.Completed = htmlAttributes["done"] == "true";
+			if (htmlAttributes != null)
+			{
+				if (htmlAttributes.ContainsKey("key")) res.Key = htmlAttributes["key"];
+				if (htmlAttributes.ContainsKey("status")) res.Caption = htmlAttributes["status"];
+				if (htmlAttributes.ContainsKey("totalSteps")) res.Total = int.Parse(htmlAttributes["totalSteps"]);
+				if (htmlAttributes.ContainsKey("step")) res.Value = int.Parse(htmlAttributes["step"]);
+				if (htmlAttributes.ContainsKey("totalSlices")) res.SubTotal = int.Parse(htmlAttributes["totalSlices"]);
+				if (htmlAttributes.ContainsKey("extra")) res.Extra = JsonConvert.DeserializeObject<Dictionary<string, string>>(htmlAttributes["extra"]);
+				if (htmlAttributes.ContainsKey("slice")) res.SubValue = int.Parse(htmlAttributes["slice"]);
+				if (htmlAttributes.ContainsKey("done")) res.Completed = htmlAttributes["done"] == "true";
+			}
 			return res;
 		}
 		public static string ConfigurationGet(string key, string defaultValue = null)

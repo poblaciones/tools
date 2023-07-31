@@ -33,6 +33,8 @@ namespace medea.entities
 		private Point _centroid;
 		private Geometry _geometry;
 		private Geometry _geometryR1;
+		private Geometry _geometryR2;
+		private Geometry _geometryR3;
 		private ClippingRegion _clippingRegion;
 		private string _code;
 		private int? _id;
@@ -72,6 +74,16 @@ namespace medea.entities
 		{
 			get { return _geometryR1; }
 			set { _geometryR1 = value; }
+		}
+		public virtual Geometry GeometryR2
+		{
+			get { return _geometryR2; }
+			set { _geometryR2 = value; }
+		}
+		public virtual Geometry GeometryR3
+		{
+			get { return _geometryR3; }
+			set { _geometryR3 = value; }
 		}
 		public virtual Point Centroid
 		{

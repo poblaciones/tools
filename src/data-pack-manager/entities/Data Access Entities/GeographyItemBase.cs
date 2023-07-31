@@ -30,6 +30,7 @@ namespace medea.entities
 
 		private int? _id;
 		private double _areaM2;
+		private decimal _codeAsNumber;
 		private string _caption;
 		private Point _centroid;
 		private Geometry _geometry;
@@ -82,6 +83,11 @@ namespace medea.entities
 		{
 			get { return _code; }
 			set { _code = value; }
+		}
+		public virtual decimal CodeAsNumber
+		{
+			get { return _codeAsNumber; }
+			set { _codeAsNumber = value; }
 		}
 		public virtual Geography Geography
 		{

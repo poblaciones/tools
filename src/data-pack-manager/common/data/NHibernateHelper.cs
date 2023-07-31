@@ -55,12 +55,6 @@ namespace medea.Data
 		private const string KEY_NHIBERNATE_DIALECT = "hibernate.dialect";
 		private const string KEY_NHIBERNATE_FACTORY = "NHibernateSessionFactory";
 
-		private NHibernate.Caches.SysCache2.SysCacheProvider refeference1;
-		private NHibernate.Caches.MemCache.MemCacheProvider refeference2;
-		private NHibernate.Caches.EntLibCache.EntLibCacheProvider refeference3;
-		private Microsoft.Practices.ObjectBuilder.DependencyAttribute refeference4;
-		private Microsoft.Practices.EnterpriseLibrary.Common.Configuration.IObjectWithName refeference5;
-		private Microsoft.Practices.EnterpriseLibrary.Caching.CacheItemPriority refeference6;
 
 		private NHibernateHelper()
 		{
@@ -639,8 +633,6 @@ namespace medea.Data
 
 		private void useReferecesMethod()
 		{
-			refeference1 = refeference1 = null; refeference2 = refeference2 = null; refeference3 = refeference3 = null;
-			refeference4 = refeference4 = null; refeference5 = refeference5 = null; refeference6 = refeference6 = Microsoft.Practices.EnterpriseLibrary.Caching.CacheItemPriority.None;
 		}
 
 		private static string GetCacheRegion(Configuration config)

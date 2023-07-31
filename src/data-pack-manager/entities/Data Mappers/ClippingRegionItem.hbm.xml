@@ -10,6 +10,8 @@
 		<property name="Centroid" column="cli_centroid" not-null="false" lazy="true" update="false" type="NHibernate.Spatial.Type.MySQLGeometryType, NHibernate.Spatial.MySql" />
 		<property name="Geometry" column="cli_geometry" not-null="false" lazy="true" update="false" type="NHibernate.Spatial.Type.MySQLGeometryType, NHibernate.Spatial.MySql" />
 		<property name="GeometryR1" column="cli_geometry_r1" not-null="false" lazy="true" update="false" type="NHibernate.Spatial.Type.MySQLGeometryType, NHibernate.Spatial.MySql" />
+		<property name="GeometryR2" column="cli_geometry_r2" not-null="false" lazy="true" update="false" type="NHibernate.Spatial.Type.MySQLGeometryType, NHibernate.Spatial.MySql" />
+		<property name="GeometryR3" column="cli_geometry_r3" not-null="false" lazy="true" update="false" type="NHibernate.Spatial.Type.MySQLGeometryType, NHibernate.Spatial.MySql" />
 		<many-to-one name="ClippingRegion" class="ClippingRegion">
 			<column name="cli_clipping_region_id" not-null="true" />
 		</many-to-one>

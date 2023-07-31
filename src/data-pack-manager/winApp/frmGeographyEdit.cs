@@ -234,7 +234,7 @@ namespace medea.winApp
 			int zoom;
 			if (int.TryParse(controlZoom.Text, out zoom) == false)
 				msg += "Debe indicar un valor numérico para '" + label + "'.\n";
-			else if (zoom < 0 || zoom > 21)
+			else if (zoom < 1 || zoom > 22)
 				msg += "El valor para '" + label + "' debe ser entre 1 y 22.\n";
 
 			return msg;
@@ -259,10 +259,9 @@ namespace medea.winApp
 			var caption = cmbFieldCaptionName.GetValue();
 			var urbanity = cmbUrbanity.GetValue();
 
-			Call(new GeographySave(current, uFile.FileAdded, household,
-					 children, population, urbanity, parent, code, caption, uFile.Basename));
-
-			Call(new MetadataClearRemoteCache(current.Metadata));
+			if (Call(new GeographySave(current, uFile.FileAdded, household,
+					 children, population, urbanity, parent, code, caption, uFile.Basename)))
+				Call(new MetadataClearRemoteCache(current.Metadata));
 		}
 
 		private void ControlsToValues()
@@ -270,6 +269,8 @@ namespace medea.winApp
 			current.Caption = txtCaption.Text.Trim();
 			current.Revision = txtRevision.Text.Trim();
 			current.RootCaption = txtRootCaption.Text.Trim();
+			if (current.RootCaption == "")
+				current.RootCaption = null;
 			current.MaxZoom = int.Parse(txtMaxZoom.Text);
 			foreach (var child in current.Children)
 				child.MinZoom = current.MaxZoom + 1;

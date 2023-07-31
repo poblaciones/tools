@@ -7,6 +7,7 @@
 		<property name="Caption" column="gei_caption" not-null="false" length="100" />
 		<property name="Children" column="gei_children" not-null="true" />
 		<property name="Code" column="gei_code" not-null="true" length="100" />
+		<property name="CodeAsNumber" column="gei_code_as_number" not-null="true" />
 		<property name="PrivateUrbanity" column="gei_urbanity" not-null="true" length="1" />
 		<property name="Households" column="gei_households" not-null="true" />
 		<property name="Population" column="gei_population" not-null="true" />

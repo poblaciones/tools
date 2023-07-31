@@ -78,12 +78,13 @@ namespace medea.common
 			}
 		}
 		const string proj = "GCS_WGS_1984";
+		const string proj2 = "WGS 84";
 		const string descr = "Geographic coordinate system > Word > WGS1984";
 		public static bool Validate(string file)
 		{
 			var text = File.ReadAllText(file).Trim();
 			text = text.Replace("\0", "");
-			if (text.StartsWith("GEOGCS[\"" + proj + "\""))
+			if (text.StartsWith("GEOGCS[\"" + proj + "\"") || text.StartsWith("GEOGCS[\"" + proj2 + "\""))
 				return true;
 			else
 				return false;

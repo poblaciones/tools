@@ -166,7 +166,7 @@ namespace medea.winApp
 			// txtRootCaption
 			// 
 			this.txtRootCaption.Location = new System.Drawing.Point(332, 67);
-			this.txtRootCaption.MaxLength = 10;
+			this.txtRootCaption.MaxLength = 100;
 			this.txtRootCaption.Name = "txtRootCaption";
 			this.txtRootCaption.Size = new System.Drawing.Size(229, 20);
 			this.txtRootCaption.TabIndex = 10;

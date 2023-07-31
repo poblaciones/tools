@@ -135,8 +135,13 @@ namespace medea.actions
 
 				item.Geometry = (Geometry)feature.Geometry;
 				item.GeometryR1 = (Geometry) Simplifications.Simplify(feature.Geometry, QualityEnum.High);
+				item.GeometryR2 = (Geometry) Simplifications.Simplify(feature.Geometry, QualityEnum.VeryHigh);
+				item.GeometryR3 = (Geometry) feature.Geometry;
+
+				if (item.GeometryR2.IsEmpty)
+					item.GeometryR2 = item.GeometryR3;
 				if (item.GeometryR1.IsEmpty)
-					item.GeometryR1 = item.Geometry;
+					item.GeometryR1 = item.GeometryR2;
 	
 				item.AreaM2 = Projections.CalculateM2Area(feature.Geometry);
 
@@ -151,6 +156,9 @@ namespace medea.actions
 			var sql = InsertGenerator.FromList(current.ClippingRegionItems);
 			context.Data.Session.SqlActions.BulkInsert(sql, Progress);
 			context.Data.Session.Flush();
+
+			ClippingRegionSimplify.FinalFix(context.Data.Session);
+
 			current.ClippingRegionItems.Clear();
 		}
 

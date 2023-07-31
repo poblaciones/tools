@@ -106,5 +106,12 @@ namespace medea.winApp
 				int i = call.Errors.Count;
 			}
 		}
-	}
+
+		private void button4_Click(object sender, EventArgs e)
+		{
+			var call = new GeographySimplifyByIds();
+			call.CallDirect();
+			UI.ShowInfoMessage(this, "Listo.");
+		}
+    }
 }

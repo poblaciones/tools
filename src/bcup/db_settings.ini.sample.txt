@@ -1,0 +1,7 @@
+[client]
+user=dbuser
+password=yourpassword
+
+[extra]
+database=maps_db
+output=maps_db.zip

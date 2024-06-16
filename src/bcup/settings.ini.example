@@ -1,0 +1,10 @@
+[client]
+user=dbuser
+password=yourpassword
+
+[extra]
+database=maps_db
+; Opcional, nombre del archivo de salida, si no está lo nombra como la base de datos .zip
+; output=maps_db.zip
+; Opcional path de ejecutables de mysql si no están en una ubicación default
+; mysql_bin_path = C:/Users/Admin/Code/mysql/bin

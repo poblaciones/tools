@@ -1,6 +1,7 @@
 import os
 import sys
 import time
+import glob
 import pymysql
 import subprocess
 import shutil
@@ -9,24 +10,23 @@ import re
 import json
 from tqdm import tqdm
 from settings import Settings
+from pathlib import Path
 
-# Lectura de configuración de MySQL desde el archivo ini
+# Variables globales
 settings = Settings()
-settings.parse_config_file()
-filtered_tables = []
 
 
 def run_mysqldump(options, output_file, table_list=''):
-    command = f"{settings.mysqldump} --defaults-file={settings.CONFIG_FILE_PATH} --user={settings.db_user} --host={settings.db_host} " \
-              f"--port={settings.db_port} {options} {settings.db_name} {table_list}"
+    command = f"\"{settings.mysqldump}\" --defaults-file={settings.CONFIG_FILE} --user={settings.db_user} --host={settings.db_host} " \
+            f"--port={settings.db_port} {options} {settings.db_name} {table_list}"
 
     with open(output_file, 'w', encoding='utf-8') as f:
-        completed_process = subprocess.run(command, shell=True, stdout=f)
+        proc = subprocess.run(command, shell=True, stdout=f)
 
-    if completed_process.returncode != 0:
-        print(f"El comando mysqldump.exe falló con el código de retorno: {completed_process.returncode}")
+    if proc.returncode != 0:
+        print(f"El comando mysqldump.exe falló con el código de retorno: {proc.returncode}")
         print(f"\nComando:\n{command}")
-        raise Exception("No se pudo completar con éxito el backup.")
+        sys.exit("No se pudo completar con éxito el backup.")
 
 
 def remove_trigger_definer(file_path):
@@ -36,7 +36,6 @@ def remove_trigger_definer(file_path):
     with open(file_path, 'r', encoding='utf-8') as file:
         content = file.read()
 
-    # Utilizamos una expresión regular para buscar y eliminar la cadena deseada
     new_content = re.sub(r'/\*![0-9]+ DEFINER=`[^`]+`@`[^`]+`\*/', '', content)
 
     with open(file_path, 'w', encoding='utf-8') as file:
@@ -53,7 +52,6 @@ def remove_function_definer(file_path):
     with open(file_path, 'w', encoding='utf-8') as file:
         for line in lines:
             if 'CREATE DEFINER=' in line:
-                # Utilizamos una expresión regular para eliminar la cadena deseada de la línea
                 new_line = re.sub(r'DEFINER=`[^`]+`@`[^`]+`', '', line)
                 file.write(new_line)
             else:
@@ -66,107 +64,55 @@ def print_quiet(text):
 
 
 def dump_database_structure():
-    if settings.resume:
-        path = join_path(settings.output_path, 'datos')
-        sql_files = [file for file in os.listdir(path) if file.endswith('.sql')]
-        if len(sql_files) > 0:
-            print_quiet('Omitiendo estructura...')
-            return
-
-    print_quiet('Exportando estructura...')
-    ignore_tables = ''
-    if settings.exclude_tables:
-        excluded_tables = get_excluded_table_names()
-        if len(excluded_tables) > 0:
-            print_quiet(f"Excluyendo {len(excluded_tables)} tabla(s).")
-        for table in excluded_tables:
-            ignore_tables += f" --ignore-table={settings.db_name}.`{table}`"
-    # Tablas
-    print_quiet('Exportando tablas...')
-    table_list = ''
-    if settings.include_tables:
-        included_tables = get_included_table_names()
-        for table in included_tables:
-            table_list += f" \"{table}\""
-
-    # print_quiet('Exportando de a una...')
-    # start = time.time()
-    # # TODO: ver si exportar un archivo por tabla de esctructura o ver si agregarlo al archivo de datos o ver si exporta todas siempre
-    # for table in get_tables():
-    #     run_mysqldump("--no-data --no-create-db", join_path(settings.output_path, "datos", f"{table}.sql"), table)
-    #     remove_trigger_definer(join_path(settings.output_path, "datos", f"{table}.sql"))
-    # print_quiet("--- %s seg. ---" % round(time.time() - start, 2))
-
-    print_quiet('Exportando todas...')
-    start = time.time()
-    # TODO: ver si exportar un archivo por tabla de esctructura o ver si agregarlo al archivo de datos o ver si exporta todas siempre
-    run_mysqldump(f"--no-data --no-create-db --skip-triggers {ignore_tables}", join_path(settings.output_path, "database_tables.sql"), table_list)
-    print_quiet("--- %s seg. ---" % round(time.time() - start, 2))
-
-    start = time.time()
-    # TODO: ídem con estructura pero para triggers
-    print_quiet('Exportando triggers...')
-    run_mysqldump(f"--no-data --no-create-db --triggers --no-create-info {ignore_tables}", join_path(settings.output_path, "triggers.sql"), table_list)
-    remove_trigger_definer(join_path(settings.output_path, "triggers.sql"))
-    print_quiet("--- %s seg. ---" % round(time.time() - start, 2))
+    print_quiet('Exportando tablas y triggers...')
+    tables = get_tables(settings.estructura_path)
+    with tqdm(total=len(tables), ncols=70, disable=settings.quiet) as progress_bar:
+        for table in tables:
+            file = Settings.join_path(settings.estructura_path, f"{table}.sql")
+            run_mysqldump("--no-data --no-create-db", file, table)
+            remove_trigger_definer(file)
+            progress_bar.update()
 
     if not settings.skip_routines:
-        start = time.time()
+        # start = time.time()
         print_quiet('Exportando funciones...')
-        run_mysqldump("--no-data --no-create-db --routines --skip-triggers --no-create-info ", join_path(settings.output_path, "routines.sql"))
-        remove_function_definer(join_path(settings.output_path, "routines.sql"))
-        print_quiet("--- %s seg. ---" % round(time.time() - start, 2))
+        run_mysqldump("--no-data --no-create-db --routines --skip-triggers --no-create-info ", Settings.join_path(settings.output_path, "routines.sql"))
+        remove_function_definer(Settings.join_path(settings.output_path, "routines.sql"))
+        # print_quiet("--- %s seg. ---" % round(time.time() - start, 2))
+
+
+def dump_data():
+    tables = get_tables(settings.datos_path)
+    total_row_count, sizes = get_total_row_count(tables)
+
+    with open(Settings.join_path(settings.output_path, "tables.json"), "w", encoding='utf-8') as outfile:
+        json.dump(sizes, outfile, indent=2)
+
+    with tqdm(total=total_row_count, ncols=70, disable=settings.quiet) as progress_bar:
+        for table in tables:
+            dump_table_data(table, sizes[table], progress_bar)
+
+
+def dump_table_data(table, sizes, progress_bar):
+    for offset in range(0, sizes['rows'], sizes['step']):
+        file = resolve_filename(table, (offset // sizes['step']) + 1)
+        run_mysqldump(f"--no-create-info --hex-blob --skip-triggers --where=\"1 LIMIT {sizes['step']} OFFSET {offset}\"", file, table)
+        progress_bar.update(min(sizes['step'], sizes['rows'] - offset))
 
 
 def resolve_filename(table_name, step):
-    file_number = str(step).zfill(4)
-    return join_path(settings.output_path, 'datos', f'{table_name}_#{file_number}.sql')
-
-
-def check_table_file(table_name):
-    if not settings.resume:
-        return False
-    if not table_name:
-        return False
-    current_file_start = resolve_filename(table_name, 1)
-    return os.path.exists(current_file_start)
-
-
-def dump_table_data(table, next_table, next_next_table, progress_bar):
-    table_name = table['table']
-    row_count = table['rows']
-    step = table['step']
-
-    if check_table_file(table_name) and check_table_file(next_table):
-        if not check_table_file(next_next_table):
-            next_file_start = resolve_filename(next_table, 1)
-            os.remove(next_file_start)
-        print_quiet(f"Omitiendo {table_name}...")
-        progress_bar.update(row_count)
-        return
-
-    for offset in range(0, row_count, step):
-        output_file = resolve_filename(table_name, (offset // step) + 1)
-        condition = f'"1 LIMIT {step} OFFSET {offset}"'
-        command = f"{settings.mysqldump} --defaults-file={settings.CONFIG_FILE_PATH} --hex-blob --skip-triggers --user={settings.db_user} --host={settings.db_host} " \
-                  f"--port={settings.db_port} --no-create-info --where={condition} {settings.db_name} {table_name}"
-
-        with open(output_file, 'w', encoding='utf-8') as f:
-            completed_process = subprocess.run(command, shell=True, stdout=f)
-
-        if completed_process.returncode != 0:
-            print(f"El comando mysqldump.exe falló con el código de retorno: {completed_process.returncode}")
-            return False
-
-        # Actualizar la barra de progreso
-        progress_bar.update(min(step, row_count - offset))
+    number = str(step).zfill(4)
+    return Settings.join_path(settings.datos_path, f'{table_name}_#{number}.sql')
 
 
 def get_connection():
     return pymysql.connect(user=settings.db_user, password=settings.db_pass, host=settings.db_host, port=settings.db_port, database=settings.db_name)
 
 
-def get_tables():
+def get_tables(resume_path):
+    """ Obtiene todas las tablas que hay que backupear. Filtrando por fecha y filtros de exclusión e inclusión.
+        Si es resume quita las tablas que ya existen salvo la última que la vuelve a regenerar por si el backup
+        anterior se cortó por la mitad.  """
     cnx = get_connection()
     cursor = cnx.cursor()
     sql = "SELECT table_name FROM information_schema.TABLES WHERE table_type = 'BASE TABLE' AND table_schema = %s AND (create_time > %s OR update_time > %s)"
@@ -178,56 +124,41 @@ def get_tables():
         if filter_tables(table[0]):
             ret.append(table[0])
 
-    return ret
-
-
-# # TODO: ver si se usa o borrar y exportar extructura por tabla
-# def get_all_tables():
-#     cnx = get_connection()
-#     cursor = cnx.cursor()
-#     cursor.execute("SHOW FULL TABLES WHERE table_type != 'VIEW'")
-#     tables = cursor.fetchall()
-#     cnx.close()
-#     ret = []
-#     for table in tables:
-#         if filter_tables(table[0]):
-#             ret.append(table[0])
-#
-#     return ret
-
-
-def get_included_table_names():
-    cnx = get_connection()
-    cursor = cnx.cursor()
-    cursor.execute("SHOW FULL TABLES WHERE table_type != 'VIEW'")
-    tables = cursor.fetchall()
-    cnx.close()
-    ret = []
-    for table in tables:
-        if match_include(table[0]) and not match_exclude(table[0]):
-            ret.append(table[0])
+    if settings.resume:
+        # obtiene los archivos de estructura existentes ordenados por fecha
+        files = sorted(Path(resume_path).iterdir(), key=os.path.getmtime)
+        if files:
+            # quita el último modificado de los archivos existentes (para que lo regenere) y lo mueve
+            # arriba de todo en la lista de tablas para que sea el primero y continúe desde ahí
+            last = files.pop()
+            clean_file(str(last))
+            tables.remove(last.stem)  # stem es nombre de archivo solo sin extensión ni directorios
+            tables.insert(0, last.stem)
+            for file in files:
+                tables.remove(file.stem)
 
     return ret
 
 
-def get_excluded_table_names():
-    cnx = get_connection()
-    cursor = cnx.cursor()
-    cursor.execute("SHOW FULL TABLES WHERE table_type != 'VIEW'")
-    tables = cursor.fetchall()
-    cnx.close()
-    ret = []
-    for table in tables:
-        if match_exclude(table[0]):
-            ret.append(table[0])
-
-    return ret
+def clean_file(file):
+    """ Vacía el archivo sin borrarlo para que el resume pise el archivo, si lo
+        borrara y vuelve a fallar se van perdiendo archivos en cada resume, si el
+        archivo es de datos (nombre con _#000x) vacía todos los de la serie
+    """
+    if "_#" in file:
+        replaced = re.sub(r"(_#)\d+(\.sql)", r"\1*\2", file)
+        files = glob.glob(replaced)
+    else:
+        files = [file]
+    for f in files:
+        open(f, 'w').close()
 
 
 def create_backup_path():
     if os.path.isdir(settings.output_path):
         remove_backup_path()
-    os.makedirs(join_path(settings.output_path, 'datos'), exist_ok=True)
+    os.makedirs(settings.datos_path, exist_ok=True)
+    os.makedirs(settings.estructura_path, exist_ok=True)
 
 
 def remove_backup_path():
@@ -239,10 +170,10 @@ def zip_backup_path():
         os.remove(settings.output)
     filesToZip = []
     tt = 0
-    with zipfile.ZipFile(settings.output, 'w', zipfile.ZIP_DEFLATED) as zipf:
+    with zipfile.ZipFile(settings.output, 'w', zipfile.ZIP_DEFLATED, compresslevel=1) as zipf:
         for root, dirs, files in os.walk(settings.output_path):
             for file in files:
-                src = join_path(root, file)
+                src = Settings.join_path(root, file)
                 s = os.path.getsize(src)
                 tt += s
                 filesToZip.append({'file': src, 'size': s})
@@ -275,7 +206,7 @@ def match_exclude(table):
 def match_include(table):
     if table in settings.include_tables:
         return True
-    # TODO: Sacar signo de admiración !
+    # TODO: Sacar signo de admiración ! o no?
     for exclussion in settings.include_tables:
         if not exclussion.startswith('!'):
             if match_wildcard(exclussion, table):
@@ -304,7 +235,7 @@ def filter_tables(table):
 
 def get_total_row_count(tables):
     print_quiet('Calculando filas...')
-    sizes = []
+    sizes = {}
     cnx = get_connection()
     cursor = cnx.cursor()
 
@@ -324,7 +255,7 @@ def get_total_row_count(tables):
             if step == 0:
                 step = 10
 
-        sizes.append({'table': table, 'rows': rows, 'bytes': table_bytes, 'step': step})
+        sizes[table] = {'rows': rows, 'bytes': table_bytes, 'step': step}
 
     cnx.close()
 
@@ -339,59 +270,33 @@ def get_total_row_count(tables):
     return total_row_count, sizes
 
 
-def dump_data():
-    tables = get_tables()
-    total_row_count, sizes = get_total_row_count(tables)
-
-    with open(settings.output_path + "/tables.json", "w", encoding='utf-8') as outfile:
-        json.dump(sizes, outfile)
-
-    with tqdm(total=total_row_count, ncols=70, disable=settings.quiet) as progress_bar:
-        validTables = []
-        for table in tables:
-            if filter_tables(table):
-                validTables.append(table)
-
-        for index, table in enumerate(validTables):
-            table_attributes = [x for x in sizes if x['table'] == table][0]
-            if index+1 < len(validTables):
-                next_table = validTables[index+1]
-            else:
-                next_table = None
-            if index + 2 < len(validTables):
-                next_next_table = validTables[index + 2]
-            else:
-                next_next_table = None
-            dump_table_data(table_attributes, next_table, next_next_table, progress_bar)
-
-
-def join_path(*parts):
-    return "/".join(parts).replace("\\", "/").replace("//", "/")
-
-
 def main():
+    settings.parse_config_file()
     settings.parse_command_line()
 
-    print("-------------------------------")
-    print(f"DATABASE: {settings.db_name}")
-    print(f"USER: {settings.db_user}")
-    print(f"HOST: {settings.db_host}")
-    print(f"OUTPUT: {settings.output}")
-    print("-------------------------------")
+    print_quiet("-------------------------------")
+    print_quiet(f"DATABASE: {settings.db_name}")
+    print_quiet(f"USER: {settings.db_user}")
+    print_quiet(f"HOST: {settings.db_host}")
+    print_quiet(f"OUTPUT: {settings.output}")
+    print_quiet("-------------------------------")
 
+    start = time.time()
     if settings.resume:
         print_quiet('Continuando...')
     else:
         create_backup_path()
 
-    dump_database_structure()
+    if not settings.skip_structure:
+        dump_database_structure()
 
-    dump_data()
+    if not settings.skip_data:
+        dump_data()
+
     zip_backup_path()
     remove_backup_path()
+    print_quiet("--- Tiempo total: %s seg. ---" % round(time.time() - start, 2))
 
-
-# que pueda correr sin progress
 
 if __name__ == '__main__':
     main()

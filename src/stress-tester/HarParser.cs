@@ -18,7 +18,6 @@ namespace stress_tester
 			{
 				var url = entry["request"]["url"].Value<string>();
 				var date = entry["startedDateTime"].Value<DateTime>();
-				var ellapsed = entry["time"].Value<double>();
 				ret.Add(new Request(url, date, Guid.NewGuid()));
 			}
 			return ret;

@@ -61,7 +61,7 @@ namespace stress_tester
 				Request r = pending[0];
 				double relativeTime = GetRelativeTime();
 				// Se fija si es futuro o pasado
-				if (r.MillisecondsFromStart <= relativeTime)
+				if (r.MillisecondsFromStart <= relativeTime || Current.Context.NonStop)
 				{
 					// Lo trata de encolar...
 					foreach (var caller in callers)

@@ -18,6 +18,7 @@ namespace stress_tester
 		public string ReplaceFrom { get; set; }
 		public string ReplaceTo { get; set; }
 		public bool RandomOffsets { get; set; }
+		public bool NonStop { get; set; }
 
 		public List<Request> FilteredList
 		{

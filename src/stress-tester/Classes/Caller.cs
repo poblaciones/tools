@@ -39,6 +39,7 @@ namespace stress_tester
 
 			Request r = (Request) req;
 			var response = new Response();
+			Random ra = new Random();
 			try
 			{
 				var httpClient = new WebClient();
@@ -49,6 +50,8 @@ namespace stress_tester
 				{
 					url = url.Replace(Current.Context.ReplaceFrom, Current.Context.ReplaceTo);
 				}
+				url += "&random=" + ra.NextDouble().ToString();
+
 				var text = httpClient.DownloadData(url);
 				if (text.Length == 0)
 					throw new Exception("Empty response");

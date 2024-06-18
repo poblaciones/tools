@@ -37,6 +37,7 @@ namespace stress_tester
 			Current.Context.Retries = (int) numRetries.Value;
 			Current.Context.RetryMilliseconds = (int) numRetryMs.Value;
 			Current.Context.RandomOffsets = chRandom.Checked;
+			Current.Context.NonStop = chNonStop.Checked;
 
 			Current.Context.UseFilter = chFilter.Checked;
 			Current.Context.Filter = txtFilter.Text;
@@ -60,7 +61,7 @@ namespace stress_tester
 			txtFilter.Text = Current.Context.Filter;
 			chFilter.Checked = Current.Context.UseFilter;
 			chRandom.Checked = Current.Context.RandomOffsets;
-
+			chNonStop.Checked = Current.Context.NonStop;
 			chReplace.Checked = Current.Context.UseReplace;
 			txtFrom.Text = Current.Context.ReplaceFrom;
 			txtTo.Text = Current.Context.ReplaceTo;
@@ -108,7 +109,7 @@ namespace stress_tester
 			
 			foreach (var r in responses.ToArray())
 			{
-				if (!done.Contains(r.Id))
+				//if (!done.Contains(r.Id))
 				{
 					done.Add(r.Id);
 					foreach (ListViewItem item in lw.Items)
@@ -439,6 +440,24 @@ namespace stress_tester
 			Clipboard.Clear();
         Clipboard.SetText(sb.ToString());
 			
+		}
+
+		private void lw_DoubleClick(object sender, EventArgs e)
+		{
+			if (lw.SelectedItems.Count == 0)
+				return;
+			Request item = (Request ) lw.SelectedItems[0].Tag;
+			var url = item.Url;
+			if (Current.Context.UseReplace)
+			{
+				url = url.Replace(Current.Context.ReplaceFrom, Current.Context.ReplaceTo);
+			}
+			System.Diagnostics.Process.Start(url);
+		}
+
+		private void chNonStop_CheckedChanged(object sender, EventArgs e)
+		{
+			FormToContext();
 		}
 	}
 }

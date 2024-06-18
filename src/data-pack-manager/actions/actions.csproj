@@ -145,6 +145,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ClippingRegionGeography\GeographyTupleSave.cs" />
+    <Compile Include="ClippingRegionGeography\GeographyTupleCalculate.cs" />
     <Compile Include="Geography\GeographySimplifyByIds.cs" />
     <Compile Include="Geography\GeographySimplifyExecDb.cs" />
     <Compile Include="Geography\GeographySimplify.cs" />

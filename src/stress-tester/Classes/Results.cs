@@ -26,9 +26,9 @@ namespace stress_tester
 			ret.Executing.Set(Executing.Get());
 			ret.MaxExecuting.Set(MaxExecuting.Get());
 			ret.TotalBytes.Set(TotalBytes.Get());
-			foreach (var r in Responses.ToArray())
-				ret.Responses.Add(r);
-			Responses = new ConcurrentBag<Response>();
+			Response response;
+			while(Responses.TryTake(out response))
+				ret.Responses.Add(response);
 			return ret;
 		}
 

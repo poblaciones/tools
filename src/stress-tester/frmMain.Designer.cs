@@ -82,6 +82,7 @@
 			this.txtFrom = new System.Windows.Forms.TextBox();
 			this.txtTo = new System.Windows.Forms.TextBox();
 			this.btnCopy = new System.Windows.Forms.Button();
+			this.chNonStop = new System.Windows.Forms.CheckBox();
 			((System.ComponentModel.ISupportInitialize)(this.numParalells)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.numClients)).BeginInit();
 			this.grpInput.SuspendLayout();
@@ -108,11 +109,12 @@
 			this.lw.HideSelection = false;
 			this.lw.Location = new System.Drawing.Point(12, 223);
 			this.lw.Name = "lw";
-			this.lw.Size = new System.Drawing.Size(869, 260);
+			this.lw.Size = new System.Drawing.Size(1006, 260);
 			this.lw.TabIndex = 0;
 			this.lw.UseCompatibleStateImageBehavior = false;
 			this.lw.View = System.Windows.Forms.View.Details;
 			this.lw.SelectedIndexChanged += new System.EventHandler(this.lw_SelectedIndexChanged);
+			this.lw.DoubleClick += new System.EventHandler(this.lw_DoubleClick);
 			this.lw.KeyDown += new System.Windows.Forms.KeyEventHandler(this.lw_KeyDown);
 			this.lw.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.lw_KeyPress);
 			// 
@@ -200,6 +202,7 @@
 			// 
 			this.grpInput.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+			this.grpInput.Controls.Add(this.chNonStop);
 			this.grpInput.Controls.Add(this.chRandom);
 			this.grpInput.Controls.Add(this.label6);
 			this.grpInput.Controls.Add(this.label5);
@@ -219,7 +222,7 @@
 			this.grpInput.Controls.Add(this.numParalells);
 			this.grpInput.Location = new System.Drawing.Point(12, 12);
 			this.grpInput.Name = "grpInput";
-			this.grpInput.Size = new System.Drawing.Size(869, 99);
+			this.grpInput.Size = new System.Drawing.Size(1006, 99);
 			this.grpInput.TabIndex = 4;
 			this.grpInput.TabStop = false;
 			this.grpInput.Text = "Input";
@@ -295,7 +298,7 @@
 			// cmdSave
 			// 
 			this.cmdSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.cmdSave.Location = new System.Drawing.Point(786, 66);
+			this.cmdSave.Location = new System.Drawing.Point(923, 66);
 			this.cmdSave.Name = "cmdSave";
 			this.cmdSave.Size = new System.Drawing.Size(77, 20);
 			this.cmdSave.TabIndex = 1;
@@ -315,7 +318,7 @@
 			// btnImport
 			// 
 			this.btnImport.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.btnImport.Location = new System.Drawing.Point(786, 42);
+			this.btnImport.Location = new System.Drawing.Point(923, 42);
 			this.btnImport.Name = "btnImport";
 			this.btnImport.Size = new System.Drawing.Size(77, 20);
 			this.btnImport.TabIndex = 1;
@@ -326,7 +329,7 @@
 			// cmdOpen
 			// 
 			this.cmdOpen.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.cmdOpen.Location = new System.Drawing.Point(786, 19);
+			this.cmdOpen.Location = new System.Drawing.Point(923, 19);
 			this.cmdOpen.Name = "cmdOpen";
 			this.cmdOpen.Size = new System.Drawing.Size(77, 20);
 			this.cmdOpen.TabIndex = 1;
@@ -400,7 +403,7 @@
 			this.groupBox2.Controls.Add(this.label2);
 			this.groupBox2.Location = new System.Drawing.Point(12, 117);
 			this.groupBox2.Name = "groupBox2";
-			this.groupBox2.Size = new System.Drawing.Size(869, 86);
+			this.groupBox2.Size = new System.Drawing.Size(1006, 86);
 			this.groupBox2.TabIndex = 4;
 			this.groupBox2.TabStop = false;
 			this.groupBox2.Text = "Output";
@@ -576,7 +579,7 @@
 			// lblCount
 			// 
 			this.lblCount.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.lblCount.Location = new System.Drawing.Point(798, 489);
+			this.lblCount.Location = new System.Drawing.Point(935, 489);
 			this.lblCount.Name = "lblCount";
 			this.lblCount.Size = new System.Drawing.Size(79, 14);
 			this.lblCount.TabIndex = 7;
@@ -605,7 +608,7 @@
 			// btnDelete
 			// 
 			this.btnDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.btnDelete.Location = new System.Drawing.Point(723, 487);
+			this.btnDelete.Location = new System.Drawing.Point(916, 486);
 			this.btnDelete.Name = "btnDelete";
 			this.btnDelete.Size = new System.Drawing.Size(77, 20);
 			this.btnDelete.TabIndex = 6;
@@ -632,7 +635,7 @@
 			this.txtFrom.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.txtFrom.Location = new System.Drawing.Point(522, 487);
 			this.txtFrom.Name = "txtFrom";
-			this.txtFrom.Size = new System.Drawing.Size(40, 20);
+			this.txtFrom.Size = new System.Drawing.Size(141, 20);
 			this.txtFrom.TabIndex = 4;
 			this.txtFrom.Text = "mapa.";
 			this.txtFrom.TextChanged += new System.EventHandler(this.txtFrom_TextChanged);
@@ -640,9 +643,9 @@
 			// txtTo
 			// 
 			this.txtTo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.txtTo.Location = new System.Drawing.Point(568, 487);
+			this.txtTo.Location = new System.Drawing.Point(669, 487);
 			this.txtTo.Name = "txtTo";
-			this.txtTo.Size = new System.Drawing.Size(40, 20);
+			this.txtTo.Size = new System.Drawing.Size(145, 20);
 			this.txtTo.TabIndex = 5;
 			this.txtTo.Text = "svr2.";
 			this.txtTo.TextChanged += new System.EventHandler(this.txtTo_TextChanged);
@@ -650,7 +653,7 @@
 			// btnCopy
 			// 
 			this.btnCopy.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.btnCopy.Location = new System.Drawing.Point(640, 487);
+			this.btnCopy.Location = new System.Drawing.Point(833, 486);
 			this.btnCopy.Name = "btnCopy";
 			this.btnCopy.Size = new System.Drawing.Size(77, 20);
 			this.btnCopy.TabIndex = 6;
@@ -658,11 +661,23 @@
 			this.btnCopy.UseVisualStyleBackColor = true;
 			this.btnCopy.Click += new System.EventHandler(this.btnCopy_Click);
 			// 
+			// chNonStop
+			// 
+			this.chNonStop.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.chNonStop.AutoSize = true;
+			this.chNonStop.Location = new System.Drawing.Point(367, 74);
+			this.chNonStop.Name = "chNonStop";
+			this.chNonStop.Size = new System.Drawing.Size(90, 17);
+			this.chNonStop.TabIndex = 11;
+			this.chNonStop.Text = "Run non-stop";
+			this.chNonStop.UseVisualStyleBackColor = true;
+			this.chNonStop.CheckedChanged += new System.EventHandler(this.chNonStop_CheckedChanged);
+			// 
 			// frmMain
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(893, 512);
+			this.ClientSize = new System.Drawing.Size(1030, 512);
 			this.Controls.Add(this.lblCount);
 			this.Controls.Add(this.txtTo);
 			this.Controls.Add(this.txtFrom);
@@ -749,6 +764,7 @@
 		private System.Windows.Forms.TextBox txtFrom;
 		private System.Windows.Forms.TextBox txtTo;
 		private System.Windows.Forms.Button btnCopy;
+		private System.Windows.Forms.CheckBox chNonStop;
 	}
 }
 

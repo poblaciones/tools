@@ -22,7 +22,7 @@ namespace stress_tester
 		}
 		public void UpdateStart(DateTime start)
 		{
-			MillisecondsFromStart = Date.Subtract(start).TotalMilliseconds;
+			MillisecondsFromStart = this.Date.Subtract(start).TotalMilliseconds;
 		}
 
 	}

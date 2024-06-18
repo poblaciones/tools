@@ -21,7 +21,7 @@ if sys.platform.startswith('win'):
     MYSQL_PATH = '"C:/Program Files/MySQL/MySQL Server 5.7/bin/mysql.exe"'
 else:
     MYSQL_PATH = 'mysql'
-    
+
 CONFIG_FILE_PATH = 'db_settings.ini'
 BACKUP_FOLDER = "tmp_restore"
 config = configparser.ConfigParser()
@@ -40,22 +40,25 @@ if 'extra' in config and 'host' in config['extra']:
 else:
     args['HOST'] = None
 
+
 def run_mysql(args, command):
+
     full_command = f"{MYSQL_PATH} --defaults-file={CONFIG_FILE_PATH} --user={args['MYSQL_USER']} --host={args['MYSQL_HOST']} " \
-                   f"--port={args['MYSQL_PORT']} {args['MYSQL_DB']} --execute=\"{command}\""
+            f"--port={args['MYSQL_PORT']} {args['MYSQL_DB']} --execute=\"{command}\""
 
     completed_process = subprocess.run(full_command, shell=True)
     if completed_process.returncode != 0:
         print(f"El comando mysqldump.exe falló con el código de retorno: {completed_process.returncode}")
-        print('\nComando:\n' + full_command);
-        raise Exception("No se pudo completar con éxito la restauración.") 
+        print('\nComando:\n' + full_command)
+        raise Exception("No se pudo completar con éxito la restauración.")
+
 
 def restore_database_structure(args):
     print('Restaurando estructura...')
     run_mysql(args, "source " + os.path.join(BACKUP_FOLDER, "database_tables.sql"))
     run_mysql(args, "source " + os.path.join(BACKUP_FOLDER, "routines.sql"))
     run_mysql(args, "source " + os.path.join(BACKUP_FOLDER, "triggers.sql"))
-    
+
 
 def restore_table_data(args, table, progress_bar):
     table_name = table['table']
@@ -66,16 +69,16 @@ def restore_table_data(args, table, progress_bar):
         if file.startswith(f'{table_name}_#'):
             file_path = os.path.join(BACKUP_FOLDER, 'datos', file)
             command = f"source {file_path}"
-            
+
             run_mysql(args, command)
-            progress_bar.update(min(table['step'], tablesize - offset))   
+            progress_bar.update(min(table['step'], tablesize - offset))
             offset += table['step']
 
 
 def create_backup_folder():
     if os.path.isdir(BACKUP_FOLDER):
         shutil.rmtree(BACKUP_FOLDER)
-    
+
     directory = os.getcwd()
     print('Creando ' + BACKUP_FOLDER + ' en ' + directory)
     os.makedirs(BACKUP_FOLDER, exist_ok=True)
@@ -86,12 +89,13 @@ def remove_backup_folder():
     print('Eliminando ' + BACKUP_FOLDER)
     shutil.rmtree(BACKUP_FOLDER)
 
+
 def unzip_backup_folder(args):
     print('Descomprimiendo...')
     total_size = 0
 
     with zipfile.ZipFile(args['MYSQL_FILE'], 'r') as zipf:
-        file_count = len(zipf.namelist())
+        # file_count = len(zipf.namelist())
         for file in zipf.namelist():
             total_size += zipf.getinfo(file).file_size
 
@@ -106,13 +110,14 @@ def unzip_backup_folder(args):
                             break
                         outfile.write(data)
                         pbar.update(len(data))
-                
+
+
 def restore_data(args):
     print('Restaurando datos...')
-  
+
     with open(BACKUP_FOLDER + "/tables.json", 'r',  encoding='utf-8') as openfile:
-       table_sizes = json.load(openfile)
-       
+        table_sizes = json.load(openfile)
+
     total_row_count = 0
     for item in table_sizes:
         file_path = os.path.join(BACKUP_FOLDER, 'datos', item['table'] + '_#0001.sql')
@@ -123,6 +128,7 @@ def restore_data(args):
     with tqdm(total=total_row_count, ncols=70) as progress_bar:
         for table in table_sizes:
             restore_table_data(args, table, progress_bar)
+
 
 def main(args):
     global BACKUP_FOLDER
@@ -148,11 +154,11 @@ def main(args):
             stop = True
         if stop:
             return
-        
+
     # Assign values from arguments to variables
     if not command_args.host:
         if (args['HOST']):
-          args['MYSQL_HOST'] = args['HOST']
+            args['MYSQL_HOST'] = args['HOST']
     else:
         args['MYSQL_HOST'] = command_args.host
 
@@ -164,64 +170,64 @@ def main(args):
         args['MYSQL_DB'] = command_args.database
 
     args['MYSQL_FILE'] = command_args.input
-   
+
     args['FOLDER'] = command_args.folder
     args['DATA_ONLY'] = command_args.data
-    
+
     user = command_args.user
     password = command_args.password
-    if user != None:
+    if user is not None:
         args['MYSQL_USER'] = user
-    if command_args.port != None:
+    if command_args.port is not None:
         args['MYSQL_PORT'] = command_args.port
-    if password != None:
+    if password is not None:
         args['MYSQL_PASSWORD'] = password
- 
+
     unzipFiles = "N"
     if not args['FOLDER']:
-      if os.path.isdir(BACKUP_FOLDER) and os.path.isfile(os.path.join(BACKUP_FOLDER, "database_tables.sql")):
-       while True:
-           unzipFiles = input("Ya existe la carpeta de archivos expandidos. ¿Desea reutilizarla e intentar ejecutarlos? (S/N/Cancel)?: ")                 
-           if unzipFiles.upper() == "S" or unzipFiles.upper() == "N":
-               break
-           if unzipFiles.upper() == "C" or unzipFiles.upper() == "Cancel":
-               sys.exit()
+        if os.path.isdir(BACKUP_FOLDER) and os.path.isfile(os.path.join(BACKUP_FOLDER, "database_tables.sql")):
+            while True:
+                unzipFiles = input("Ya existe la carpeta de archivos expandidos. ¿Desea reutilizarla e intentar ejecutarlos? (S/N/Cancel)?: ")
+                if unzipFiles.upper() == "S" or unzipFiles.upper() == "N":
+                    break
+                if unzipFiles.upper() == "C" or unzipFiles.upper() == "Cancel":
+                    sys.exit()
     if args['FOLDER']:
-      BACKUP_FOLDER = args['FOLDER']
-      if not os.path.isdir(BACKUP_FOLDER):
-        print("The folder '" + BACKUP_FOLDER + "' does not exist.")
+        BACKUP_FOLDER = args['FOLDER']
+        if not os.path.isdir(BACKUP_FOLDER):
+            print("The folder '" + BACKUP_FOLDER + "' does not exist.")
         return
-    
+
     # EMPIEZA A EJECUTAR
     print("-------------------------------")
     print("DATABASE: " + args['MYSQL_DB'])
     print("USER: " + args['MYSQL_USER'])
     print("HOST: " + args['MYSQL_HOST'])
     print("-------------------------------")
-    
+
     if unzipFiles.upper() == "N" and not args['FOLDER']:
-       create_backup_folder()
-       unzip_backup_folder(args)
-    
+        create_backup_folder()
+        unzip_backup_folder(args)
+
     if not args['DATA_ONLY']:
-      restore_database_structure(args)
-  
+        restore_database_structure(args)
+
     restore_data(args)
 
     if not args['FOLDER']:
-      if unzipFiles.upper() == "N":
-        remove_backup_folder()
-      else:      
+        if unzipFiles.upper() == "N":
+            remove_backup_folder()
+    else:
         # está reutilizando
         while True:
-           removeFiles = input("¿Desea eliminar la carpeta temporal? (S/N/Cancel)?: ")  
-           if removeFiles.upper() == "S":
-               remove_backup_folder()               
-           if removeFiles.upper() == "S" or removeFiles.upper() == "N":
-               break
-           if removeFiles.upper() == "C" or removeFiles.upper() == "Cancel":
-               sys.exit()
- 
+            removeFiles = input("¿Desea eliminar la carpeta temporal? (S/N/Cancel)?: ")
+            if removeFiles.upper() == "S":
+                remove_backup_folder()
+            if removeFiles.upper() == "S" or removeFiles.upper() == "N":
+                break
+            if removeFiles.upper() == "C" or removeFiles.upper() == "Cancel":
+                sys.exit()
+
 
 if __name__ == '__main__':
     main(args)

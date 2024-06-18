@@ -50,7 +50,8 @@ namespace medea.winApp
 			this.btnGradient = new System.Windows.Forms.Button();
 			this.btnSimplify = new System.Windows.Forms.Button();
 			this.menClippingGeography = new System.Windows.Forms.Button();
-			this.menClipping = new System.Windows.Forms.Button();
+            this.menTupleGeography = new System.Windows.Forms.Button();
+            this.menClipping = new System.Windows.Forms.Button();
 			this.menGeography = new System.Windows.Forms.Button();
 			this.menCheckNH = new System.Windows.Forms.Button();
 			this.btnNewMain = new System.Windows.Forms.Button();
@@ -73,11 +74,12 @@ namespace medea.winApp
 			this.panel1.Controls.Add(this.btnSimplify);
 			this.panel1.Controls.Add(this.menCheckNH);
 			this.panel1.Controls.Add(this.btnNewMain);
-			this.panel1.Controls.Add(this.btnBoundary);
+            this.panel1.Controls.Add(this.menTupleGeography);
+            this.panel1.Controls.Add(this.btnBoundary);
 			this.panel1.Controls.Add(this.menClippingGeography);
 			this.panel1.Controls.Add(this.menClipping);
-			this.panel1.Controls.Add(this.menGeography);
-			this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel1.Controls.Add(this.menGeography);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
 			this.panel1.Location = new System.Drawing.Point(5, 5);
 			this.panel1.Name = "panel1";
 			this.panel1.Padding = new System.Windows.Forms.Padding(6);
@@ -119,10 +121,22 @@ namespace medea.winApp
 			this.menClippingGeography.Text = "Regiones x Geografía";
 			this.menClippingGeography.UseVisualStyleBackColor = false;
 			this.menClippingGeography.Click += new System.EventHandler(this.menClippingGeography_Click);
-			// 
-			// menClipping
-			// 
-			this.menClipping.BackColor = System.Drawing.Color.Gainsboro;
+            // 
+            // menTupleGeography
+            // 
+            this.menTupleGeography.BackColor = System.Drawing.Color.Gainsboro;
+            this.menTupleGeography.Dock = System.Windows.Forms.DockStyle.Left;
+            this.menTupleGeography.Location = new System.Drawing.Point(185, 6);
+            this.menTupleGeography.Name = "menTupleGeography";
+            this.menTupleGeography.Size = new System.Drawing.Size(139, 28);
+            this.menTupleGeography.TabIndex = 2;
+            this.menTupleGeography.Text = "Tuplas de Geografía";
+            this.menTupleGeography.UseVisualStyleBackColor = false;
+            this.menTupleGeography.Click += new System.EventHandler(this.menTupleGeography_Click);
+            // 
+            // menClipping
+            // 
+            this.menClipping.BackColor = System.Drawing.Color.Gainsboro;
 			this.menClipping.Dock = System.Windows.Forms.DockStyle.Left;
 			this.menClipping.Location = new System.Drawing.Point(96, 6);
 			this.menClipping.Name = "menClipping";
@@ -278,7 +292,8 @@ namespace medea.winApp
 
 		private System.Windows.Forms.Panel panel1;
 		private System.Windows.Forms.Button menClippingGeography;
-		private System.Windows.Forms.Button menClipping;
+        private System.Windows.Forms.Button menTupleGeography;
+        private System.Windows.Forms.Button menClipping;
 		private System.Windows.Forms.Button menGeography;
 		private System.Windows.Forms.Panel panMain;
 		private System.Windows.Forms.Button menCheckNH;

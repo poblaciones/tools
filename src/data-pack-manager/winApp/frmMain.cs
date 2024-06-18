@@ -185,9 +185,12 @@ namespace medea.winApp
 		{
 			Display(new frmClippingGeography());
 		}
+        private void menTupleGeography_Click(object sender, EventArgs e)
+        {
+            Display(new frmGeographyTuple());
+        }
 
-
-		private void frmMain_Load(object sender, EventArgs e)
+        private void frmMain_Load(object sender, EventArgs e)
 		{
 			using (new WaitCursor())
 			{

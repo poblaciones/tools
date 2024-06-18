@@ -153,9 +153,17 @@
     <Compile Include="Data Access Entities\BoundaryBase.cs">
       <DependentUpon>Boundary.cs</DependentUpon>
     </Compile>
+    <Compile Include="Data Access Entities\GeographyTupleItem.cs" />
     <Compile Include="Data Access Entities\Gradient.cs" />
     <Compile Include="Data Access Entities\GradientBase.cs">
       <DependentUpon>Gradient.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Data Access Entities\GeographyTuple.cs" />
+    <Compile Include="Data Access Entities\GeographyTupleItemBase.cs">
+      <DependentUpon>GeographyTupleItem.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Data Access Entities\GeographyTupleBase.cs">
+      <DependentUpon>GeographyTuple.cs</DependentUpon>
     </Compile>
     <Compile Include="Data Access Entities\GradientItem.cs" />
     <Compile Include="Data Access Entities\GradientItemBase.cs">
@@ -339,6 +347,16 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Data Mappers\BoundaryGroup.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Data Mappers\GeographyTuple.hbm.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Data Mappers\GeographyTupleItem.hbm.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -1,5 +1,6 @@
 import json
 import os
+import sys
 import shutil
 import time
 from datetime import date, timedelta
@@ -73,17 +74,16 @@ class Push:
             shutil.rmtree(path)
         os.makedirs(path, exist_ok=True)
 
-    def get_push_parths(self):
-        cut_date = date.today() + timedelta(days=-1 * self.settings.days)
-        cut_date = str(cut_date) + "_00:00:00"
-        print(cut_date)
+    def get_push_paths(self):
+        cut_date = date.today() - timedelta(days=int(self.settings.days))
+        cut_date = str(cut_date).replace("-", "") + "_000000"
         ret = []
-        dirs = sorted(glob(self.settings.source_path), reverse=True)
+        dirs = sorted(glob(Settings.join_path(self.settings.source_path, "*")))
         for d in dirs:
-            part = d.split("-")[-1]
-            if part < cut_date:
-                ret.append(d)
-
+            if os.path.isdir(d):
+                part = d.split("-")[-1]
+                if part <= cut_date:
+                    ret.append(d)
         return ret
 
     def push(self, paths):
@@ -105,4 +105,4 @@ class Push:
         elif self.settings.source_path:
             self.push(self.get_push_paths())
 
-        self.print("--- Tiempo total: %s seg. ---" % round(time.time() - start, 2))
+        print("--- Tiempo total: %s seg. ---" % round(time.time() - start, 2))

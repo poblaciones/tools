@@ -55,6 +55,7 @@ class Restore:
 
         print(f"Creando {self.settings.input_path}")
         os.makedirs(self.settings.input_path, exist_ok=True)
+        os.makedirs(self.settings.tables_path, exist_ok=True)
 
     def remove_restore_path(self):
         print(f"Eliminando {self.settings.input_path}")
@@ -66,10 +67,13 @@ class Restore:
 
         with zipfile.ZipFile(self.settings.input, 'r') as zipf:
             for file in zipf.namelist():
+                if file.endswith('/'):
+                    continue
                 size += zipf.getinfo(file).file_size
-
             with tqdm(total=size, unit='B', ncols=70, unit_scale=True) as progress_bar:
                 for file in zipf.namelist():
+                    if file.endswith('/'):
+                        continue
                     extract_path = Settings.join_path(self.settings.input_path, file)
                     with zipf.open(file, 'r') as zf, open(extract_path, 'wb') as outfile:
                         block_size = 10 * 1024 * 1024  # Tamaño del bloque para leer y escribir
@@ -108,5 +112,6 @@ class Restore:
                     break
                 else:  # default S
                     self.remove_restore_path()
+                    break
 
-        self.print("--- Tiempo total: %s seg. ---" % round(time.time() - start, 2))
+        print("--- Tiempo total: %s seg. ---" % round(time.time() - start, 2))

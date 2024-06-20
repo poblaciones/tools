@@ -45,13 +45,13 @@ class Settings:
         self.input_path = "tmp_restore"
 
         # push
-        self.days = 0
+        self.days = -1
         self.dest = ""
         self.source = ""
         self.source_path = ""
 
-    def parse_command_line_backup(self):
-        parser = argparse.ArgumentParser(prog=f"python {sys.argv[0]}", description='Hace backup incremental de tablas mysql.')
+    def parse_command_line_backup(self, show_help=False):
+        parser = argparse.ArgumentParser(prog=f"python {sys.argv[0]} backup", description='Hace backup incremental de tablas mysql.')
         parser.add_argument('backup', default='backup', help=argparse.SUPPRESS)
         self.database_args(parser)
         parser.add_argument('--from_date', default=self.from_date, help='La fecha desde para comenzar el backup. Formato aaaa-dd-mm.')
@@ -62,6 +62,11 @@ class Settings:
         parser.add_argument('--include_tables', nargs='+', default=[], help='Lista de tablas a incluir (separadas por comas). Puede usarse * como wildcard y comenzar con ! para negación.')
         parser.add_argument('--exclude_tables', nargs='+', default=[], help='Lista de tablas a excluir (separadas por comas). Puede usarse * como wildcard.')
         parser.add_argument('--zip', action='store_true', help='Guarda todo el backup en un zip sin compresión y borra el directorio.')
+
+        if show_help:
+            parser.print_help()
+            return
+
         args = parser.parse_args()
 
         self.parse_database_args(args)
@@ -96,12 +101,17 @@ class Settings:
         if args.include_tables:
             self.include_tables = args.include_tables[0].split(',')
 
-    def parse_command_line_restore(self):
-        parser = argparse.ArgumentParser(prog=f"python {sys.argv[0]}", description='Hace restore de backups creados con este script.')
+    def parse_command_line_restore(self, show_help=False):
+        parser = argparse.ArgumentParser(prog=f"python {sys.argv[0]} restore", description='Hace restore de backups creados con este script.')
         parser.add_argument('restore', default='restore', help=argparse.SUPPRESS)
         self.database_args(parser)
         parser.add_argument('--input', default=None, help='El archivo zip para restaurar.')
         parser.add_argument('--input_path', default=None, help='El directorio a restaurar, si no se pasa --input.')
+
+        if show_help:
+            parser.print_help()
+            return
+
         args = parser.parse_args()
 
         self.parse_database_args(args)
@@ -123,13 +133,17 @@ class Settings:
 
         self.tables_path = Settings.join_path(self.input_path, self.tables_path)
 
-    def parse_command_line_push(self):
+    def parse_command_line_push(self, show_help=False):
         parser = argparse.ArgumentParser(prog=f"python {sys.argv[0]} push", description='Hace push de varios backups incrementales a un destino.')
         parser.add_argument('push', default='push', help=argparse.SUPPRESS)
         parser.add_argument('--dest', default=None, help='El directorio de destino.')
         parser.add_argument('--source', default=None, help='El directorio de origen.')
         parser.add_argument('--source_path', default=None, help='El directorio de origen con varios backups.')
         parser.add_argument('--days', default=self.days, help='La cantidad de días desde hoy para empezar a pushear para atrás .')
+
+        if show_help:
+            parser.print_help()
+            return
 
         args = parser.parse_args()
 
@@ -163,7 +177,7 @@ class Settings:
         parser.add_argument('--user', default=None, help='El usuario de la base de datos.')
         parser.add_argument('--password', default=None, help=f'La constraseña para la base de datos. Si se omite se toma el valor de {Settings.CONFIG_FILE}.')
         parser.add_argument('--database', default=None, help='El nombre de la base de datos.')
-        parser.add_argument('--skip_routines', action='store_true', help='Omite la exportación de funciones (es muy lento).')
+        parser.add_argument('--skip_routines', action='store_true', help='Omite funciones (es muy lento).')
 
     def parse_database_args(self, args):
         if not args.database and not self.db_name:

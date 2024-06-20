@@ -1,4 +1,3 @@
-import glob
 import json
 import os
 import pymysql
@@ -8,7 +7,7 @@ import subprocess
 import sys
 import time
 import zipfile
-from pathlib import Path
+from glob import glob
 from settings import Settings
 from tqdm import tqdm
 
@@ -30,7 +29,7 @@ class Backup:
             print(f"\nComando:\n{command}")
             sys.exit("No se pudo completar con éxito el backup.")
 
-    def remove_trigger_definer(file_path):
+    def remove_trigger_definer(self, file_path):
         if not os.path.isfile(file_path):
             return
 
@@ -42,7 +41,7 @@ class Backup:
         with open(file_path, 'w', encoding='utf-8') as file:
             file.write(new_content)
 
-    def remove_function_definer(file_path):
+    def remove_function_definer(self, file_path):
         if not os.path.isfile(file_path):
             return
 
@@ -61,33 +60,36 @@ class Backup:
         if not self.settings.quiet:
             print(text)
 
-    def dump_database_structure(self):
-        self.print('Exportando tablas y triggers...')
-        tables = self.get_tables(self.settings.estructura_path)
-        with tqdm(total=len(tables), ncols=70, disable=self.settings.quiet) as progress_bar:
-            for table in tables:
-                file = Settings.join_path(self.settings.estructura_path, f"{table}.sql")
-                self.run_mysqldump("--no-data --no-create-db", file, table)
-                self.remove_trigger_definer(file)
-                progress_bar.update()
+    def dump_routines(self):
+        name = Settings.join_path(self.settings.output_path, "routines")
+        if self.settings.resume and not os.path.exists(name + ".sql") and os.path.exists(name + ".zip"):
+            return
+        # start = time.time()
+        self.print('Exportando funciones...')
+        self.run_mysqldump("--no-data --no-create-db --routines --skip-triggers --no-create-info ", name + ".sql")
+        self.remove_function_definer(name + ".sql")
+        self.zip_table("routines", self.settings.output_path)
+        # self.print("--- %s seg. ---" % round(time.time() - start, 2))
 
-        if not self.settings.skip_routines:
-            # start = time.time()
-            self.print('Exportando funciones...')
-            self.run_mysqldump("--no-data --no-create-db --routines --skip-triggers --no-create-info ", Settings.join_path(self.settings.output_path, "routines.sql"))
-            self.remove_function_definer(Settings.join_path(self.settings.output_path, "routines.sql"))
-            # self.print("--- %s seg. ---" % round(time.time() - start, 2))
-
-    def dump_data(self):
-        tables = self.get_tables(self.settings.datos_path)
+    def dump_tables(self):
+        tables = self.get_tables()
         total_row_count, sizes = self.get_total_row_count(tables)
 
-        with open(Settings.join_path(self.settings.output_path, "tables.json"), "w", encoding='utf-8') as outfile:
+        json_file = Settings.join_path(self.settings.output_path, "tables.json")
+
+        if self.settings.resume and os.path.exists(json_file):
+            with open(json_file, 'r',  encoding='utf-8') as file:
+                # mergea los jsons
+                sizes = dict(sorted({**json.load(file), **sizes}.items()))
+
+        with open(json_file, "w", encoding='utf-8') as outfile:
             json.dump(sizes, outfile, indent=2)
 
         with tqdm(total=total_row_count, ncols=70, disable=self.settings.quiet) as progress_bar:
             for table in tables:
+                self.dump_table_structure(table)
                 self.dump_table_data(table, sizes[table], progress_bar)
+                self.zip_table(table, self.settings.tables_path)
 
     def dump_table_data(self, table, sizes, progress_bar):
         for offset in range(0, sizes['rows'], sizes['step']):
@@ -95,23 +97,28 @@ class Backup:
             self.run_mysqldump(f"--no-create-info --hex-blob --skip-triggers --where=\"1 LIMIT {sizes['step']} OFFSET {offset}\"", file, table)
             progress_bar.update(min(sizes['step'], sizes['rows'] - offset))
 
+    def dump_table_structure(self, table):
+        file = Settings.join_path(self.settings.tables_path, f"{table}.sql")
+        self.run_mysqldump("--no-data --no-create-db", file, table)
+        self.remove_trigger_definer(file)
+
     def resolve_filename(self, table_name, step):
         number = str(step).zfill(4)
-        return Settings.join_path(self.settings.datos_path, f'{table_name}_#{number}.sql')
+        return Settings.join_path(self.settings.tables_path, f'{table_name}_#{number}.sql')
 
     def get_connection(self):
         return pymysql.connect(user=self.settings.db_user, password=self.settings.db_pass, host=self.settings.db_host,
                                port=self.settings.db_port, database=self.settings.db_name)
 
-    def get_tables(self, resume_path):
-        """ Obtiene todas las tablas que hay que backupear. Filtrando por fecha y filtros de exclusión e inclusión.
-            Si es resume quita las tablas que ya existen salvo la última que la vuelve a regenerar por si el backup
-            anterior se cortó por la mitad.  """
+    def get_tables(self):
+        """ Obtiene todas las tablas que hay que backupear filtrando por fecha y filtros
+            de exclusión e inclusión.  Si es resume, quita las tablas que ya están creadas.
+        """
         cnx = self.get_connection()
         cursor = cnx.cursor()
-        sql = """SELECT table_name FROM information_schema.TABLES
-            WHERE table_type = 'BASE TABLE' AND table_schema = %s AND (create_time > %s OR update_time > %s)
-            ORDER BY table_name"""
+        sql = "SELECT table_name FROM information_schema.TABLES " \
+            "WHERE table_type = 'BASE TABLE' AND table_schema = %s AND (create_time > %s OR update_time > %s) " \
+            "ORDER BY table_name"
         cursor.execute(sql, (self.settings.db_name, self.settings.from_date, self.settings.from_date))
         tables = cursor.fetchall()
         cnx.close()
@@ -121,44 +128,48 @@ class Backup:
                 ret.append(table[0])
 
         if self.settings.resume:
-            # obtiene los archivos de estructura existentes ordenados por fecha
-            files = sorted(Path(resume_path).iterdir())
-            if files:
-                # quita el último modificado de los archivos existentes (para que lo regenere) y lo mueve
-                # arriba de todo en la lista de tablas para que sea el primero y continúe desde ahí
-                last = files.pop()
-                self.clean_file(str(last))
-                tables.remove(last.stem)  # stem es nombre de archivo solo sin extensión ni directorios
-                tables.insert(0, last.stem)
-                for file in files:
-                    tables.remove(file.stem)
+            ret = self.filter_existing_tables(ret)
 
         return ret
 
-    def clean_file(file):
-        """ Vacía el archivo sin borrarlo para que el resume pise el archivo, si lo
-            borrara y vuelve a fallar se van perdiendo archivos en cada resume, si el
-            archivo es de datos (nombre con _#000x) vacía todos los de la serie
-        """
-        if "_#" in file:
-            replaced = re.sub(r"(_#)\d+(\.sql)", r"\1*\2", file)
-            files = glob.glob(replaced)
-        else:
-            files = [file]
-        for f in files:
-            open(f, 'w').close()
+    def filter_existing_tables(self, tables):
+        # Si hay sqls borra el zip si existe y pone en 0 esos sqls para que se recreen.
+        sqls = sorted(glob(Settings.join_path(self.settings.tables_path, "*.sql")))
+        if sqls:
+            for file in sqls:
+                if "_#" in file:
+                    os.remove(file)  # borra las que son numeradas
+                else:
+                    open(file, 'w').close()  # trunca la de estructura
+            zip_file = sqls[0].replace(".sql", ".zip")
+            if os.path.exists(zip_file):
+                os.remove(zip_file)
+
+        # Remueve las tablas que ya fueron creadas en zips.
+        files = sorted(glob(Settings.join_path(self.settings.tables_path, "*.zip")))
+        for file in files:
+            table = os.path.basename(file.replace(".zip", ""))
+            if table in tables:
+                tables.remove(table)
+        print(tables)
+        sys.exit
+        return tables
 
     def create_backup_path(self):
         if os.path.isdir(self.settings.output_path):
-            self.remove_backup_path()
-        os.makedirs(self.settings.datos_path, exist_ok=True)
-        os.makedirs(self.settings.estructura_path, exist_ok=True)
+            shutil.rmtree(self.settings.output_path)
+        os.makedirs(self.settings.tables_path, exist_ok=True)
 
-    def remove_backup_path(self):
-        shutil.rmtree(self.settings.output_path)
+    def zip_table(self, table, path, level=1):
+        to_zip = sorted(glob(Settings.join_path(path, table + "*.sql")))
+        zip_file = Settings.join_path(path, table + ".zip")
+        with zipfile.ZipFile(zip_file, 'w', zipfile.ZIP_DEFLATED, compresslevel=level) as zipf:
+            for file in to_zip:
+                zipf.write(file, os.path.basename(file))
+        for file in to_zip:
+            os.remove(file)
 
-    # public static
-    def zip_full_path(self, path, zip_file, quiet=False, level=1):
+    def zip_full_path(self, path, zip_file, level=1):
         if os.path.isfile(zip_file):
             os.remove(zip_file)
         to_zip = []
@@ -171,15 +182,14 @@ class Backup:
                     total += size
                     to_zip.append({'file': src, 'size': size})
 
-            if not quiet:
-                print(f'Comprimiendo {len(files)} archivos...')
+            self.print(f'Comprimiendo {len(files)} archivos...')
 
-            with tqdm(total=total, unit='B', ncols=70, unit_scale=True, disable=quiet) as progress_bar:
+            with tqdm(total=total, unit='B', ncols=70, unit_scale=True, disable=self.settings.quiet) as progress_bar:
                 for file in to_zip:
                     zipf.write(file['file'], os.path.relpath(file['file'], path))
                     progress_bar.update(file['size'])
 
-    def match_wildcard(pattern, text):
+    def match_wildcard(self, pattern, text):
         if pattern.lower() == text.lower():
             return True
         regexp = re.compile(pattern.replace('*', '.*'), re.IGNORECASE)
@@ -258,6 +268,10 @@ class Backup:
 
         return total_row_count, sizes
 
+    def create_date_file(self):
+        file = Settings.join_path(self.settings.output_path, self.settings.date + ".txt")
+        open(file, 'w').close()
+
     def main(self):
         self.settings.parse_config_file()
         self.settings.parse_command_line_backup()
@@ -270,22 +284,20 @@ class Backup:
         self.print("-------------------------------")
 
         start = time.time()
+
         if self.settings.resume:
             self.print('Continuando...')
         else:
             self.create_backup_path()
+            self.create_date_file()
 
-        if not self.settings.skip_structure:
-            self.dump_database_structure()
+        if not self.settings.skip_routines:
+            self.dump_routines()
 
-        if not self.settings.skip_data:
-            self.dump_data()
+        self.dump_tables()
 
-        self.zip_full_path(self.settings.output_path, self.settings.output, self.settings.quiet)
-        self.remove_backup_path()
+        if self.settings.zip:
+            self.zip_full_path(self.settings.output_path, self.settings.output_path + ".zip", 0)
+            shutil.rmtree(self.settings.output_path)
+
         self.print("--- Tiempo total: %s seg. ---" % round(time.time() - start, 2))
-
-
-if __name__ == '__main__':
-    backup = Backup()
-    backup.main()

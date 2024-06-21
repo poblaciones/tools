@@ -275,6 +275,14 @@ class Backup:
         with open(file, 'w', encoding='utf-8') as file:
             file.write(self.settings.date)
 
+    def create_unfinished_file(self):
+        file = Settings.join_path(self.settings.output_path, "unfinished")
+        open(file, 'w').close()
+
+    def delte_unfinished_file(self):
+        file = Settings.join_path(self.settings.output_path, "unfinished")
+        os.remove(file)
+
     def main(self):
         self.settings.parse_config_file()
         self.settings.parse_command_line_backup()
@@ -291,6 +299,7 @@ class Backup:
         if self.settings.resume:
             self.print('Continuando...')
         else:
+            self.create_unfinished_file()
             self.create_backup_path()
             self.create_timestamp_file()
 
@@ -298,6 +307,8 @@ class Backup:
             self.dump_routines()
 
         self.dump_tables()
+
+        self.delete_unfinished_file()
 
         if self.settings.zip:
             self.zip_full_path(self.settings.output_path, self.settings.output_path + ".zip", 0)

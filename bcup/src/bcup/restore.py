@@ -24,18 +24,18 @@ class Restore:
 
         proc = subprocess.run(command, shell=True)
         if proc.returncode != 0:
-            print(f"El comando mysqldump.exe falló con el código de retorno: {proc.returncode}")
-            print(f"\nComando:\n{command}")
-            sys.exit("No se pudo completar con éxito la restauración.")
+            print(f"mysql command failed with exit code: {proc.returncode}")
+            print(f"\nCommand:\n{command}")
+            sys.exit("Restore operation failed.")
 
     def restore_routines(self):
-        print('Restaurando funciones...')
+        print('Restoring routines...')
         routines = Settings.join_path(self.settings.input_path, "routines.zip")
         if os.path.exists(routines):
             self.run_mysql(routines)
 
     def restore_tables(self):
-        print('Restaurando tablas...')
+        print('Restoring tables...')
 
         with open(Settings.join_path(self.settings.input_path, "tables.json"), 'r',  encoding='utf-8') as file:
             sizes = json.load(file)
@@ -57,16 +57,16 @@ class Restore:
         if os.path.isdir(self.settings.input_path):
             shutil.rmtree(self.settings.input_path)
 
-        print(f"Creando {self.settings.input_path}")
+        print(f"Creating {self.settings.input_path}")
         os.makedirs(self.settings.input_path, exist_ok=True)
         os.makedirs(self.settings.tables_path, exist_ok=True)
 
     def remove_restore_path(self):
-        print(f"Eliminando {self.settings.input_path}")
+        print(f"Removing {self.settings.input_path}")
         shutil.rmtree(self.settings.input_path)
 
     def unzip_backup(self):
-        print('Descomprimiendo...')
+        print('Uncompressing...')
         size = 0
 
         with zipfile.ZipFile(self.settings.input, 'r') as zipf:
@@ -111,11 +111,11 @@ class Restore:
 
         if self.settings.input:
             while True:
-                res = input("¿Desea eliminar la carpeta temporal? S/n: ").upper()
-                if res == "N":
+                res = input("¿Do you wish to delete the temp folder? Y/n: ").lower()
+                if res == "n":
                     break
-                else:  # default S
+                else:  # default Y
                     self.remove_restore_path()
                     break
 
-        print("--- Tiempo total: %s seg. ---" % round(time.time() - start, 2))
+        print("--- Total time: %s sec. ---" % round(time.time() - start, 2))

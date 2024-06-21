@@ -53,17 +53,17 @@ class Settings:
         self.source_path = ""
 
     def parse_command_line_backup(self, show_help=False):
-        parser = argparse.ArgumentParser(prog=f"python {sys.argv[0]} backup", description='Hace backup incremental de tablas mysql.')
+        parser = argparse.ArgumentParser(prog=f"python {sys.argv[0]} backup", description='Creates incremental backups of full mysql tables.')
         parser.add_argument('backup', default='backup', help=argparse.SUPPRESS)
         self.database_args(parser)
-        parser.add_argument('--from_date', default=self.from_date, help='La fecha desde para comenzar el backup. Formato aaaa-mm-dd.')
-        parser.add_argument('--quiet', action='store_true', required=False, help='No muestra mensajes.')
-        parser.add_argument('--resume', action='store_true', help='Continua el backup desde donde quedó.')
-        parser.add_argument('--output', default=None, help='Nombre custom para el directorio del backup (default: [nombre de la base]-[fecha ISO]).')
-        parser.add_argument('--output_path', default=None, help=f'El directorio de salida en el que se guarda el directorio de --output (default: {self.output_path}).')
-        parser.add_argument('--include_tables', nargs='+', default=[], help='Lista de tablas a incluir (separadas por comas). Puede usarse * como wildcard y comenzar con ! para negación.')
-        parser.add_argument('--exclude_tables', nargs='+', default=[], help='Lista de tablas a excluir (separadas por comas). Puede usarse * como wildcard.')
-        parser.add_argument('--zip', action='store_true', help='Guarda todo el backup en un zip sin compresión y borra el directorio.')
+        parser.add_argument('--from_date', default=self.from_date, help='Last changed date to start backup. Format yyyy-mm-dd.')
+        parser.add_argument('--quiet', action='store_true', required=False, help='Disables messages.')
+        parser.add_argument('--resume', action='store_true', help='Resume the backup.')
+        parser.add_argument('--output', default=None, help='Path name for backup (default: [database name]-[ISO date]).')
+        parser.add_argument('--output_path', default=None, help=f'Output path for backup path --output (default: {self.output_path}).')
+        parser.add_argument('--include_tables', nargs='+', default=[], help='Comma separated list of tables to include. Can use * as wildcard and start with ! for negation.')
+        parser.add_argument('--exclude_tables', nargs='+', default=[], help='Comma separated list of tables to exclude. Can use * as wildcard.')
+        parser.add_argument('--zip', action='store_true', help='Adds full backup to zip file without compression and removes backup path.')
 
         if show_help:
             parser.print_help()
@@ -92,7 +92,7 @@ class Settings:
             if self.resume:
                 paths = [path for path in sorted(glob(Settings.join_path(self.output_path, self.db_name + "-*"))) if os.path.isdir(path)]
                 if not paths:
-                    sys.exit("No se encontró el directorio para continuar.")
+                    sys.exit("Path not found.")
                 self.output = os.path.basename(paths[-1])
 
         self.output_path = Settings.join_path(self.output_path, self.output)
@@ -104,11 +104,11 @@ class Settings:
             self.include_tables = args.include_tables[0].split(',')
 
     def parse_command_line_restore(self, show_help=False):
-        parser = argparse.ArgumentParser(prog=f"python {sys.argv[0]} restore", description='Hace restore de backups creados con este script.')
+        parser = argparse.ArgumentParser(prog=f"python {sys.argv[0]} restore", description='Restores backups created with this script.')
         parser.add_argument('restore', default='restore', help=argparse.SUPPRESS)
         self.database_args(parser)
-        parser.add_argument('--input', default=None, help='El archivo zip para restaurar.')
-        parser.add_argument('--input_path', default=None, help='El directorio a restaurar, si no se pasa --input.')
+        parser.add_argument('--input', default=None, help='Zip file to restore.')
+        parser.add_argument('--input_path', default=None, help='Path to restore.')
 
         if show_help:
             parser.print_help()
@@ -119,14 +119,14 @@ class Settings:
         self.parse_database_args(args)
 
         if not args.input and not args.input_path:
-            sys.exit("Debe indicar un archivo zip para --input o un directorio para --input_path.")
+            sys.exit("You must provide a zip file for --input or a path for --input_path.")
 
         if args.input and args.input_path:
-            sys.exit("Debe indicar un archivo zip para --input o un directorio para --input_path. No ambos.")
+            sys.exit("You must provide a zip file for --input or a path for --input_path. Not both.")
         if args.input_path and not os.path.isdir(args.input_path):
-            sys.exit(f"No se encontró el directorio {args.input_path}.")
+            sys.exit(f"Path not found: {args.input_path}.")
         if args.input and not os.path.exists(args.input):
-            sys.exit(f"No se encontró el archivo {args.input}.")
+            sys.exit(f"File not found: {args.input}.")
 
         if args.input_path:
             self.input_path = args.input_path
@@ -136,12 +136,12 @@ class Settings:
         self.tables_path = Settings.join_path(self.input_path, self.tables_path)
 
     def parse_command_line_push(self, show_help=False):
-        parser = argparse.ArgumentParser(prog=f"python {sys.argv[0]} push", description='Hace push de varios backups incrementales a un destino.')
+        parser = argparse.ArgumentParser(prog=f"python {sys.argv[0]} push", description='Pushes one or many backups to dest path.')
         parser.add_argument('push', default='push', help=argparse.SUPPRESS)
-        parser.add_argument('--dest', default=None, help='El directorio de destino.')
-        parser.add_argument('--source', default=None, help='El directorio de origen.')
-        parser.add_argument('--source_path', default=None, help='El directorio de origen con varios backups.')
-        parser.add_argument('--days', default=self.days, help='La cantidad de días desde hoy para empezar a pushear para atrás .')
+        parser.add_argument('--dest', default=None, help='Destination path.')
+        parser.add_argument('--source', default=None, help='Source path.')
+        parser.add_argument('--source_path', default=None, help='Source path but with many backups.')
+        parser.add_argument('--days', default=self.days, help='Number of days in the past to start pushing backups (skip less than --days).')
 
         if show_help:
             parser.print_help()
@@ -150,19 +150,19 @@ class Settings:
         args = parser.parse_args()
 
         if not args.source and not args.source_path:
-            sys.exit("Debe indicar el directorio del backup para --source o un directorio con varios backups para --source_path.")
+            sys.exit("You must provide a backup path for --source or a path with many backups for --source_path.")
 
         if args.source and args.source_path:
-            sys.exit("Debe indicar un archivo zip para --source o un directorio para --source_path. No ambos.")
+            sys.exit("You must provide a backup path for --source or a path with many backups for --source_path. Not both.")
 
         if args.source and not os.path.isdir(args.source):
-            sys.exit(f"No se encontró el directorio {args.source}.")
+            sys.exit(f"Path not found: {args.source}.")
 
         if args.source_path and not os.path.isdir(args.source_path):
-            sys.exit(f"No se encontró el directorio {args.source_path}.")
+            sys.exit(f"Path not found: {args.source_path}.")
 
         if args.dest and not os.path.isdir(args.dest):
-            sys.exit(f"No se encontró el directorio {args.dest}.")
+            sys.exit(f"Path not found: {args.dest}.")
 
         self.days = args.days
 
@@ -174,23 +174,23 @@ class Settings:
             self.dest = args.dest
 
     def database_args(self, parser):
-        parser.add_argument('--host', default=self.db_host, help=f'Dirección del host (default: {self.db_host})')
-        parser.add_argument('--port', default=self.db_port, help=f'El puerto de la base de datos (default: {self.db_port}).')
-        parser.add_argument('--user', default=None, help='El usuario de la base de datos.')
-        parser.add_argument('--password', default=None, help=f'La constraseña para la base de datos. Si se omite se toma el valor de {Settings.CONFIG_FILE}.')
-        parser.add_argument('--database', default=None, help='El nombre de la base de datos.')
-        parser.add_argument('--skip_routines', action='store_true', help='Omite funciones (es muy lento).')
+        parser.add_argument('--host', default=self.db_host, help=f'Host address (default: {self.db_host})')
+        parser.add_argument('--port', default=self.db_port, help=f'Database port (default: {self.db_port}).')
+        parser.add_argument('--user', default=None, help='Database user.')
+        parser.add_argument('--password', default=None, help=f'Database password. If omitted it should be in configuration file {Settings.CONFIG_FILE}.')
+        parser.add_argument('--database', default=None, help='Database name.')
+        parser.add_argument('--skip_routines', action='store_true', help='Skip routines.')
 
     def parse_database_args(self, args):
         if not args.database and not self.db_name:
-            sys.exit("Falta el nombre de base de datos (--database).")
+            sys.exit("Database name missing (--database).")
 
         if not args.user and not self.db_user:
-            sys.exit("Falta el nombre de usuario (--user).")
+            sys.exit("Username missing (--user).")
 
         if not args.password and not self.db_pass:
-            sys.exit(f"Falta la contraseña, se recomienda usar el archivo de configuración \"{Settings.CONFIG_FILE}\""
-                     ", puede pasarse por línea de comandos aunque es inseguro (--password).")
+            sys.exit(f"Password missing, it's recommended to use the configuration file \"{Settings.CONFIG_FILE}\""
+                     ", it's possible but unsafe to pass it by parameter (--password).")
 
         self.skip_routines = args.skip_routines
 
@@ -242,12 +242,12 @@ class Settings:
         # Chequea que se pueda correr el ejecutable: mysqldump
         ret = subprocess.Popen(f"\"{self.mysqldump}\" --version", shell=True, stdout=subprocess.PIPE).stdout.read()
         if b"mysqldump " not in ret:
-            sys.exit(f"El ejecutable mysqldump no se encontró o falló. Path: \"{self.mysqldump}\"")
+            sys.exit(f"mysqldump not found or failed. Path: \"{self.mysqldump}\"")
 
         # Chequea que se pueda correr el ejecutable: mysql
         ret = subprocess.Popen(f"\"{self.mysql}\" --version", shell=True, stdout=subprocess.PIPE).stdout.read()
         if b"mysql " not in ret:
-            sys.exit(f"El ejecutable mysql no se encontró o falló. Path: \"{self.mysql}\"")
+            sys.exit(f"mysql not found or failed. Path: \"{self.mysql}\"")
 
     def join_path(*parts):
         ret = "/".join(parts).replace("\\", "/").replace("//", "/")

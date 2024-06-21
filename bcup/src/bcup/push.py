@@ -19,7 +19,7 @@ class Push:
             shutil.move(routines, Settings.join_path(self.settings.dest, "routines.zip"))
 
     def push_tables(self, source):
-        print('Pusheando tablas...')
+        print('Pushing tables...')
         full_source = Settings.join_path(source, self.settings.tables_path)
         if not os.path.isdir(full_source):
             return
@@ -36,7 +36,7 @@ class Push:
                 progress_bar.update()
 
     def push_json(self, source):
-        print('Pusheando metadata...')
+        print('Pushing metadata...')
         source_json = Settings.join_path(source, "tables.json")
         if not os.path.exists(source_json):
             return
@@ -56,7 +56,7 @@ class Push:
             json.dump(merged, outfile, indent=2)
 
     def push_timestamp_file(self, source):
-        print('Moviendo archivo de fecha...')
+        print('Moving timestamp file...')
         source_file = Settings.join_path(source, "timestamp.txt")
         if not source_file:
             return
@@ -84,7 +84,7 @@ class Push:
 
     def push(self, paths):
         for path in paths:
-            print(f"Pusheando {path}")
+            print(f"Pushing {path}")
             self.push_routines(path)
             self.push_tables(path)
             self.push_json(path)
@@ -101,4 +101,4 @@ class Push:
         elif self.settings.source_path:
             self.push(self.get_push_paths())
 
-        print("--- Tiempo total: %s seg. ---" % round(time.time() - start, 2))
+        print("--- Total time: %s sec. ---" % round(time.time() - start, 2))

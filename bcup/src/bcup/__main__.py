@@ -19,7 +19,7 @@ def main():
 
 
 def usage():
-    print(f"Uso python {sys.argv[0]} [backup|restore|push] [params...]")
+    print(f"Usage: python {sys.argv[0]} [backup|restore|push] [params...]")
     print("\n\n")
     settings = Settings()
     settings.parse_command_line_backup(True)

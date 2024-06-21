@@ -29,9 +29,9 @@ class Backup:
             proc = subprocess.run(command, shell=True, stdout=f)
 
         if proc.returncode != 0:
-            print(f"El comando mysqldump.exe falló con el código de retorno: {proc.returncode}")
-            print(f"\nComando:\n{command}")
-            sys.exit("No se pudo completar con éxito el backup.")
+            print(f"mysqldump failed with return code: {proc.returncode}")
+            print(f"\nCommand:\n{command}")
+            sys.exit("Backup operation failed.")
 
     def remove_trigger_definer(self, file_path):
         if not os.path.isfile(file_path):
@@ -69,11 +69,11 @@ class Backup:
         if self.settings.resume and not os.path.exists(name + ".sql") and os.path.exists(name + ".zip"):
             return
         # start = time.time()
-        self.print('Exportando funciones...')
+        self.print('Exporting routines...')
         self.run_mysqldump("--no-data --no-create-db --routines --skip-triggers --no-create-info ", name + ".sql")
         self.remove_function_definer(name + ".sql")
         self.zip_table("routines", self.settings.output_path)
-        # self.print("--- %s seg. ---" % round(time.time() - start, 2))
+        # self.print("--- %s sec. ---" % round(time.time() - start, 2))
 
     def dump_tables(self):
         tables = self.get_tables()
@@ -165,7 +165,9 @@ class Backup:
     def zip_table(self, table, path, level=1):
         to_zip = sorted(glob(Settings.join_path(path, table + "*.sql")))
         zip_file = Settings.join_path(path, table + ".zip")
-        with zipfile.ZipFile(zip_file, 'w', zipfile.ZIP_DEFLATED, compresslevel=level) as zipf:
+        # No soportado en python 3.6
+        # with zipfile.ZipFile(zip_file, 'w', zipfile.ZIP_DEFLATED, compresslevel=level) as zipf:
+        with zipfile.ZipFile(zip_file, 'w', zipfile.ZIP_DEFLATED) as zipf:
             for file in to_zip:
                 zipf.write(file, os.path.basename(file))
         for file in to_zip:
@@ -176,7 +178,9 @@ class Backup:
             os.remove(zip_file)
         to_zip = []
         total = 0
-        with zipfile.ZipFile(zip_file, 'w', zipfile.ZIP_DEFLATED, compresslevel=level) as zipf:
+        # No soportado en python 3.6
+        # with zipfile.ZipFile(zip_file, 'w', zipfile.ZIP_DEFLATED, compresslevel=level) as zipf:
+        with zipfile.ZipFile(zip_file, 'w', zipfile.ZIP_STORED) as zipf:
             for root, dirs, files in os.walk(path):
                 for file in files:
                     src = Settings.join_path(root, file)
@@ -184,7 +188,7 @@ class Backup:
                     total += size
                     to_zip.append({'file': src, 'size': size})
 
-            self.print(f'Comprimiendo {len(files)} archivos...')
+            self.print(f'Compressing {len(files)} files...')
 
             with tqdm(total=total, unit='B', ncols=70, unit_scale=True, disable=self.settings.quiet) as progress_bar:
                 for file in to_zip:
@@ -219,7 +223,7 @@ class Backup:
         for exclussion in self.settings.include_tables:
             if exclussion.startswith('!'):
                 filters += 1
-                exclussion = exclussion[1:]  # Eliminamos el primer carácter "!"
+                exclussion = exclussion[1:]  # Elimina el primer carácter "!"
                 if self.match_wildcard(exclussion, table):
                     in_reversed += 1
         if filters > 0 and in_reversed == filters:
@@ -235,7 +239,7 @@ class Backup:
         return True
 
     def get_total_row_count(self, tables):
-        self.print('Calculando filas...')
+        self.print('Calculating rows...')
         sizes = {}
         cnx = self.get_connection()
         cursor = cnx.cursor()
@@ -262,11 +266,11 @@ class Backup:
 
         text = total_row_count
         if total_row_count > 1000000:
-            text = f'{int(total_row_count / 1000000)} millones de'
+            text = f"{int(total_row_count / 1000000)} millon"
         elif total_row_count > 2000:
-            text = f'{int(total_row_count / 1000)} mil'
+            text = f"{int(total_row_count / 1000)} thousand"
 
-        self.print(f"Listo para resguardar ~{text} filas")
+        self.print(f"Ready to backup ~{text} rows")
 
         return total_row_count, sizes
 
@@ -279,7 +283,7 @@ class Backup:
         file = Settings.join_path(self.settings.output_path, "unfinished")
         open(file, 'w').close()
 
-    def delte_unfinished_file(self):
+    def delete_unfinished_file(self):
         file = Settings.join_path(self.settings.output_path, "unfinished")
         os.remove(file)
 
@@ -297,10 +301,10 @@ class Backup:
         start = time.time()
 
         if self.settings.resume:
-            self.print('Continuando...')
+            self.print('Resuming...')
         else:
-            self.create_unfinished_file()
             self.create_backup_path()
+            self.create_unfinished_file()
             self.create_timestamp_file()
 
         if not self.settings.skip_routines:
@@ -314,4 +318,4 @@ class Backup:
             self.zip_full_path(self.settings.output_path, self.settings.output_path + ".zip", 0)
             shutil.rmtree(self.settings.output_path)
 
-        self.print("--- Tiempo total: %s seg. ---" % round(time.time() - start, 2))
+        self.print("--- Total time: %s sec. ---" % round(time.time() - start, 2))

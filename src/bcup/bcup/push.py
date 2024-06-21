@@ -1,6 +1,5 @@
 import json
 import os
-import sys
 import shutil
 import time
 from datetime import date, timedelta
@@ -69,7 +68,7 @@ class Push:
             shutil.move(file, Settings.join_path(self.settings.dest, os.path.basename(file)))
 
     def get_temp_path(self, name, ext):
-        path = f"tmp_{name.replace(ext, "")}"
+        path = f"tmp_{name.replace(ext, '')}"
         if os.path.isdir(path):
             shutil.rmtree(path)
         os.makedirs(path, exist_ok=True)

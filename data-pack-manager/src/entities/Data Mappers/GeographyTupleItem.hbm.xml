@@ -1,0 +1,14 @@
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" namespace="medea.entities" assembly="medea.data">
+	<class name="GeographyTupleItem" table="geography_tuple_item">
+		<id name="Id" column="gti_id" unsaved-value="null">
+			<generator class="native" />
+		</id>
+		<many-to-one name="GeographyTuple" class="GeographyTuple">
+			<column name="gti_geography_tuple_id" not-null="true" />
+		</many-to-one>
+		<property name="GeographyItemId" column="gti_geography_item_id" not-null="true" />
+		<property name="GeographyPreviousId" column="gti_geography_previous_id" not-null="true" />
+		<property name="GeographyPreviousItemId" column="gti_geography_previous_item_id" not-null="true" />
+		<property name="IsPartial" column="gti_is_partial" not-null="true" />
+	</class>
+</hibernate-mapping>

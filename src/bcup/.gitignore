@@ -1,7 +1,0 @@
-.flake8
-__pycache__
-tmp_backup
-mysql.log
-mysqld.bat
-poblaciones.zip
-settings.ini

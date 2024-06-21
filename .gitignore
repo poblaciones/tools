@@ -1,3 +1,14 @@
-.txt
+bin
+obj
 thumbs.db
-.flake8
+.suo
+.user
+packages
+.vs
+
+/bin/data-pack-manager
+App.config
+db_settings.ini
+/stress-tester/src/input
+/wikimapia-getter/src/input
+/wikimapia-getter/src/output

@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<configuration>
+    <startup> 
+        <supportedRuntime version="v4.0" sku=".NETFramework,Version=v4.6.1" />
+    </startup>
+		<appSettings>
+			<!-- https://www.instintoprogramador.com.mx/2019/03/como-obtener-la-api-key-de.html -->
+			<add key="GoogleGeocodingKey" value=""/>
+		</appSettings>
+</configuration>

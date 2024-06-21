@@ -1,6 +1,15 @@
-﻿# tools
-Herramientas para la administración y mantenimiento de Poblaciones
+﻿# bcup
+Herramienta para realizar backup incremental de bases de datos MySQL. Realiza un backup incremental con granularidad de tablas (guarda las tablas con cambios). 
 
-## data-pack-manager
+## Escenario
 
-Esta aplicación permite la administración de las tablas de cartografías de base (geografías) y regiones de clipping. Administra también las relaciones entre ellas.
+## Funcionamiento
+
+## Sintaxis
+
+
+## Limitaciones
+
+
+## Contacto
+

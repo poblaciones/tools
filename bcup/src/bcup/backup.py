@@ -270,9 +270,10 @@ class Backup:
 
         return total_row_count, sizes
 
-    def create_date_file(self):
-        file = Settings.join_path(self.settings.output_path, self.settings.date + ".txt")
-        open(file, 'w').close()
+    def create_timestamp_file(self):
+        file = Settings.join_path(self.settings.output_path, "timestamp.txt")
+        with open(file, 'w', encoding='utf-8') as file:
+            file.write(self.settings.date)
 
     def main(self):
         self.settings.parse_config_file()
@@ -291,7 +292,7 @@ class Backup:
             self.print('Continuando...')
         else:
             self.create_backup_path()
-            self.create_date_file()
+            self.create_timestamp_file()
 
         if not self.settings.skip_routines:
             self.dump_routines()

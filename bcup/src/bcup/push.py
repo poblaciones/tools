@@ -55,17 +55,14 @@ class Push:
         with open(dest_json, "w", encoding='utf-8') as outfile:
             json.dump(merged, outfile, indent=2)
 
-    def push_date_file(self, source):
+    def push_timestamp_file(self, source):
         print('Moviendo archivo de fecha...')
-        source_files = glob(Settings.join_path(source, "*.txt"))
-        if not source_files:
+        source_file = Settings.join_path(source, "timestamp.txt")
+        if not source_file:
             return
 
-        files = glob(Settings.join_path(self.settings.dest, "*.txt"))
-        for file in files:
-            os.remove(file)
-        for file in source_files:
-            shutil.move(file, Settings.join_path(self.settings.dest, os.path.basename(file)))
+        dest_file = Settings.join_path(self.settings.dest, "timestamp.txt")
+        shutil.move(source_file, dest_file)
 
     def get_temp_path(self, name, ext):
         path = f"tmp_{name.replace(ext, '')}"
@@ -91,7 +88,7 @@ class Push:
             self.push_routines(path)
             self.push_tables(path)
             self.push_json(path)
-            self.push_date_file(path)
+            self.push_timestamp_file(path)
             shutil.rmtree(path)
 
     def main(self):

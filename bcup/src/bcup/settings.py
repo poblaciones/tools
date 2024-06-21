@@ -22,7 +22,7 @@ class Settings:
         self.mysql = ""
         self.mysqldump = ""
 
-        self.tables_path = "tablas"
+        self.tables_path = "tables"
         self.date = datetime.now().strftime('%Y%m%d_%H%M%S')
 
         self.has_ini = True
@@ -56,7 +56,7 @@ class Settings:
         parser = argparse.ArgumentParser(prog=f"python {sys.argv[0]} backup", description='Hace backup incremental de tablas mysql.')
         parser.add_argument('backup', default='backup', help=argparse.SUPPRESS)
         self.database_args(parser)
-        parser.add_argument('--from_date', default=self.from_date, help='La fecha desde para comenzar el backup. Formato aaaa-dd-mm.')
+        parser.add_argument('--from_date', default=self.from_date, help='La fecha desde para comenzar el backup. Formato aaaa-mm-dd.')
         parser.add_argument('--quiet', action='store_true', required=False, help='No muestra mensajes.')
         parser.add_argument('--resume', action='store_true', help='Continua el backup desde donde quedó.')
         parser.add_argument('--output', default=None, help='Nombre custom para el directorio del backup (default: [nombre de la base]-[fecha ISO]).')

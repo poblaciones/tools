@@ -25,6 +25,8 @@ class Settings:
         self.tables_path = "tablas"
         self.date = datetime.now().strftime('%Y%m%d_%H%M%S')
 
+        self.has_ini = True
+
         # solo por command line
 
         # backup y restore
@@ -181,7 +183,14 @@ class Settings:
 
     def parse_database_args(self, args):
         if not args.database and not self.db_name:
-            sys.exit("Falta nombre de base de datos. Especifique usando el argumento '--database'.")
+            sys.exit("Falta el nombre de base de datos (--database).")
+
+        if not args.user and not self.db_user:
+            sys.exit("Falta el nombre de usuario (--user).")
+
+        if not args.password and not self.db_pass:
+            sys.exit(f"Falta la contraseña, se recomienda usar el archivo de configuración \"{Settings.CONFIG_FILE}\""
+                     ", puede pasarse por línea de comandos aunque es inseguro (--password).")
 
         self.skip_routines = args.skip_routines
 
@@ -197,7 +206,9 @@ class Settings:
             self.db_port = args.port
 
     def parse_config_file(self):
-        if not os.path.isfile(Settings.CONFIG_FILE):
+        if not os.path.exists(Settings.CONFIG_FILE):
+            self.myslq_binaries()
+            self.has_ini = False
             return
 
         config = configparser.ConfigParser()
@@ -205,6 +216,7 @@ class Settings:
         self.db_user = config['client']['user']
         self.db_pass = config['client']['password'].strip('\"')
 
+        path = ""
         if 'extra' in config:
             if 'database' in config['extra']:
                 self.db_name = config['extra']['database']
@@ -214,22 +226,31 @@ class Settings:
                 self.db_port = config['extra']['port']
 
             if 'mysql_bin_path' in config['extra']:
-                self.mysql_bin_path = config['extra']['mysql_bin_path']
-            elif sys.platform.startswith('win'):
-                self.mysql_bin_path = 'C:/Program Files/MySQL/MySQL Server 5.7/bin'
+                path = config['extra']['mysql_bin_path']
+
+        self.myslq_binaries(path)
+
+    def myslq_binaries(self, path=""):
+        if path:
+            self.mysql_bin_path = path
+        elif sys.platform.startswith("win"):
+            self.mysql_bin_path = "C:/Program Files/MySQL/MySQL Server 5.7/bin"
 
         self.mysql = Settings.join_path(self.mysql_bin_path, "mysql")
         self.mysqldump = Settings.join_path(self.mysql_bin_path, "mysqldump")
 
         # Chequea que se pueda correr el ejecutable: mysqldump
-        ret = subprocess.Popen(self.mysqldump + " --version", shell=True, stdout=subprocess.PIPE).stdout.read()
+        ret = subprocess.Popen(f"\"{self.mysqldump}\" --version", shell=True, stdout=subprocess.PIPE).stdout.read()
         if b"mysqldump " not in ret:
-            sys.exit("El ejecutable mysqldump no se encontró o falló.")
+            sys.exit(f"El ejecutable mysqldump no se encontró o falló. Path: \"{self.mysqldump}\"")
 
         # Chequea que se pueda correr el ejecutable: mysql
-        ret = subprocess.Popen(self.mysql + " --version", shell=True, stdout=subprocess.PIPE).stdout.read()
+        ret = subprocess.Popen(f"\"{self.mysql}\" --version", shell=True, stdout=subprocess.PIPE).stdout.read()
         if b"mysql " not in ret:
-            sys.exit("El ejecutable mysql no se encontró o falló.")
+            sys.exit(f"El ejecutable mysql no se encontró o falló. Path: \"{self.mysql}\"")
 
     def join_path(*parts):
-        return "/".join(parts).replace("\\", "/").replace("//", "/")
+        ret = "/".join(parts).replace("\\", "/").replace("//", "/")
+        if len(parts) > 0 and parts[0] == "":
+            return ret[1:]
+        return ret

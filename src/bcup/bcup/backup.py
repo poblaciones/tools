@@ -18,8 +18,12 @@ class Backup:
         self.settings = Settings()
 
     def run_mysqldump(self, options, output_file, table_list=''):
-        command = f"\"{self.settings.mysqldump}\" --defaults-file={Settings.CONFIG_FILE} --user={self.settings.db_user} --host={self.settings.db_host} " \
-                f"--port={self.settings.db_port} {options} {self.settings.db_name} {table_list}"
+        ini = f"--password={self.settings.db_pass}"
+        if self.settings.has_ini:
+            ini = f"--defaults-file={Settings.CONFIG_FILE}"
+
+        command = f"\"{self.settings.mysqldump}\" {ini} --user={self.settings.db_user} --host={self.settings.db_host} --port={self.settings.db_port} " \
+            f"{options} {self.settings.db_name} {table_list}"
 
         with open(output_file, 'w', encoding='utf-8') as f:
             proc = subprocess.run(command, shell=True, stdout=f)
@@ -151,8 +155,6 @@ class Backup:
             table = os.path.basename(file.replace(".zip", ""))
             if table in tables:
                 tables.remove(table)
-        print(tables)
-        sys.exit
         return tables
 
     def create_backup_path(self):

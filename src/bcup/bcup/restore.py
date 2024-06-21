@@ -15,8 +15,12 @@ class Restore:
         self.settings = Settings()
 
     def run_mysql(self, file):
-        command = f"unzip -p \"{file}\" | \"{self.settings.mysql}\" --defaults-file={Settings.CONFIG_FILE} --user={self.settings.db_user} " \
-                f"--host={self.settings.db_host} --port={self.settings.db_port} {self.settings.db_name}"
+        ini = f"--password={self.settings.db_pass}"
+        if self.settings.has_ini:
+            ini = f"--defaults-file={Settings.CONFIG_FILE}"
+
+        command = f"unzip -p \"{file}\" | \"{self.settings.mysql}\" {ini} --user={self.settings.db_user} --host={self.settings.db_host} " \
+            f"--port={self.settings.db_port} {self.settings.db_name}"
 
         proc = subprocess.run(command, shell=True)
         if proc.returncode != 0:

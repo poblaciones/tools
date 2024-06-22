@@ -39,6 +39,7 @@ class Settings:
         self.include_tables = []
         self.exclude_tables = []
         self.resume = False
+        self.step_by_step = False
         self.quiet = False
         self.zip = False
 
@@ -59,6 +60,7 @@ class Settings:
         parser.add_argument('--from_date', default=self.from_date, help='Last changed date to start backup. Format yyyy-mm-dd.')
         parser.add_argument('--quiet', action='store_true', required=False, help='Disables messages.')
         parser.add_argument('--resume', action='store_true', help='Resume the backup.')
+        parser.add_argument('--step_by_step', action='store_true', help='Advances one step by execution.')
         parser.add_argument('--output', default=None, help='Path name for backup (default: [database name]-[ISO date]).')
         parser.add_argument('--output_path', default=None, help=f'Output path for backup path --output (default: {self.output_path}).')
         parser.add_argument('--include_tables', nargs='+', default=[], help='Comma separated list of tables to include. Can use * as wildcard and start with ! for negation.')
@@ -78,6 +80,7 @@ class Settings:
 
         self.quiet = args.quiet
         self.resume = args.resume
+        self.step_by_step = args.step_by_step
         self.zip = args.zip
 
         if args.output_path:

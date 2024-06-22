@@ -92,19 +92,41 @@ class Backup:
         with tqdm(total=total_row_count, ncols=70, disable=self.settings.quiet) as progress_bar:
             for table in tables:
                 self.dump_table_structure(table)
-                self.dump_table_data(table, sizes[table], progress_bar)
+                
+                if not self.dump_table_data(table, sizes[table], progress_bar):
+                    self.print(f'Partial: {progress_bar.n} of {progress_bar.total}') 
+                    return False
+                
                 self.zip_table(table, self.settings.tables_path)
+                if self.settings.step_by_step:
+                    self.print(f'Partial: {progress_bar.n} of {progress_bar.total}') 
+                    return False
+        return True
 
     def dump_table_data(self, table, sizes, progress_bar):
         for offset in range(0, sizes['rows'], sizes['step']):
             file = self.resolve_filename(table, (offset // sizes['step']) + 1)
-            self.run_mysqldump(f"--no-create-info --hex-blob --skip-triggers --where=\"1 LIMIT {sizes['step']} OFFSET {offset}\"", file, table)
+            if not os.path.exists(file):
+                tmp_file = self.resolve_tmp_filename()
+                self.run_mysqldump(f"--no-create-info --hex-blob --skip-triggers --where=\"1 LIMIT {sizes['step']} OFFSET {offset}\"", tmp_file, table)
+                os.rename(tmp_file, file)
+                print('Saving... ' + file)
+                if self.settings.step_by_step:
+                   return False 
             progress_bar.update(min(sizes['step'], sizes['rows'] - offset))
-
+        print('Completed ' + table)
+        return True
+    
     def dump_table_structure(self, table):
         file = Settings.join_path(self.settings.tables_path, f"{table}.sql")
-        self.run_mysqldump("--no-data --no-create-db", file, table)
-        self.remove_trigger_definer(file)
+        if not os.path.exists(file):
+            tmp_file = self.resolve_tmp_filename()
+            self.run_mysqldump("--no-data --no-create-db", tmp_file, table)
+            self.remove_trigger_definer(tmp_file)
+            os.rename(tmp_file, file)
+    
+    def resolve_tmp_filename(self):
+        return Settings.join_path(self.settings.tables_path, '#tmp#.sql')
 
     def resolve_filename(self, table_name, step):
         number = str(step).zfill(4)
@@ -132,6 +154,9 @@ class Backup:
                 ret.append(table[0])
 
         if self.settings.resume:
+            tmp_file = self.resolve_tmp_filename()
+            if os.path.exists(tmp_file):
+                os.remove(tmp_file)
             ret = self.filter_existing_tables(ret)
 
         return ret
@@ -140,11 +165,11 @@ class Backup:
         # Si hay sqls borra el zip si existe y pone en 0 esos sqls para que se recreen.
         sqls = sorted(glob(Settings.join_path(self.settings.tables_path, "*.sql")))
         if sqls:
-            for file in sqls:
-                if "_#" in file:
-                    os.remove(file)  # borra las que son numeradas
-                else:
-                    open(file, 'w').close()  # trunca la de estructura
+            #for file in sqls:
+            #    if "_#" in file:
+            #        os.remove(file)  # borra las que son numeradas
+            #    else:
+            #        open(file, 'w').close()  # trunca la de estructura
             zip_file = sqls[0].replace(".sql", ".zip")
             if os.path.exists(zip_file):
                 os.remove(zip_file)
@@ -310,7 +335,9 @@ class Backup:
         if not self.settings.skip_routines:
             self.dump_routines()
 
-        self.dump_tables()
+        if not self.dump_tables():
+            self.print("---- STEP COMPLETED. ")
+            return
 
         self.delete_unfinished_file()
 
@@ -319,3 +346,4 @@ class Backup:
             shutil.rmtree(self.settings.output_path)
 
         self.print("--- Total time: %s sec. ---" % round(time.time() - start, 2))
+        self.print("--- Backup completed.")

@@ -29,9 +29,9 @@ class Restore:
             sys.exit("Restore operation failed.")
 
     def restore_routines(self):
-        print('Restoring routines...')
         routines = Settings.join_path(self.settings.input_path, "routines.zip")
         if os.path.exists(routines):
+            print('Restoring routines...')
             self.run_mysql(routines)
 
     def restore_tables(self):

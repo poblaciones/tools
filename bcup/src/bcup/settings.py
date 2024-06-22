@@ -91,8 +91,9 @@ class Settings:
         if args.output:
             self.output = args.output
         else:
-            self.output = f"{self.db_name}-{self.date}"
-            if self.resume:
+            if not self.resume:
+                self.output = f"{self.db_name}-{self.date}"
+            else:
                 paths = [path for path in sorted(glob(Settings.join_path(self.output_path, self.db_name + "-*"))) if os.path.isdir(path)]
                 if not paths:
                     sys.exit("Path not found.")

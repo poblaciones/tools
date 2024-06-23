@@ -23,6 +23,8 @@ class Settings:
         self.mysqldump = ""
 
         self.tables_path = "tables"
+        self.done_path = "done"
+        self.date = datetime.now().strftime('%Y%m%d_%H%M%S')
         self.date = datetime.now().strftime('%Y%m%d_%H%M%S')
 
         self.has_ini = True
@@ -46,6 +48,7 @@ class Settings:
         # restore
         self.input = ""
         self.input_path = "tmp_restore"
+        self.move_done = False
 
         # push
         self.days = -1
@@ -113,6 +116,7 @@ class Settings:
         self.database_args(parser)
         parser.add_argument('--input', default=None, help='Zip file to restore.')
         parser.add_argument('--input_path', default=None, help='Path to restore.')
+        parser.add_argument('--move_done', action='store_true', required=False, help='Moves restored zip files to done directory.')
 
         if show_help:
             parser.print_help()
@@ -137,7 +141,9 @@ class Settings:
         if args.input:
             self.input = args.input
 
+        self.move_done = args.move_done
         self.tables_path = Settings.join_path(self.input_path, self.tables_path)
+        self.done_path = Settings.join_path(self.input_path, self.done_path)
 
     def parse_command_line_push(self, show_help=False):
         parser = argparse.ArgumentParser(prog=f"python {sys.argv[0]} push", description='Pushes one or many backups to dest path.')

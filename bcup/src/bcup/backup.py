@@ -325,6 +325,13 @@ class Backup:
         file = Settings.join_path(self.settings.output_path, "unfinished")
         os.remove(file)
 
+    def check_unfinished(self):
+        file = Settings.join_path(self.settings.output_path, "unfinished")
+        if not os.path.exists(file):
+            print("Error: can't resume without unfinished file")
+            print("--- BACKUP FAILED.")
+            sys.exit()
+
     def main(self):
         self.settings.parse_config_file()
         self.settings.parse_command_line_backup()
@@ -339,6 +346,7 @@ class Backup:
         start = time.time()
 
         if self.settings.resume:
+            self.check_unfinished()
             self.print('Resuming...')
         else:
             self.create_backup_path()

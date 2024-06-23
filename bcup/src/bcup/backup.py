@@ -117,7 +117,7 @@ class Backup:
                 os.rename(tmp_file, file)
                 print('Saving: ' + file)
                 if self.settings.step_by_step:
-                   return False
+                    return False
             progress_bar.update(min(sizes['step'], sizes['rows'] - offset))
         # print('Completed ' + table)
         return True
@@ -170,7 +170,7 @@ class Backup:
         # Si hay sqls borra el zip si existe y pone en 0 esos sqls para que se recreen.
         sqls = sorted(glob(Settings.join_path(self.settings.tables_path, "*.sql")))
         if sqls:
-            #for file in sqls:
+            # for file in sqls:
             #    if "_#" in file:
             #        os.remove(file)  # borra las que son numeradas
             #    else:
@@ -206,7 +206,7 @@ class Backup:
             for file in to_zip:
                 os.remove(file)
         except Exception as e:
-            print(f"ZIP compression failed.")
+            print("ZIP compression failed.")
             print(f"Error: \n{e}")
             print("--- BACKUP FAILED.")
             sys.exit()

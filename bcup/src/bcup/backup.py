@@ -26,12 +26,15 @@ class Backup:
             f"{options} {self.settings.db_name} {table_list}"
 
         with open(output_file, 'w', encoding='utf-8') as f:
-            proc = subprocess.run(command, shell=True, stdout=f)
+            proc = subprocess.run(command, shell=True, stdout=f, stderr=subprocess.PIPE, text=True)
+        stderr_output = proc.stderr
 
         if proc.returncode != 0:
-            print(f"mysqldump failed with return code: {proc.returncode}")
-            print(f"\nCommand:\n{command}")
-            sys.exit("Backup operation failed.")
+            print(f"MYSQLDUMP failed with return code: {proc.returncode}")
+            print(f"Command:\n{command}")
+            print(f"Error: \n{stderr_output}")
+            print("--- BACKUP FAILED.")
+            sys.exit()
 
     def remove_trigger_definer(self, file_path):
         if not os.path.isfile(file_path):
@@ -92,14 +95,16 @@ class Backup:
         with tqdm(total=total_row_count, ncols=70, disable=self.settings.quiet) as progress_bar:
             for table in tables:
                 self.dump_table_structure(table)
-                
+
                 if not self.dump_table_data(table, sizes[table], progress_bar):
-                    self.print(f'Partial: {progress_bar.n} of {progress_bar.total}') 
+                    print(f'Pending rows: {progress_bar.total - progress_bar.n}')
+                    print(f'Pending tables: {len(tables)}')
                     return False
-                
+
                 self.zip_table(table, self.settings.tables_path)
                 if self.settings.step_by_step:
-                    self.print(f'Partial: {progress_bar.n} of {progress_bar.total}') 
+                    print(f'Pending rows: {progress_bar.total - progress_bar.n}')
+                    print(f'Pending tables: {len(tables)}')
                     return False
         return True
 
@@ -110,13 +115,13 @@ class Backup:
                 tmp_file = self.resolve_tmp_filename()
                 self.run_mysqldump(f"--no-create-info --hex-blob --skip-triggers --where=\"1 LIMIT {sizes['step']} OFFSET {offset}\"", tmp_file, table)
                 os.rename(tmp_file, file)
-                print('Saving... ' + file)
+                print('Saving: ' + file)
                 if self.settings.step_by_step:
-                   return False 
+                   return False
             progress_bar.update(min(sizes['step'], sizes['rows'] - offset))
-        print('Completed ' + table)
+        # print('Completed ' + table)
         return True
-    
+
     def dump_table_structure(self, table):
         file = Settings.join_path(self.settings.tables_path, f"{table}.sql")
         if not os.path.exists(file):
@@ -124,7 +129,7 @@ class Backup:
             self.run_mysqldump("--no-data --no-create-db", tmp_file, table)
             self.remove_trigger_definer(tmp_file)
             os.rename(tmp_file, file)
-    
+
     def resolve_tmp_filename(self):
         return Settings.join_path(self.settings.tables_path, '#tmp#.sql')
 
@@ -188,15 +193,23 @@ class Backup:
         os.makedirs(self.settings.tables_path, exist_ok=True)
 
     def zip_table(self, table, path, level=1):
-        to_zip = sorted(glob(Settings.join_path(path, table + "*.sql")))
-        zip_file = Settings.join_path(path, table + ".zip")
-        # No soportado en python 3.6
-        # with zipfile.ZipFile(zip_file, 'w', zipfile.ZIP_DEFLATED, compresslevel=level) as zipf:
-        with zipfile.ZipFile(zip_file, 'w', zipfile.ZIP_DEFLATED) as zipf:
+        try:
+            to_zip = sorted(glob(Settings.join_path(path, table + "*.sql")))
+            zip_file = Settings.join_path(path, table + ".zip")
+
+            print('Zipping: ' + zip_file)
+            # No soportado en python 3.6
+            # with zipfile.ZipFile(zip_file, 'w', zipfile.ZIP_DEFLATED, compresslevel=level) as zipf:
+            with zipfile.ZipFile(zip_file, 'w', zipfile.ZIP_DEFLATED) as zipf:
+                for file in to_zip:
+                    zipf.write(file, os.path.basename(file))
             for file in to_zip:
-                zipf.write(file, os.path.basename(file))
-        for file in to_zip:
-            os.remove(file)
+                os.remove(file)
+        except Exception as e:
+            print(f"ZIP compression failed.")
+            print(f"Error: \n{e}")
+            print("--- BACKUP FAILED.")
+            sys.exit()
 
     def zip_full_path(self, path, zip_file, level=1):
         if os.path.isfile(zip_file):
@@ -336,7 +349,7 @@ class Backup:
             self.dump_routines()
 
         if not self.dump_tables():
-            self.print("---- STEP COMPLETED. ")
+            print("---- STEP COMPLETED. ")
             return
 
         self.delete_unfinished_file()
@@ -346,4 +359,4 @@ class Backup:
             shutil.rmtree(self.settings.output_path)
 
         self.print("--- Total time: %s sec. ---" % round(time.time() - start, 2))
-        self.print("--- Backup completed.")
+        print("--- BACKUP COMPLETED.")

@@ -71,7 +71,7 @@ class Push:
         os.makedirs(path, exist_ok=True)
 
     def get_push_paths(self):
-        cut_date = date.today() - timedelta(days=int(self.settings.days))
+        cut_date = date.today() - timedelta(days=(int(self.settings.days)-1))
         cut_date = str(cut_date).replace("-", "") + "_000000"
         ret = []
         dirs = sorted(glob(Settings.join_path(self.settings.source_path, "*")))

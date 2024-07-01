@@ -148,7 +148,7 @@ class Backup:
         cnx = self.get_connection()
         cursor = cnx.cursor()
         sql = "SELECT table_name FROM information_schema.TABLES " \
-            "WHERE table_type = 'BASE TABLE' AND table_schema = %s AND (create_time > %s OR update_time > %s) " \
+            "WHERE table_type = 'BASE TABLE' AND table_schema = %s AND (create_time >= %s OR update_time >= %s) " \
             "ORDER BY table_name"
         cursor.execute(sql, (self.settings.db_name, self.settings.from_date, self.settings.from_date))
         tables = cursor.fetchall()
@@ -349,7 +349,7 @@ class Backup:
             self.dump_routines()
 
         if not self.dump_tables():
-            print("---- STEP COMPLETED. ")
+            print("--- STEP COMPLETED. ")
             return
 
         self.delete_unfinished_file()

@@ -80,7 +80,7 @@ class Backup:
 
     def dump_tables(self):
         tables = self.get_tables()
-        total_row_count, sizes = self.get_total_row_count(tables)
+        total_row_count, total_bytes, sizes = self.get_total_row_count(tables)
 
         json_file = Settings.join_path(self.settings.output_path, "tables.json")
 
@@ -92,18 +92,19 @@ class Backup:
         with open(json_file, "w", encoding='utf-8') as outfile:
             json.dump(sizes, outfile, indent=2)
 
-        with tqdm(total=total_row_count, ncols=70, disable=self.settings.quiet) as progress_bar:
+        #total_row_count
+        with tqdm(total=total_bytes, ncols=70, disable=self.settings.quiet) as progress_bar:
             for table in tables:
                 self.dump_table_structure(table)
 
                 if not self.dump_table_data(table, sizes[table], progress_bar):
-                    print(f'Pending rows: {progress_bar.total - progress_bar.n}')
+                    print(f'Pending bytes: {int(progress_bar.total - progress_bar.n)}')
                     print(f'Pending tables: {len(tables)}')
                     return False
 
                 self.zip_table(table, self.settings.tables_path)
                 if self.settings.step_by_step:
-                    print(f'Pending rows: {progress_bar.total - progress_bar.n}')
+                    print(f'Pending bytes: {int(progress_bar.total - progress_bar.n)}')
                     print(f'Pending tables: {len(tables)}')
                     return False
         return True
@@ -117,8 +118,12 @@ class Backup:
                 os.rename(tmp_file, file)
                 print('Saving: ' + file)
                 if self.settings.step_by_step:
-                    return False
-            progress_bar.update(min(sizes['step'], sizes['rows'] - offset))
+                   return False
+            # progress_bar.update(min(sizes['step'], sizes['rows'] - offset))
+            if sizes['rows'] > 0:
+                increment = (sizes['bytes'] / sizes['rows']) * min(sizes['step'], sizes['rows'] - offset)
+                progress_bar.n += (increment)
+                progress_bar.refresh()
         # print('Completed ' + table)
         return True
 
@@ -170,7 +175,7 @@ class Backup:
         # Si hay sqls borra el zip si existe y pone en 0 esos sqls para que se recreen.
         sqls = sorted(glob(Settings.join_path(self.settings.tables_path, "*.sql")))
         if sqls:
-            # for file in sqls:
+            #for file in sqls:
             #    if "_#" in file:
             #        os.remove(file)  # borra las que son numeradas
             #    else:
@@ -206,7 +211,7 @@ class Backup:
             for file in to_zip:
                 os.remove(file)
         except Exception as e:
-            print("ZIP compression failed.")
+            print(f"ZIP compression failed.")
             print(f"Error: \n{e}")
             print("--- BACKUP FAILED.")
             sys.exit()
@@ -283,6 +288,7 @@ class Backup:
         cursor = cnx.cursor()
 
         total_row_count = 0
+        total_bytes = 0
         for table in tables:
             stmt = f"SELECT COUNT(*), (SELECT DATA_LENGTH FROM information_schema.TABLES WHERE table_schema = %s AND table_name = %s) FROM `{table}`"
             cursor.execute(stmt, (self.settings.db_name, table))
@@ -290,11 +296,12 @@ class Backup:
             rows = item[0]
             table_bytes = item[1]
             total_row_count += rows
+            total_bytes += table_bytes
             if rows == 0:
                 step = 1
             else:
                 row_bytes = table_bytes / rows
-                step = int(70000000 / row_bytes)
+                step = int(14000000 / row_bytes)
                 if step == 0:
                     step = 10
 
@@ -310,7 +317,7 @@ class Backup:
 
         self.print(f"Ready to backup ~{text} rows")
 
-        return total_row_count, sizes
+        return total_row_count, total_bytes, sizes
 
     def create_timestamp_file(self):
         file = Settings.join_path(self.settings.output_path, "timestamp.txt")
@@ -324,13 +331,6 @@ class Backup:
     def delete_unfinished_file(self):
         file = Settings.join_path(self.settings.output_path, "unfinished")
         os.remove(file)
-
-    def check_unfinished(self):
-        file = Settings.join_path(self.settings.output_path, "unfinished")
-        if not os.path.exists(file):
-            print("Error: can't resume without unfinished file")
-            print("--- BACKUP FAILED.")
-            sys.exit()
 
     def main(self):
         self.settings.parse_config_file()
@@ -346,7 +346,6 @@ class Backup:
         start = time.time()
 
         if self.settings.resume:
-            self.check_unfinished()
             self.print('Resuming...')
         else:
             self.create_backup_path()

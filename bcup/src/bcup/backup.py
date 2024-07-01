@@ -117,7 +117,7 @@ class Backup:
                 os.rename(tmp_file, file)
                 print('Saving: ' + file)
                 if self.settings.step_by_step:
-                   return False
+                    return False
             progress_bar.update(min(sizes['step'], sizes['rows'] - offset))
         # print('Completed ' + table)
         return True
@@ -170,7 +170,7 @@ class Backup:
         # Si hay sqls borra el zip si existe y pone en 0 esos sqls para que se recreen.
         sqls = sorted(glob(Settings.join_path(self.settings.tables_path, "*.sql")))
         if sqls:
-            #for file in sqls:
+            # for file in sqls:
             #    if "_#" in file:
             #        os.remove(file)  # borra las que son numeradas
             #    else:
@@ -206,7 +206,7 @@ class Backup:
             for file in to_zip:
                 os.remove(file)
         except Exception as e:
-            print(f"ZIP compression failed.")
+            print("ZIP compression failed.")
             print(f"Error: \n{e}")
             print("--- BACKUP FAILED.")
             sys.exit()
@@ -325,6 +325,13 @@ class Backup:
         file = Settings.join_path(self.settings.output_path, "unfinished")
         os.remove(file)
 
+    def check_unfinished(self):
+        file = Settings.join_path(self.settings.output_path, "unfinished")
+        if not os.path.exists(file):
+            print("Error: can't resume without unfinished file")
+            print("--- BACKUP FAILED.")
+            sys.exit()
+
     def main(self):
         self.settings.parse_config_file()
         self.settings.parse_command_line_backup()
@@ -339,6 +346,7 @@ class Backup:
         start = time.time()
 
         if self.settings.resume:
+            self.check_unfinished()
             self.print('Resuming...')
         else:
             self.create_backup_path()

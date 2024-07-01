@@ -33,6 +33,8 @@ class Restore:
         if os.path.exists(routines):
             print('Restoring routines...')
             self.run_mysql(routines)
+            if self.settings.move_done:
+                shutil.move(routines, Settings.join_path(self.settings.done_path, "000-routines.zip"))
 
     def restore_tables(self):
         print('Restoring tables...')
@@ -51,6 +53,8 @@ class Restore:
             for table in sizes:
                 if 'file' in sizes[table]:
                     self.run_mysql(sizes[table]['file'])
+                    if self.settings.move_done:
+                        shutil.move(sizes[table]['file'], Settings.join_path(self.settings.done_path, table + ".zip"))
                     progress_bar.update(sizes[table]['rows'])
 
     def create_restore_path(self):
@@ -60,6 +64,13 @@ class Restore:
         print(f"Creating {self.settings.input_path}")
         os.makedirs(self.settings.input_path, exist_ok=True)
         os.makedirs(self.settings.tables_path, exist_ok=True)
+
+    def create_done_path(self):
+        if os.path.isdir(self.settings.done_path):
+            return
+
+        print(f"Creating {self.settings.done_path}")
+        os.makedirs(self.settings.done_path, exist_ok=True)
 
     def remove_restore_path(self):
         print(f"Removing {self.settings.input_path}")
@@ -103,6 +114,9 @@ class Restore:
         if self.settings.input:
             self.create_restore_path()
             self.unzip_backup()
+
+        if self.settings.move_done:
+            self.create_done_path()
 
         if not self.settings.skip_routines:
             self.restore_routines()

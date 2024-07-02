@@ -39,18 +39,21 @@ def step_backup(args, session_id):
     params = {**PARAMS, "id": session_id}
     params['s'] = args.key
     response = ''
+    params['f'] = '1'
     progress_bar = tqdm(total=100, desc="Backup Progress", bar_format='{l_bar}{bar}| {n_fmt}/{total_fmt}')
     try:
       while True:
+        #print('services/api/stepBackup')
         response = requests.get(f"{args.server}services/api/stepBackup", params=params, verify=False)
         data = response.json()
-
+        # print(data)
         if data["Status"] == "COMPLETE":
             progress_bar.close()
             return
 
         progress = int(data["currentBytes"] / data["totalBytes"] * 10000) / 100
         progress_bar.update(progress - progress_bar.n)
+        params['f'] = ''
         if args.sleep and args.sleep > 0:
             time.sleep(args.sleep)
     except Exception as e:

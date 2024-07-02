@@ -69,14 +69,14 @@ class Backup:
 
     def dump_routines(self):
         name = Settings.join_path(self.settings.output_path, "routines")
-        if self.settings.resume and not os.path.exists(name + ".sql") and os.path.exists(name + ".zip"):
+        filename = name + ".sql"
+        if self.settings.resume and not os.path.exists(filename) and os.path.exists(name + ".zip"):
             return
         # start = time.time()
         self.print('Exporting routines...')
-        self.run_mysqldump("--no-data --no-create-db --routines --skip-triggers --no-create-info ", name + ".sql")
-        self.remove_function_definer(name + ".sql")
+        self.run_mysqldump("--no-data --no-create-db --routines --skip-triggers --no-create-info ", filename)
+        self.remove_function_definer(filename)
         self.zip_table("routines", self.settings.output_path)
-        # self.print("--- %s sec. ---" % round(time.time() - start, 2))
 
     def dump_tables(self):
         tables = self.get_tables()
@@ -116,7 +116,8 @@ class Backup:
                 tmp_file = self.resolve_tmp_filename()
                 self.run_mysqldump(f"--no-create-info --hex-blob --skip-triggers --where=\"1 LIMIT {sizes['step']} OFFSET {offset}\"", tmp_file, table)
                 os.rename(tmp_file, file)
-                print('Saving: ' + file)
+                if self.settings.quiet:
+                    print('Saving: ' + file)
                 if self.settings.step_by_step:
                    return False
             # progress_bar.update(min(sizes['step'], sizes['rows'] - offset))
@@ -201,8 +202,8 @@ class Backup:
         try:
             to_zip = sorted(glob(Settings.join_path(path, table + "*.sql")))
             zip_file = Settings.join_path(path, table + ".zip")
-
-            print('Zipping: ' + zip_file)
+            if self.settings.quiet:
+                print('Zipping: ' + zip_file)
             # No soportado en python 3.6
             # with zipfile.ZipFile(zip_file, 'w', zipfile.ZIP_DEFLATED, compresslevel=level) as zipf:
             with zipfile.ZipFile(zip_file, 'w', zipfile.ZIP_DEFLATED) as zipf:
@@ -330,7 +331,8 @@ class Backup:
 
     def delete_unfinished_file(self):
         file = Settings.join_path(self.settings.output_path, "unfinished")
-        os.remove(file)
+        if os.path.exists(file):
+            os.remove(file)
 
     def main(self):
         self.settings.parse_config_file()

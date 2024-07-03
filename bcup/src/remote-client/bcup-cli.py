@@ -46,7 +46,6 @@ def step_backup(args, session_id):
         #print('services/api/stepBackup')
         response = requests.get(f"{args.server}services/api/stepBackup", params=params, verify=False)
         data = response.json()
-        # print(data)
         if data["Status"] == "COMPLETE":
             progress_bar.close()
             return
@@ -79,13 +78,25 @@ def download_files(args, session_id):
     for n in range(1, file_count + 1):
         params["n"] = n
         response = requests.get(f"{args.server}services/api/stepFiles", params=params, verify=False)
+        type = response.headers.get('Content-Type')
+        disposition = response.headers.get('Content-Disposition')
 
-        if response.headers.get('Content-Type') == 'application/json':
+        if response.status_code != 200:
+            print(f"El backup no fue exitoso. Falló al obtenerse archivos, con código {response.status_code}.")
+            print(f"Respuesta: \n{response}")
+            sys.exit()
+
+        if not disposition:
+            print(f"El backup no fue exitoso. Falló al obtenerse una respuesta sin nombre de archivo cliente.")
+            print(f"Respuesta: \n{response}")
+            sys.exit()
+
+        if type == 'application/json':
             data = response.json()
             if data.get('Status') == 'COMPLETE':
                 break
         else:
-            filename = response.headers.get('Content-Disposition').split('filename=')[1].strip('"')
+            filename = disposition.split('filename=')[1].strip('"')
             filepath = os.path.join(OUTPUT_FOLDER, filename)
             os.makedirs(os.path.dirname(filepath), exist_ok=True)
 

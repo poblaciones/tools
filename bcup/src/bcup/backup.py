@@ -302,8 +302,9 @@ class Backup:
                 step = 1
             else:
                 row_bytes = table_bytes / rows
-                step = int(14000000 / row_bytes)
-                if step == 0:
+                MBytes_to_capture = 50
+                step = int(MBytes_to_capture * 1000000 / row_bytes)
+                if step < 1:
                     step = 10
 
             sizes[table] = {'rows': rows, 'bytes': table_bytes, 'step': step}

@@ -40,6 +40,7 @@ class Settings:
         self.from_date = '2000-01-01'
         self.include_tables = []
         self.exclude_tables = []
+        self.forced_tables = []
         self.resume = False
         self.step_by_step = False
         self.quiet = False
@@ -64,10 +65,11 @@ class Settings:
         parser.add_argument('--quiet', action='store_true', required=False, help='Disables messages.')
         parser.add_argument('--resume', action='store_true', help='Resume the backup.')
         parser.add_argument('--step_by_step', action='store_true', help='Advances one step by execution.')
-        parser.add_argument('--output', default=None, help='Path name for backup (default: [database name]-[ISO date]).')
-        parser.add_argument('--output_path', default=None, help=f'Output path for backup path --output (default: {self.output_path}).')
+        parser.add_argument('--output', default=None, help='Name for backup (default: [database name]-[ISO date]). Bcup will create a directory or a zip file named after this setting.')
+        parser.add_argument('--output_path', default=None, help=f'Location to create the output directory or zip file --output (default: {self.output_path}).')
         parser.add_argument('--include_tables', nargs='+', default=[], help='Comma separated list of tables to include. Can use * as wildcard and start with ! for negation.')
         parser.add_argument('--exclude_tables', nargs='+', default=[], help='Comma separated list of tables to exclude. Can use * as wildcard.')
+        parser.add_argument('--forced_tables', nargs='+', default=[], help='Comma separated list of tables to always include when using from_date. Can use * as wildcard.')
         parser.add_argument('--zip', action='store_true', help='Adds full backup to zip file without compression and removes backup path.')
 
         if show_help:
@@ -109,6 +111,9 @@ class Settings:
             self.exclude_tables = args.exclude_tables[0].split(',')
         if args.include_tables:
             self.include_tables = args.include_tables[0].split(',')
+        if args.forced_tables:
+            self.forced_tables = args.forced_tables[0].split(',')
+
 
     def parse_command_line_restore(self, show_help=False):
         parser = argparse.ArgumentParser(prog=f"python {sys.argv[0]} restore", description='Restores backups created with this script.')

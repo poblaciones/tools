@@ -26,7 +26,8 @@ class Backup:
             f"{options} {self.settings.db_name} {table_list}"
 
         with open(output_file, 'w', encoding='utf-8') as f:
-            proc = subprocess.run(command, shell=True, stdout=f, stderr=subprocess.PIPE, text=True)
+            # text=True es de 3.7
+            proc = subprocess.run(command, shell=True, stdout=f, stderr=subprocess.PIPE)
         stderr_output = proc.stderr
 
         if proc.returncode != 0:
@@ -47,6 +48,21 @@ class Backup:
 
         with open(file_path, 'w', encoding='utf-8') as file:
             file.write(new_content)
+
+
+    def remove_no_auto_create_user(self, file_path):
+        if not os.path.isfile(file_path):
+            return
+        with open(file_path, 'r', encoding='utf-8') as file:
+            lines = file.readlines()
+        with open(file_path, 'w', encoding='utf-8') as file:
+            for line in lines:
+                if line.startswith("/*!50003") and 'NO_AUTO_CREATE_USER' in line:
+                    new_line = line.replace(",NO_AUTO_CREATE_USER", "")
+                    file.write(new_line)
+                else:
+                    file.write(line)
+
 
     def remove_function_definer(self, file_path):
         if not os.path.isfile(file_path):
@@ -76,6 +92,7 @@ class Backup:
         self.print('Exporting routines...')
         self.run_mysqldump("--no-data --no-create-db --routines --skip-triggers --no-create-info ", filename)
         self.remove_function_definer(filename)
+        self.remove_no_auto_create_user(filename)
         self.zip_table("routines", self.settings.output_path)
 
     def dump_tables(self):
@@ -134,6 +151,7 @@ class Backup:
             tmp_file = self.resolve_tmp_filename()
             self.run_mysqldump("--no-data --no-create-db", tmp_file, table)
             self.remove_trigger_definer(tmp_file)
+            self.remove_no_auto_create_user(tmp_file)
             os.rename(tmp_file, file)
 
     def resolve_tmp_filename(self):
@@ -153,6 +171,9 @@ class Backup:
         """
         cnx = self.get_connection()
         cursor = cnx.cursor()
+        # MODIFICAR ESTO PARA QUE SE BASE EN ARCHIVOS Y PARA QUE RESPETE EL PARAMETRO FORCED_TABLES
+        # Parámetro: from_date_index
+
         sql = "SELECT table_name FROM information_schema.TABLES " \
             "WHERE table_type = 'BASE TABLE' AND table_schema = %s AND (create_time >= %s OR update_time >= %s) " \
             "ORDER BY table_name"

@@ -1,3 +1,4 @@
+from genericpath import samefile
 import json
 import os
 import pymysql
@@ -7,6 +8,7 @@ import subprocess
 import sys
 import time
 import zipfile
+from datetime import datetime
 from glob import glob
 from settings import Settings
 from tqdm import tqdm
@@ -97,6 +99,12 @@ class Backup:
 
     def dump_tables(self):
         tables = self.get_tables()
+
+        # sale si solo precisa listar
+        if self.settings.list_only:
+            print(tables)
+            sys.exit()
+
         total_row_count, total_bytes, sizes = self.get_total_row_count(tables)
 
         json_file = Settings.join_path(self.settings.output_path, "tables.json")
@@ -165,26 +173,54 @@ class Backup:
         return pymysql.connect(user=self.settings.db_user, password=self.settings.db_pass, host=self.settings.db_host,
                                port=self.settings.db_port, database=self.settings.db_name)
 
-    def get_tables(self):
-        """ Obtiene todas las tablas que hay que backupear filtrando por fecha y filtros
-            de exclusión e inclusión.  Si es resume, quita las tablas que ya están creadas.
-        """
+    def get_tables_from_schema(self):
         cnx = self.get_connection()
         cursor = cnx.cursor()
-        # MODIFICAR ESTO PARA QUE SE BASE EN ARCHIVOS Y PARA QUE RESPETE EL PARAMETRO FORCED_TABLES
-        # Parámetro: from_date_index
-
         sql = "SELECT table_name FROM information_schema.TABLES " \
-            "WHERE table_type = 'BASE TABLE' AND table_schema = %s AND (create_time >= %s OR update_time >= %s) " \
-            "ORDER BY table_name"
-        cursor.execute(sql, (self.settings.db_name, self.settings.from_date, self.settings.from_date))
+            "WHERE table_type = 'BASE TABLE' AND table_schema = %s "
+        params = [self.settings.db_name]
+        if not self.settings.from_date_index:
+            sql += "AND (create_time >= %s OR update_time >= %s) "
+            params.append(self.settings.from_date)
+            params.append(self.settings.from_date)
+        sql += "ORDER BY table_name"
+        # las trae
+        cursor.execute(sql, params)
         tables = cursor.fetchall()
         cnx.close()
+        return tables
+
+    def filter_tables_by_index(self, tables):
         ret = []
+        date = self.settings.from_date
         for table in tables:
+            index_file = os.path.join(self.settings.from_date_index, table[0].lower())
+            if os.path.exists(index_file):
+                file_date = self.get_file_date(index_file)
+                if file_date >= self.settings.from_date:
+                    ret.append(table)
+        return ret
+
+    def get_file_date(self, file):
+        timestamp_modificacion = os.path.getmtime(file)
+        fecha_modificacion = datetime.fromtimestamp(timestamp_modificacion)
+        return fecha_modificacion.strftime('%Y-%m-%d')
+
+    def get_tables(self):
+        """ Obtiene todas las tablas que hay que backupear filtrando por fecha
+        """
+        tables_db = self.get_tables_from_schema()
+        # Hace el filtro de fecha por carpeta
+        if self.settings.from_date_index:
+            tables_db = self.filter_tables_by_index(tables_db)
+
+        # Aplica los filtros de exclusión e inclusión.
+        ret = []
+        for table in tables_db:
             if self.filter_tables(table[0]):
                 ret.append(table[0])
 
+        #  Si es resume, quita las tablas que ya están creadas.
         if self.settings.resume:
             tmp_file = self.resolve_tmp_filename()
             if os.path.exists(tmp_file):
@@ -376,7 +412,7 @@ class Backup:
             self.create_unfinished_file()
             self.create_timestamp_file()
 
-        if not self.settings.skip_routines:
+        if not self.settings.skip_routines and not self.settings.list_only:
             self.dump_routines()
 
         if not self.dump_tables():

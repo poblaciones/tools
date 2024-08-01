@@ -3,6 +3,7 @@ import configparser
 import os
 import subprocess
 import sys
+import re
 from datetime import datetime
 from glob import glob
 
@@ -38,6 +39,7 @@ class Settings:
         self.output = ""
         self.output_path = "tmp_backup"
         self.from_date = '2000-01-01'
+        self.from_date_index = None
         self.include_tables = []
         self.exclude_tables = []
         self.forced_tables = []
@@ -61,9 +63,11 @@ class Settings:
         parser = argparse.ArgumentParser(prog=f"python {sys.argv[0]} backup", description='Creates incremental backups of full mysql tables.')
         parser.add_argument('backup', default='backup', help=argparse.SUPPRESS)
         self.database_args(parser)
-        parser.add_argument('--from_date', default=self.from_date, help='Last changed date to start backup. Format yyyy-mm-dd.')
+        parser.add_argument('--from_date', help='Last changed date to start backup. Format yyyy-mm-dd.')
+        parser.add_argument('--from_date_index', help='Folder to look for last modified table timestamps. Each file in the folder represents a table.')
         parser.add_argument('--quiet', action='store_true', required=False, help='Disables messages.')
         parser.add_argument('--resume', action='store_true', help='Resume the backup.')
+        parser.add_argument('--list_only', action='store_true', help='List the tables to backup and exits.')
         parser.add_argument('--step_by_step', action='store_true', help='Advances one step by execution.')
         parser.add_argument('--output', default=None, help='Name for backup (default: [database name]-[ISO date]). Bcup will create a directory or a zip file named after this setting.')
         parser.add_argument('--output_path', default=None, help=f'Location to create the output directory or zip file --output (default: {self.output_path}).')
@@ -80,11 +84,22 @@ class Settings:
 
         self.parse_database_args(args)
 
+        # Valida from_date y from_date_index
         if args.from_date:
             self.from_date = args.from_date
+            self.from_date_index = args.from_date_index
+            patron = r"^\d{4}-\d{2}-\d{2}$"
+            if not re.match(patron, self.from_date):
+                sys.exit('El parámetro from_date debe tener el formato yyyy-mm-dd.')
+            if self.from_date_index and not os.path.isdir(self.from_date_index):
+                sys.exit("La carpeta indicada en from_date_index no fue encontrada.")
+        if not args.from_date and args.from_date_index:
+            sys.exit("Si se indica from_date_index debe indicarse también el parámetro from_date.")
 
+        # toma los parámetros de modo de procesamiento
         self.quiet = args.quiet
         self.resume = args.resume
+        self.list_only = args.list_only
         self.step_by_step = args.step_by_step
         self.zip = args.zip
 
@@ -101,7 +116,7 @@ class Settings:
             else:
                 paths = [path for path in sorted(glob(Settings.join_path(self.output_path, self.db_name + "-*"))) if os.path.isdir(path)]
                 if not paths:
-                    sys.exit("Path not found.")
+                    sys.exit("Se indicó el parámetro --resume pero no se encontraron carpetas con backups en curso en la ruta indicada.")
                 self.output = os.path.basename(paths[-1])
 
         self.output_path = Settings.join_path(self.output_path, self.output)

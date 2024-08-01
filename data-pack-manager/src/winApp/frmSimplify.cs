@@ -1,6 +1,6 @@
 /*
 *    Poblaciones - Plataforma abierta de datos espaciales de población.
-*    Copyright (C) 2018-2019. Consejo Nacional de Investigaciones Científicas y Técnicas (CONICET)
+*    Copyright (C) 2018-2024. Consejo Nacional de Investigaciones Científicas y Técnicas (CONICET)
 *		 y Universidad Católica Argentina (UCA).
 *
 *    This program is free software: you can redistribute it and/or modify
@@ -51,6 +51,7 @@ namespace medea.winApp
 			var call = new GeographySimplify();
 			if (Invoker.CallProgress(call))
 			{
+				MarkTableUpdate.UpdateTables(new string[] { "geography_item" });
 				if (call.Errors.Count > 0)
 					UI.ShowInfoMessage(this, "Listo con errores " + call.Errors.Count);
 				else
@@ -65,6 +66,8 @@ namespace medea.winApp
 			var call = new ClippingRegionSimplify();
 			if (Invoker.CallProgress(call))
 			{
+				MarkTableUpdate.UpdateTables(new string[] { "clipping_region_item" });
+
 				if (call.Errors.Count > 0)
 					UI.ShowInfoMessage(this, "Listo con errores " + call.Errors.Count);
 				else
@@ -78,10 +81,13 @@ namespace medea.winApp
 
 			var call1 = new ClippingRegionSimplify();
 			Invoker.CallProgress(call1);
+			MarkTableUpdate.UpdateTables(new string[] { "clipping_region_item" });
 
 			var call2 = new GeographySimplify();
 			if (Invoker.CallProgress(call2))
 			{
+				MarkTableUpdate.UpdateTables(new string[] { "geography_item" });
+
 				if (call1.Errors.Count > 0)
 					UI.ShowInfoMessage(this, "Listo 1 con errores " + call2.Errors.Count);
 

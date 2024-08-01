@@ -1,6 +1,6 @@
 /*
 *    Poblaciones - Plataforma abierta de datos espaciales de población.
-*    Copyright (C) 2018-2019. Consejo Nacional de Investigaciones Científicas y Técnicas (CONICET)
+*    Copyright (C) 2018-2024. Consejo Nacional de Investigaciones Científicas y Técnicas (CONICET)
 *		 y Universidad Católica Argentina (UCA).
 *
 *    This program is free software: you can redistribute it and/or modify
@@ -139,6 +139,7 @@ namespace medea.winApp
 				current.BoundaryClippingRegions.Add(c);
 			}
 			Call(new BoundarySave(current));
+			MarkTableUpdate.UpdateTables(new string[] { "boundary", "boundary_item", "boundary_clipping_region" });
 
 			Call(new MetadataClearRemoteCache(current.Metadata));
 		}

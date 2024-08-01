@@ -1,6 +1,6 @@
 /*
 *    Poblaciones - Plataforma abierta de datos espaciales de población.
-*    Copyright (C) 2018-2019. Consejo Nacional de Investigaciones Científicas y Técnicas (CONICET)
+*    Copyright (C) 2018-2024. Consejo Nacional de Investigaciones Científicas y Técnicas (CONICET)
 *		 y Universidad Católica Argentina (UCA).
 *
 *    This program is free software: you can redistribute it and/or modify
@@ -63,32 +63,7 @@ namespace medea.winApp
 					n -= 5;
 				}
 			}
-			/*for (int n = 419894; n < 764667; n += 10)
-			{
-				try
-				{
-					string range = " where gei_id between " + n + " AND " + (n + 10);
-					Console.WriteLine("CART : " +n);
-					string sql = null;
-					sql = "update  `geography_item` set gei_geometry_r1 = GeomFromText(TrimDecimals(asText(gei_geometry_r1))) " + range;
-					context.Data.Session.SqlActions.ExecuteNonQuery(sql);
-					sql = "update  `geography_item` set gei_geometry_r2 = GeomFromText(TrimDecimals(asText(gei_geometry_r2))) " + range;
-					context.Data.Session.SqlActions.ExecuteNonQuery(sql);
-					sql = "update  `geography_item` set gei_geometry_r3 = GeomFromText(TrimDecimals(asText(gei_geometry_r3))) " + range;
-					context.Data.Session.SqlActions.ExecuteNonQuery(sql);
-					sql = "update  `geography_item` set gei_geometry_r4 = GeomFromText(TrimDecimals(asText(gei_geometry_r4))) " + range;
-					context.Data.Session.SqlActions.ExecuteNonQuery(sql);
-					sql = "update  `geography_item` set gei_geometry_r5 = GeomFromText(TrimDecimals(asText(gei_geometry_r5))) " + range;
-					context.Data.Session.SqlActions.ExecuteNonQuery(sql);
-					//sql = "update  `geography_item` set gei_geometry = GeomFromText(TrimDecimals(asText(gei_geometry))) " + range;
-					//context.Data.Session.SqlActions.ExecuteNonQuery(sql);
-				}
-				catch
-				{
-					Console.WriteLine("Retrying... CARTO : " +n);
-					//n -= 10;
-				}
-			}*/
+
 			MessageBox.Show("done");
 		}
 	}

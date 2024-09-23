@@ -14,13 +14,44 @@ class Restore:
     def __init__(self):
         self.settings = Settings()
 
+    def run_mysql_zip(self, file):
+        # expande
+        temp_dir = Settings.join_path(self.settings.input_path, "extract")
+        if os.path.exists(temp_dir):
+            shutil.rmtree(temp_dir)
+        with zipfile.ZipFile(file, 'r') as zip_ref:
+            zip_ref.extractall(temp_dir)
+
+        # procesa uno por uno
+        for root, _, files in os.walk(temp_dir):
+            sorted_files = sorted(files)
+            for file in sorted_files:
+                file_path = os.path.join(temp_dir, file)
+                self.clean_maria_db(file_path)
+                self.run_mysql(file_path)
+
+        # elimina temporarios
+        shutil.rmtree(temp_dir)
+
+    def clean_maria_db(self, file):
+        # Leer el contenido del archivo
+        with open(file, 'r', encoding='utf-8') as f:
+            content = f.readlines()
+
+        # Filtrar la primera línea si contiene el comando de sandbox
+        if content and "/*!999999\\- enable the sandbox mode */" in content[0]:
+            content = content[1:]
+            # Escribir el contenido filtrado de vuelta al archivo
+            with open(file, 'w', encoding='utf-8') as f:
+                f.writelines(content)
+
     def run_mysql(self, file):
         ini = f"--password={self.settings.db_pass}"
         if self.settings.has_ini:
             ini = f"--defaults-file={Settings.CONFIG_FILE}"
 
-        command = f"unzip -p \"{file}\" | \"{self.settings.mysql}\" {ini} --user={self.settings.db_user} --host={self.settings.db_host} " \
-            f"--port={self.settings.db_port} {self.settings.db_name}"
+        command = f"\"{self.settings.mysql}\" {ini} --user={self.settings.db_user} --host={self.settings.db_host} " \
+            f"--port={self.settings.db_port} {self.settings.db_name} < \"{file}\""
 
         proc = subprocess.run(command, shell=True)
         if proc.returncode != 0:
@@ -32,9 +63,9 @@ class Restore:
         routines = Settings.join_path(self.settings.input_path, "routines.zip")
         if os.path.exists(routines):
             print('Restoring routines...')
-            self.run_mysql(routines)
+            self.run_mysql_zip(routines)
             if self.settings.move_done:
-                shutil.move(routines, Settings.join_path(self.settings.done_path, "000-routines.zip"))
+                shutil.move(routines, Settings.join_path(self.settings.done_path, "routines.zip"))
 
     def restore_tables(self):
         print('Restoring tables...')
@@ -52,9 +83,10 @@ class Restore:
         with tqdm(total=total, ncols=70) as progress_bar:
             for table in sizes:
                 if 'file' in sizes[table]:
-                    self.run_mysql(sizes[table]['file'])
+                    self.run_mysql_zip(sizes[table]['file'])
                     if self.settings.move_done:
-                        shutil.move(sizes[table]['file'], Settings.join_path(self.settings.done_path, table + ".zip"))
+                        done_path = Settings.join_path(self.settings.done_path, 'tables')
+                        shutil.move(sizes[table]['file'], Settings.join_path(done_path, table + ".zip"))
                     progress_bar.update(sizes[table]['rows'])
 
     def create_restore_path(self):
@@ -65,12 +97,11 @@ class Restore:
         os.makedirs(self.settings.input_path, exist_ok=True)
         os.makedirs(self.settings.tables_path, exist_ok=True)
 
-    def create_done_path(self):
-        if os.path.isdir(self.settings.done_path):
-            return
-
-        print(f"Creating {self.settings.done_path}")
-        os.makedirs(self.settings.done_path, exist_ok=True)
+    def ensure_done_path_exists(self):
+        done_path_tables = Settings.join_path(self.settings.done_path, 'tables')
+        if not os.path.exists(done_path_tables):
+            print(f"Creating {self.settings.done_path}")
+            os.makedirs(done_path_tables, exist_ok=True)
 
     def remove_restore_path(self):
         print(f"Removing {self.settings.input_path}")
@@ -116,7 +147,7 @@ class Restore:
             self.unzip_backup()
 
         if self.settings.move_done:
-            self.create_done_path()
+            self.ensure_done_path_exists()
 
         if not self.settings.skip_routines:
             self.restore_routines()

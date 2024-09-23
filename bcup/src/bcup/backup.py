@@ -20,7 +20,7 @@ class Backup:
         self.settings = Settings()
 
     def run_mysqldump(self, options, output_file, table_list=''):
-        ini = f"--password={self.settings.db_pass}"
+        ini = f"--password='{self.settings.db_pass}'"
         if self.settings.has_ini:
             ini = f"--defaults-file={Settings.CONFIG_FILE}"
 

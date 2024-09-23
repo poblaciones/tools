@@ -184,6 +184,10 @@ def main():
         print(f"Al continuarse una sesión no debe indicarse un timestamp.")
         sys.exit()
 
+    start = time.time()
+    fecha_hora_actual = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    print(f"Iniciando [{fecha_hora_actual}]")
+
     if timestamp:
         print(f"Resguardando datos desde: {timestamp}")
     elif args.timestamp_folder:
@@ -204,6 +208,9 @@ def main():
 
     download_files(args, session_id)
     print("Descarga de archivos completada")
+
+    print(f"Finalizando [{fecha_hora_actual}]")
+    print(f"Tiempo total: {round(time.time() - start, 2)} secs. ---")
 
 if __name__ == "__main__":
     main()

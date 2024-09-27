@@ -13,6 +13,8 @@ from glob import glob
 from settings import Settings
 from tqdm import tqdm
 
+# pendiente: hacer backup de vistas, con el query:
+# select CONCAT("CREATE OR REPLACE VIEW ", TABLE_NAME, " AS ", VIEW_DEFINITION, "; ") script FROM information_schema.views WHERE TABLE_SCHEMA = '<DB>';
 
 class Backup:
 
@@ -99,6 +101,7 @@ class Backup:
 
     def dump_tables(self):
         tables = self.get_tables()
+        # print('count tables: ' + str(len(tables)))
 
         # sale si solo precisa listar
         if self.settings.list_only:
@@ -210,6 +213,8 @@ class Backup:
         """ Obtiene todas las tablas que hay que backupear filtrando por fecha
         """
         tables_db = self.get_tables_from_schema()
+        # print('count tables_db: ' + str(len(tables_db)))
+
         # Hace el filtro de fecha por carpeta
         if self.settings.from_date_index:
             tables_db = self.filter_tables_by_index(tables_db)
@@ -219,6 +224,8 @@ class Backup:
         for table in tables_db:
             if self.filter_tables(table[0]):
                 ret.append(table[0])
+
+        # print('count tables_db_after_filter: ' + str(len(ret)))
 
         #  Si es resume, quita las tablas que ya están creadas.
         if self.settings.resume:
@@ -422,7 +429,11 @@ class Backup:
         self.delete_unfinished_file()
 
         if self.settings.zip:
-            self.zip_full_path(self.settings.output_path, self.settings.output_path + ".zip", 0)
+            if not self.settings.output_path.lower().endswith('.zip'):
+                zipname = self.settings.output_path + ".zip"
+            else:
+                zipname = self.settings.output_path
+            self.zip_full_path(self.settings.output_path, zipname, 0)
             shutil.rmtree(self.settings.output_path)
 
         self.print("--- Total time: %s sec. ---" % round(time.time() - start, 2))

@@ -19,6 +19,7 @@ PARAMS = {
 
 OUTPUT_FOLDER = "./partial_backups"
 MERGED_FOLDER = "./target_backup"
+USER_AGENT =   'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
 
 
 def start_backup(args, timestamp):
@@ -27,7 +28,8 @@ def start_backup(args, timestamp):
     params['s'] = args.key
     response = ''
     try:
-        response = requests.get(f"{args.server}services/api/startBackup", params=params, verify=False)
+        headers = { "User-Agent": USER_AGENT }
+        response = requests.get(f"{args.server}services/api/startBackup", params=params, headers=headers, verify=False)
         full_url = url_with_params('services/api/startBackup', params)
         print(f"Url: {args.server}{full_url}")
         data = response.json()
@@ -51,7 +53,8 @@ def step_backup(args, session_id):
     try:
       while True:
         #print('services/api/stepBackup')
-        response = requests.get(f"{args.server}services/api/stepBackup", params=params, verify=False)
+        headers = { "User-Agent": USER_AGENT }
+        response = requests.get(f"{args.server}services/api/stepBackup", params=params, headers=headers, verify=False)
         data = response.json()
         if data["Status"] == "COMPLETE":
             progress_bar.close()
@@ -87,7 +90,8 @@ def download_files(args, session_id):
 
     # Obtener información sobre los archivos
     params["n"] = 0
-    response = requests.get(f"{args.server}services/api/stepFiles", params=params, verify=False)
+    headers = { "User-Agent": USER_AGENT }
+    response = requests.get(f"{args.server}services/api/stepFiles", params=params, headers=headers, verify=False)
     file_info = response.json()
     total_size = file_info["Filessize"]
     file_count = file_info["Filecount"]
@@ -97,7 +101,8 @@ def download_files(args, session_id):
 
     for n in range(1, file_count + 1):
         params["n"] = n
-        response = requests.head(f"{args.server}services/api/stepFiles", params=params, verify=False)
+        headers = { "User-Agent": USER_AGENT }
+        response = requests.head(f"{args.server}services/api/stepFiles", params=params, headers=headers, verify=False)
         type = response.headers.get('Content-Type')
         disposition = response.headers.get('Content-Disposition')
 
@@ -119,7 +124,8 @@ def download_files(args, session_id):
             progress_bar.update(os.path.getsize(filepath));
         else:
             # lo trae
-            response = requests.get(f"{args.server}services/api/stepFiles", params=params, verify=False)
+            headers = { "User-Agent": USER_AGENT }
+            response = requests.get(f"{args.server}services/api/stepFiles", params=params, headers=headers, verify=False)
             if type == 'application/json' and not filename.endswith('.json'):
                 data = response.json()
                 if data.get('Status') == 'COMPLETE':

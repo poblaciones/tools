@@ -52,7 +52,7 @@ namespace medea.entities
 				Caption,
 				(string.IsNullOrEmpty(Parent) ?
 						ParentCode : ParentCode + " - " + Parent),
-				(((long) (AreaM2 / 1000 / 100)) / 10F).ToString(),
+				(((long) (AreaM2 / 100 / 10)) / 1000F).ToString(),
 				Population.ToString(),
 				Households.ToString(),
 				Children.ToString(),

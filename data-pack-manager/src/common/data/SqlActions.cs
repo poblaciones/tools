@@ -322,8 +322,8 @@ namespace medea.Data
 		}
 		public int ExecuteNonQuery(CommandType commandType, string commandText, bool doNotFlush, params IDbDataParameter[] commandParameters)
 		{
-			// SaveToDisk(commandType, commandText, doNotFlush, commandParameters);
-			// return 1;
+			//SaveToDisk(commandType, commandText, doNotFlush, commandParameters);
+			//return 1;
 			
 			if (_session.FlushMode != FlushMode.Never && doNotFlush == false)
 				_session.Flush();

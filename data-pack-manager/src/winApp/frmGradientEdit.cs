@@ -64,6 +64,7 @@ namespace medea.winApp
 			current = gradient;
 			txtCaption.Text = current.Caption;
 			txtMaxZoomLevel.Text = current.MaxZoomLevel.ToString();
+			txtMaxZoomLevel.ReadOnly = true;
 			if (current.ImageType == "image/jpeg") radJpg.Checked = true;
 			if (current.ImageType == "image/png") radPng.Checked = true;
 		
@@ -145,6 +146,11 @@ namespace medea.winApp
 			}
 			reader.Close();
 			con.Close();
+		}
+
+		private void uFile_Load(object sender, EventArgs e)
+		{
+
 		}
 	}
 }

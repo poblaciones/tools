@@ -69,7 +69,8 @@ namespace medea.winApp
 				foreach (var item in items)
 				{
 					ListViewItem lvi = new ListViewItem();
-					lvi.Text = item.Geography.Caption;
+					lvi.Text = item.Id.ToString();
+					lvi.SubItems.Add(item.Geography.Caption);
 					lvi.SubItems.Add(item.PreviousGeography.Revision);
 					lvi.SubItems.Add(item.Geography.Revision);
 					if (item.PreviousLowerGeography != null)

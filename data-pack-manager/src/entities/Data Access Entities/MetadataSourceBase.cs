@@ -28,6 +28,7 @@ namespace medea.entities
 		#region Campos privados
 
 		private int? _id;
+		private int _order;
 
 		private Source _source;
 		private Metadata _metadata;
@@ -41,6 +42,12 @@ namespace medea.entities
 		{
 			get { return _source; }
 			set { _source = value; }
+		}
+
+		public virtual int Order
+		{
+			get { return _order; }
+			set { _order = value; }
 		}
 
 		public virtual int? Id

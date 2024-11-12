@@ -57,6 +57,11 @@ namespace medea.entities
 			get { return _caption; }
 			set { _caption = value; }
 		}
+		public virtual string CaptionShort
+		{
+			get { return _caption; }
+			set { _caption = value; }
+		}
 		public virtual string Revision
 		{
 			get { return _revision; }

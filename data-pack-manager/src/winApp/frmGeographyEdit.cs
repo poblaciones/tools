@@ -152,6 +152,7 @@ namespace medea.winApp
 			isNew = false;
 			current = geography;
 			txtCaption.Text = current.Caption;
+			txtCaptionShort.Text = current.CaptionShort;
 			txtRevision.Text = current.Revision;
 			txtRootCaption.Text = current.RootCaption;
 			cmbParent.SelectItem(current.Parent);
@@ -203,6 +204,8 @@ namespace medea.winApp
 			var msg = "";
 			if (txtCaption.Text.Trim() == "")
 				msg += "Debe indicar un valor para 'Nombre'.\n";
+			if (txtCaptionShort.Text.Trim() == "")
+				msg += "Debe indicar un valor para 'Nombre corto'.\n";
 			msg = CheckZoom(txtMaxZoom, "Zoom máximo", msg);
 
 			if (uFile.FileAdded)
@@ -269,6 +272,7 @@ namespace medea.winApp
 		private void ControlsToValues()
 		{
 			current.Caption = txtCaption.Text.Trim();
+			current.CaptionShort = txtCaptionShort.Text.Trim();
 			current.Revision = txtRevision.Text.Trim();
 			current.RootCaption = txtRootCaption.Text.Trim();
 			if (current.RootCaption == "")
@@ -329,6 +333,26 @@ namespace medea.winApp
 			edit.LoadData(current.Metadata);
 			if (edit.ShowDialog(this) != DialogResult.Cancel)
 				edit.ControlsToValues();
+		}
+
+		private void lblRevision_Click(object sender, EventArgs e)
+		{
+
+		}
+
+		private void txtRevision_TextChanged(object sender, EventArgs e)
+		{
+
+		}
+
+		private void lblParent_Click(object sender, EventArgs e)
+		{
+
+		}
+
+		private void label9_Click(object sender, EventArgs e)
+		{
+
 		}
 	}
 }

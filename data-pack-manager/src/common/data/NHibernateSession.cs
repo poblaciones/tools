@@ -29,6 +29,7 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using NetTopologySuite.Geometries;
 using NetTopologySuite.IO;
+using System.Reflection;
 
 namespace medea.Data
 {
@@ -44,6 +45,7 @@ namespace medea.Data
 		private SqlActions _sessionSqlActions;
 		public SqlActions SqlActions { get { return _sessionSqlActions; } }
 
+		public static Assembly AssemblyConfiguration;
 		public NHibernateSession(ISession wrap, IStatelessSession wrapStateless)
 		{
 			_wrap = wrap;

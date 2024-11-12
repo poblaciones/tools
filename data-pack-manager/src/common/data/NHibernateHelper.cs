@@ -253,7 +253,7 @@ namespace medea.Data
 				if (UseHibernateConfigurationSection == false)
 					config.AddAssembly(assembly);
 			}
-			config.AddAssembly("medea.data");
+			config.AddAssembly(NHibernateSession.AssemblyConfiguration);
 
 			return config;
 		}

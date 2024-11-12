@@ -62,7 +62,12 @@ namespace medea.controls
 			MetadataSource link = new MetadataSource();
 			link.Source = source;
 			link.Metadata = this.metadata;
+
 			this.current.Add(link);
+			for(var n = 0; n < this.current.Count; n++)
+			{
+				this.current[n].Order = n + 1;
+			}
 			this.ReloadList();
 		}
 

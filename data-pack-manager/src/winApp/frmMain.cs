@@ -192,6 +192,8 @@ namespace medea.winApp
 
         private void frmMain_Load(object sender, EventArgs e)
 		{
+			NHibernateSession.AssemblyConfiguration = typeof(medea.entities.Boundary).Assembly;
+
 			using (new WaitCursor())
 			{
 				var countries = UI.GetCountries();

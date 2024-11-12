@@ -50,7 +50,8 @@ public class WebClientEx : WebClient
     protected override WebRequest GetWebRequest(Uri address)
     {
         WebRequest r = base.GetWebRequest(address);
-        var request = r as HttpWebRequest;
+			InsecureCertificateAcceptor.ConfigureRequest();
+			var request = r as HttpWebRequest;
         if (request != null)
         {
             request.CookieContainer = container;

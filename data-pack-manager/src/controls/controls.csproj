@@ -138,6 +138,7 @@
     <Compile Include="frmMultiStepHttpProcess.Designer.cs">
       <DependentUpon>frmMultiStepHttpProcess.cs</DependentUpon>
     </Compile>
+    <Compile Include="InsecureCertificateAcceptor.cs" />
     <Compile Include="WebClientEx.cs">
       <SubType>Component</SubType>
     </Compile>

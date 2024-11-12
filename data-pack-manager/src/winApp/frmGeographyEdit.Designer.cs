@@ -90,20 +90,22 @@ namespace medea.winApp
 			this.cmbGradient = new medea.controls.uComboBox();
 			this.chTracking = new System.Windows.Forms.CheckBox();
 			this.chClipping = new System.Windows.Forms.CheckBox();
+			this.txtCaptionShort = new System.Windows.Forms.TextBox();
+			this.label2 = new System.Windows.Forms.Label();
 			this.panMain.SuspendLayout();
 			this.grpGeneral.SuspendLayout();
 			this.grpItems.SuspendLayout();
 			this.grpCampos.SuspendLayout();
 			this.groupBox4.SuspendLayout();
 			this.SuspendLayout();
-			// 
+			//
 			// panButtons
-			// 
-			this.panButtons.Location = new System.Drawing.Point(0, 506);
+			//
+			this.panButtons.Location = new System.Drawing.Point(0, 544);
 			this.panButtons.Size = new System.Drawing.Size(599, 55);
-			// 
+			//
 			// panMain
-			// 
+			//
 			this.panMain.Controls.Add(this.chClipping);
 			this.panMain.Controls.Add(this.chTracking);
 			this.panMain.Controls.Add(this.groupBox4);
@@ -113,10 +115,12 @@ namespace medea.winApp
 			this.panMain.Controls.Add(this.grpGeneral);
 			this.panMain.Controls.Add(this.grpItems);
 			this.panMain.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-			this.panMain.Size = new System.Drawing.Size(599, 506);
-			// 
+			this.panMain.Size = new System.Drawing.Size(599, 544);
+			//
 			// grpGeneral
-			// 
+			//
+			this.grpGeneral.Controls.Add(this.txtCaptionShort);
+			this.grpGeneral.Controls.Add(this.label2);
 			this.grpGeneral.Controls.Add(this.btnEditMetadata);
 			this.grpGeneral.Controls.Add(this.label1);
 			this.grpGeneral.Controls.Add(this.lblRevision);
@@ -129,13 +133,13 @@ namespace medea.winApp
 			this.grpGeneral.Controls.Add(this.cmbParent);
 			this.grpGeneral.Location = new System.Drawing.Point(12, 12);
 			this.grpGeneral.Name = "grpGeneral";
-			this.grpGeneral.Size = new System.Drawing.Size(573, 136);
+			this.grpGeneral.Size = new System.Drawing.Size(573, 168);
 			this.grpGeneral.TabIndex = 0;
 			this.grpGeneral.TabStop = false;
 			this.grpGeneral.Text = "General";
-			// 
+			//
 			// btnEditMetadata
-			// 
+			//
 			this.btnEditMetadata.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.btnEditMetadata.Location = new System.Drawing.Point(441, 19);
 			this.btnEditMetadata.Name = "btnEditMetadata";
@@ -144,100 +148,104 @@ namespace medea.winApp
 			this.btnEditMetadata.Text = "Editar Metadatos...";
 			this.btnEditMetadata.UseVisualStyleBackColor = true;
 			this.btnEditMetadata.Click += new System.EventHandler(this.btnEditMetadata_Click);
-			// 
+			//
 			// label1
-			// 
+			//
 			this.label1.AutoSize = true;
 			this.label1.Location = new System.Drawing.Point(287, 70);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(39, 13);
 			this.label1.TabIndex = 11;
 			this.label1.Text = "Grupo:";
-			// 
+			//
 			// lblRevision
-			// 
+			//
 			this.lblRevision.AutoSize = true;
-			this.lblRevision.Location = new System.Drawing.Point(15, 70);
+			this.lblRevision.Location = new System.Drawing.Point(15, 104);
 			this.lblRevision.Name = "lblRevision";
 			this.lblRevision.Size = new System.Drawing.Size(78, 13);
 			this.lblRevision.TabIndex = 11;
 			this.lblRevision.Text = "Revisión (año):";
-			// 
+			this.lblRevision.Click += new System.EventHandler(this.lblRevision_Click);
+			//
 			// txtRootCaption
-			// 
+			//
 			this.txtRootCaption.Location = new System.Drawing.Point(332, 67);
 			this.txtRootCaption.MaxLength = 100;
 			this.txtRootCaption.Name = "txtRootCaption";
 			this.txtRootCaption.Size = new System.Drawing.Size(229, 20);
 			this.txtRootCaption.TabIndex = 10;
-			// 
+			//
 			// txtRevision
-			// 
-			this.txtRevision.Location = new System.Drawing.Point(96, 66);
+			//
+			this.txtRevision.Location = new System.Drawing.Point(96, 100);
 			this.txtRevision.MaxLength = 10;
 			this.txtRevision.Name = "txtRevision";
 			this.txtRevision.Size = new System.Drawing.Size(58, 20);
 			this.txtRevision.TabIndex = 10;
-			// 
+			this.txtRevision.TextChanged += new System.EventHandler(this.txtRevision_TextChanged);
+			//
 			// label9
-			// 
+			//
 			this.label9.AutoSize = true;
 			this.label9.Location = new System.Drawing.Point(93, 42);
 			this.label9.Name = "label9";
-			this.label9.Size = new System.Drawing.Size(145, 13);
+			this.label9.Size = new System.Drawing.Size(216, 13);
 			this.label9.TabIndex = 9;
-			this.label9.Text = "Ej. Provincias (plural, sin año)";
-			// 
+			this.label9.Text = "Ej. Departamentos/comunas (plural, sin año)";
+			this.label9.Click += new System.EventHandler(this.label9_Click);
+			//
 			// txtCaption
-			// 
+			//
 			this.txtCaption.Location = new System.Drawing.Point(96, 19);
 			this.txtCaption.MaxLength = 100;
 			this.txtCaption.Name = "txtCaption";
 			this.txtCaption.Size = new System.Drawing.Size(330, 20);
 			this.txtCaption.TabIndex = 1;
-			// 
+			//
 			// lblCaption
-			// 
+			//
 			this.lblCaption.AutoSize = true;
 			this.lblCaption.Location = new System.Drawing.Point(15, 23);
 			this.lblCaption.Name = "lblCaption";
 			this.lblCaption.Size = new System.Drawing.Size(51, 13);
 			this.lblCaption.TabIndex = 0;
 			this.lblCaption.Text = "Nombre:*";
-			// 
+			//
 			// lblParent
-			// 
+			//
 			this.lblParent.AutoSize = true;
-			this.lblParent.Location = new System.Drawing.Point(15, 101);
+			this.lblParent.Location = new System.Drawing.Point(15, 135);
 			this.lblParent.Name = "lblParent";
 			this.lblParent.Size = new System.Drawing.Size(38, 13);
 			this.lblParent.TabIndex = 4;
 			this.lblParent.Text = "Padre:";
-			// 
+			this.lblParent.Click += new System.EventHandler(this.lblParent_Click);
+			//
 			// cmbParent
-			// 
+			//
 			this.cmbParent.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.cmbParent.FormattingEnabled = true;
-			this.cmbParent.Location = new System.Drawing.Point(96, 97);
+			this.cmbParent.Location = new System.Drawing.Point(96, 131);
 			this.cmbParent.Name = "cmbParent";
 			this.cmbParent.Optional = true;
 			this.cmbParent.Size = new System.Drawing.Size(181, 21);
 			this.cmbParent.TabIndex = 5;
 			this.cmbParent.SelectedIndexChanged += new System.EventHandler(this.cmbParent_SelectedIndexChanged);
-			// 
+			//
 			// grpItems
-			// 
+			//
 			this.grpItems.Controls.Add(this.uFile);
 			this.grpItems.Controls.Add(this.grpCampos);
-			this.grpItems.Location = new System.Drawing.Point(14, 154);
+			this.grpItems.Location = new System.Drawing.Point(12, 186);
 			this.grpItems.Name = "grpItems";
 			this.grpItems.Size = new System.Drawing.Size(293, 337);
 			this.grpItems.TabIndex = 3;
 			this.grpItems.TabStop = false;
 			this.grpItems.Text = "Items";
-			// 
+			//
 			// uFile
-			// 
+			//
 			this.uFile.BackColor = System.Drawing.SystemColors.Control;
 			this.uFile.EnabledButtons = true;
 			this.uFile.FileAdded = false;
@@ -248,9 +256,9 @@ namespace medea.winApp
 			this.uFile.SelectedFile = null;
 			this.uFile.Size = new System.Drawing.Size(215, 58);
 			this.uFile.TabIndex = 0;
-			// 
+			//
 			// grpCampos
-			// 
+			//
 			this.grpCampos.Controls.Add(this.label5);
 			this.grpCampos.Controls.Add(this.txtFieldCodeSize);
 			this.grpCampos.Controls.Add(this.lblHouseholds);
@@ -273,89 +281,89 @@ namespace medea.winApp
 			this.grpCampos.TabIndex = 1;
 			this.grpCampos.TabStop = false;
 			this.grpCampos.Text = "Campos";
-			// 
+			//
 			// label5
-			// 
+			//
 			this.label5.AutoSize = true;
 			this.label5.Location = new System.Drawing.Point(14, 76);
 			this.label5.Name = "label5";
 			this.label5.Size = new System.Drawing.Size(84, 13);
 			this.label5.TabIndex = 14;
 			this.label5.Text = "Tamaño código:";
-			// 
+			//
 			// txtFieldCodeSize
-			// 
+			//
 			this.txtFieldCodeSize.Location = new System.Drawing.Point(103, 73);
 			this.txtFieldCodeSize.MaxLength = 10;
 			this.txtFieldCodeSize.Name = "txtFieldCodeSize";
 			this.txtFieldCodeSize.Size = new System.Drawing.Size(58, 20);
 			this.txtFieldCodeSize.TabIndex = 13;
-			// 
+			//
 			// lblHouseholds
-			// 
+			//
 			this.lblHouseholds.AutoSize = true;
 			this.lblHouseholds.Location = new System.Drawing.Point(14, 157);
 			this.lblHouseholds.Name = "lblHouseholds";
 			this.lblHouseholds.Size = new System.Drawing.Size(54, 13);
 			this.lblHouseholds.TabIndex = 8;
 			this.lblHouseholds.Text = "Hogares*:";
-			// 
+			//
 			// lblFieldCaptionName
-			// 
+			//
 			this.lblFieldCaptionName.AutoSize = true;
 			this.lblFieldCaptionName.Location = new System.Drawing.Point(14, 103);
 			this.lblFieldCaptionName.Name = "lblFieldCaptionName";
 			this.lblFieldCaptionName.Size = new System.Drawing.Size(66, 13);
 			this.lblFieldCaptionName.TabIndex = 4;
 			this.lblFieldCaptionName.Text = "Descripción:";
-			// 
+			//
 			// lblPopulation
-			// 
+			//
 			this.lblPopulation.AutoSize = true;
 			this.lblPopulation.Location = new System.Drawing.Point(14, 130);
 			this.lblPopulation.Name = "lblPopulation";
 			this.lblPopulation.Size = new System.Drawing.Size(61, 13);
 			this.lblPopulation.TabIndex = 6;
 			this.lblPopulation.Text = "Población*:";
-			// 
+			//
 			// lblFieldCodeName
-			// 
+			//
 			this.lblFieldCodeName.AutoSize = true;
 			this.lblFieldCodeName.Location = new System.Drawing.Point(14, 49);
 			this.lblFieldCodeName.Name = "lblFieldCodeName";
 			this.lblFieldCodeName.Size = new System.Drawing.Size(47, 13);
 			this.lblFieldCodeName.TabIndex = 2;
 			this.lblFieldCodeName.Text = "Código*:";
-			// 
+			//
 			// label3
-			// 
+			//
 			this.label3.AutoSize = true;
 			this.label3.Location = new System.Drawing.Point(14, 211);
 			this.label3.Name = "label3";
 			this.label3.Size = new System.Drawing.Size(83, 13);
 			this.label3.TabIndex = 11;
 			this.label3.Text = "Urbano/Rural**:";
-			// 
+			//
 			// lblChildren
-			// 
+			//
 			this.lblChildren.AutoSize = true;
 			this.lblChildren.Location = new System.Drawing.Point(14, 184);
 			this.lblChildren.Name = "lblChildren";
 			this.lblChildren.Size = new System.Drawing.Size(41, 13);
 			this.lblChildren.TabIndex = 10;
 			this.lblChildren.Text = "Niños*:";
-			// 
+			//
 			// lblParentItem
-			// 
+			//
 			this.lblParentItem.AutoSize = true;
 			this.lblParentItem.Location = new System.Drawing.Point(14, 22);
 			this.lblParentItem.Name = "lblParentItem";
 			this.lblParentItem.Size = new System.Drawing.Size(38, 13);
 			this.lblParentItem.TabIndex = 0;
 			this.lblParentItem.Text = "Padre:";
-			// 
+			//
 			// cmbUrbanity
-			// 
+			//
 			this.cmbUrbanity.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.cmbUrbanity.FormattingEnabled = true;
 			this.cmbUrbanity.Location = new System.Drawing.Point(103, 208);
@@ -363,9 +371,9 @@ namespace medea.winApp
 			this.cmbUrbanity.Optional = true;
 			this.cmbUrbanity.Size = new System.Drawing.Size(139, 21);
 			this.cmbUrbanity.TabIndex = 12;
-			// 
+			//
 			// cmbChildren
-			// 
+			//
 			this.cmbChildren.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.cmbChildren.FormattingEnabled = true;
 			this.cmbChildren.Location = new System.Drawing.Point(103, 181);
@@ -373,9 +381,9 @@ namespace medea.winApp
 			this.cmbChildren.Optional = true;
 			this.cmbChildren.Size = new System.Drawing.Size(139, 21);
 			this.cmbChildren.TabIndex = 10;
-			// 
+			//
 			// cmbFieldCaptionName
-			// 
+			//
 			this.cmbFieldCaptionName.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.cmbFieldCaptionName.FormattingEnabled = true;
 			this.cmbFieldCaptionName.Location = new System.Drawing.Point(103, 100);
@@ -383,9 +391,9 @@ namespace medea.winApp
 			this.cmbFieldCaptionName.Optional = true;
 			this.cmbFieldCaptionName.Size = new System.Drawing.Size(139, 21);
 			this.cmbFieldCaptionName.TabIndex = 5;
-			// 
+			//
 			// cmbHousehold
-			// 
+			//
 			this.cmbHousehold.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.cmbHousehold.FormattingEnabled = true;
 			this.cmbHousehold.Location = new System.Drawing.Point(103, 154);
@@ -393,9 +401,9 @@ namespace medea.winApp
 			this.cmbHousehold.Optional = true;
 			this.cmbHousehold.Size = new System.Drawing.Size(139, 21);
 			this.cmbHousehold.TabIndex = 9;
-			// 
+			//
 			// cmbFieldCodeName
-			// 
+			//
 			this.cmbFieldCodeName.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.cmbFieldCodeName.FormattingEnabled = true;
 			this.cmbFieldCodeName.Location = new System.Drawing.Point(103, 46);
@@ -403,9 +411,9 @@ namespace medea.winApp
 			this.cmbFieldCodeName.Optional = true;
 			this.cmbFieldCodeName.Size = new System.Drawing.Size(139, 21);
 			this.cmbFieldCodeName.TabIndex = 3;
-			// 
+			//
 			// cmbPopulation
-			// 
+			//
 			this.cmbPopulation.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.cmbPopulation.FormattingEnabled = true;
 			this.cmbPopulation.Location = new System.Drawing.Point(103, 127);
@@ -413,9 +421,9 @@ namespace medea.winApp
 			this.cmbPopulation.Optional = true;
 			this.cmbPopulation.Size = new System.Drawing.Size(139, 21);
 			this.cmbPopulation.TabIndex = 7;
-			// 
+			//
 			// cmbParentItem
-			// 
+			//
 			this.cmbParentItem.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.cmbParentItem.FormattingEnabled = true;
 			this.cmbParentItem.Location = new System.Drawing.Point(103, 19);
@@ -423,95 +431,95 @@ namespace medea.winApp
 			this.cmbParentItem.Optional = true;
 			this.cmbParentItem.Size = new System.Drawing.Size(139, 21);
 			this.cmbParentItem.TabIndex = 1;
-			// 
+			//
 			// lblRecords
-			// 
+			//
 			this.lblRecords.AutoSize = true;
-			this.lblRecords.Location = new System.Drawing.Point(313, 376);
+			this.lblRecords.Location = new System.Drawing.Point(311, 408);
 			this.lblRecords.Name = "lblRecords";
 			this.lblRecords.Size = new System.Drawing.Size(72, 13);
 			this.lblRecords.TabIndex = 8;
 			this.lblRecords.Text = "Registros dbf:";
 			this.lblRecords.Visible = false;
-			// 
+			//
 			// lblShapeType
-			// 
+			//
 			this.lblShapeType.AutoSize = true;
-			this.lblShapeType.Location = new System.Drawing.Point(313, 392);
+			this.lblShapeType.Location = new System.Drawing.Point(311, 424);
 			this.lblShapeType.Name = "lblShapeType";
 			this.lblShapeType.Size = new System.Drawing.Size(51, 13);
 			this.lblShapeType.TabIndex = 8;
 			this.lblShapeType.Text = "Tipo shp:";
 			this.lblShapeType.Visible = false;
-			// 
+			//
 			// label4
-			// 
-			this.label4.Location = new System.Drawing.Point(315, 419);
+			//
+			this.label4.Location = new System.Drawing.Point(313, 451);
 			this.label4.Name = "label4";
 			this.label4.Size = new System.Drawing.Size(443, 44);
 			this.label4.TabIndex = 4;
 			this.label4.Text = resources.GetString("label4.Text");
-			// 
+			//
 			// groupBox4
-			// 
+			//
 			this.groupBox4.Controls.Add(this.txtLuminance);
 			this.groupBox4.Controls.Add(this.txtMaxZoom);
 			this.groupBox4.Controls.Add(this.label7);
 			this.groupBox4.Controls.Add(this.label6);
 			this.groupBox4.Controls.Add(this.label13);
 			this.groupBox4.Controls.Add(this.cmbGradient);
-			this.groupBox4.Location = new System.Drawing.Point(316, 154);
+			this.groupBox4.Location = new System.Drawing.Point(314, 186);
 			this.groupBox4.Name = "groupBox4";
 			this.groupBox4.Size = new System.Drawing.Size(267, 119);
 			this.groupBox4.TabIndex = 11;
 			this.groupBox4.TabStop = false;
 			this.groupBox4.Text = "Escala y gradiente";
-			// 
+			//
 			// txtLuminance
-			// 
+			//
 			this.txtLuminance.Location = new System.Drawing.Point(127, 83);
 			this.txtLuminance.MaxLength = 255;
 			this.txtLuminance.Name = "txtLuminance";
 			this.txtLuminance.Size = new System.Drawing.Size(99, 20);
 			this.txtLuminance.TabIndex = 5;
-			// 
+			//
 			// txtMaxZoom
-			// 
+			//
 			this.txtMaxZoom.Location = new System.Drawing.Point(95, 30);
 			this.txtMaxZoom.MaxLength = 255;
 			this.txtMaxZoom.Name = "txtMaxZoom";
 			this.txtMaxZoom.Size = new System.Drawing.Size(48, 20);
 			this.txtMaxZoom.TabIndex = 5;
-			// 
+			//
 			// label7
-			// 
+			//
 			this.label7.AutoSize = true;
 			this.label7.Location = new System.Drawing.Point(124, 61);
 			this.label7.Name = "label7";
 			this.label7.Size = new System.Drawing.Size(102, 13);
 			this.label7.TabIndex = 4;
 			this.label7.Text = "Luminosidad (0 a 1):";
-			// 
+			//
 			// label6
-			// 
+			//
 			this.label6.AutoSize = true;
 			this.label6.Location = new System.Drawing.Point(16, 61);
 			this.label6.Name = "label6";
 			this.label6.Size = new System.Drawing.Size(56, 13);
 			this.label6.TabIndex = 4;
 			this.label6.Text = "Gradiente:";
-			// 
+			//
 			// label13
-			// 
+			//
 			this.label13.AutoSize = true;
 			this.label13.Location = new System.Drawing.Point(16, 33);
 			this.label13.Name = "label13";
 			this.label13.Size = new System.Drawing.Size(74, 13);
 			this.label13.TabIndex = 4;
 			this.label13.Text = "Máximo zoom:";
-			// 
+			//
 			// cmbGradient
-			// 
+			//
 			this.cmbGradient.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.cmbGradient.FormattingEnabled = true;
 			this.cmbGradient.Location = new System.Drawing.Point(18, 83);
@@ -519,32 +527,49 @@ namespace medea.winApp
 			this.cmbGradient.Optional = true;
 			this.cmbGradient.Size = new System.Drawing.Size(102, 21);
 			this.cmbGradient.TabIndex = 10;
-			// 
+			//
 			// chTracking
-			// 
+			//
 			this.chTracking.AutoSize = true;
-			this.chTracking.Location = new System.Drawing.Point(318, 286);
+			this.chTracking.Location = new System.Drawing.Point(316, 318);
 			this.chTracking.Name = "chTracking";
 			this.chTracking.Size = new System.Drawing.Size(119, 17);
 			this.chTracking.TabIndex = 12;
 			this.chTracking.Text = "Es nivel de tracking";
 			this.chTracking.UseVisualStyleBackColor = true;
-			// 
+			//
 			// chClipping
-			// 
+			//
 			this.chClipping.AutoSize = true;
-			this.chClipping.Location = new System.Drawing.Point(317, 309);
+			this.chClipping.Location = new System.Drawing.Point(315, 341);
 			this.chClipping.Name = "chClipping";
 			this.chClipping.Size = new System.Drawing.Size(122, 17);
 			this.chClipping.TabIndex = 12;
 			this.chClipping.Text = "Se usa para clipping";
 			this.chClipping.UseVisualStyleBackColor = true;
-			// 
+			//
+			// txtCaptionShort
+			//
+			this.txtCaptionShort.Location = new System.Drawing.Point(95, 67);
+			this.txtCaptionShort.MaxLength = 100;
+			this.txtCaptionShort.Name = "txtCaptionShort";
+			this.txtCaptionShort.Size = new System.Drawing.Size(182, 20);
+			this.txtCaptionShort.TabIndex = 13;
+			//
+			// label2
+			//
+			this.label2.AutoSize = true;
+			this.label2.Location = new System.Drawing.Point(14, 71);
+			this.label2.Name = "label2";
+			this.label2.Size = new System.Drawing.Size(78, 13);
+			this.label2.TabIndex = 12;
+			this.label2.Text = "Nombre corto:*";
+			//
 			// frmGeographyEdit
-			// 
+			//
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(599, 561);
+			this.ClientSize = new System.Drawing.Size(599, 599);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
 			this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
 			this.Name = "frmGeographyEdit";
@@ -607,6 +632,8 @@ namespace medea.winApp
 		private System.Windows.Forms.TextBox txtRootCaption;
 		private System.Windows.Forms.CheckBox chClipping;
 		private System.Windows.Forms.CheckBox chTracking;
+		private System.Windows.Forms.TextBox txtCaptionShort;
+		private System.Windows.Forms.Label label2;
 	}
 }
 

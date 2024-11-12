@@ -16,18 +16,35 @@
 *    You should have received a copy of the GNU General Public License
 *    along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
-using System.IO;
-using System;
-using System.Collections.Generic;
-
+using medea.common;
 namespace medea.entities
 {
-	public class Gradient : GradientBase<Gradient>
+	public class GradientCaption : IIdentifiable
 	{
-		public virtual IList<GradientCaption> GradientCaptions { get; set; }
+		public int? Id { get; set; }
+		public int X { get; set; }
+		public int Y { get; set; }
+		public int Z { get; set; }
 
-		public Gradient()
+		public GradientCaption(int? id, int x, int y, int z)
 		{
+			Id = id;
+			X = x;
+			Y = y;
+			Z = z;
+		}
+
+		public virtual string[] ToArray()
+		{
+			return new string[] {
+				X.ToString(),
+				Y.ToString(),
+				Z.ToString(),
+			};
+		}
+		public override string ToString()
+		{
+			return string.Join("\t", ToArray());
 		}
 
 	}

@@ -48,7 +48,10 @@ namespace medea.winApp
 		private void InitializeComponent()
 		{
 			this.grpGeneral = new System.Windows.Forms.GroupBox();
+			this.radPng = new System.Windows.Forms.RadioButton();
+			this.radJpg = new System.Windows.Forms.RadioButton();
 			this.txtMaxZoomLevel = new System.Windows.Forms.TextBox();
+			this.label3 = new System.Windows.Forms.Label();
 			this.label2 = new System.Windows.Forms.Label();
 			this.txtCaption = new System.Windows.Forms.TextBox();
 			this.lblCaption = new System.Windows.Forms.Label();
@@ -56,29 +59,26 @@ namespace medea.winApp
 			this.cmbTable = new System.Windows.Forms.ComboBox();
 			this.uFile = new medea.controls.uFile();
 			this.label1 = new System.Windows.Forms.Label();
-			this.label3 = new System.Windows.Forms.Label();
-			this.radJpg = new System.Windows.Forms.RadioButton();
-			this.radPng = new System.Windows.Forms.RadioButton();
 			this.panMain.SuspendLayout();
 			this.grpGeneral.SuspendLayout();
 			this.grpItems.SuspendLayout();
 			this.SuspendLayout();
-			// 
+			//
 			// panButtons
-			// 
+			//
 			this.panButtons.Location = new System.Drawing.Point(0, 321);
 			this.panButtons.Size = new System.Drawing.Size(423, 55);
-			// 
+			//
 			// panMain
-			// 
+			//
 			this.panMain.Controls.Add(this.grpGeneral);
 			this.panMain.Controls.Add(this.grpItems);
 			this.panMain.Margin = new System.Windows.Forms.Padding(6);
 			this.panMain.Size = new System.Drawing.Size(423, 321);
-			// 
+			//
 			// grpGeneral
-			// 
-			this.grpGeneral.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+			//
+			this.grpGeneral.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.grpGeneral.Controls.Add(this.radPng);
 			this.grpGeneral.Controls.Add(this.radJpg);
@@ -93,47 +93,77 @@ namespace medea.winApp
 			this.grpGeneral.TabIndex = 0;
 			this.grpGeneral.TabStop = false;
 			this.grpGeneral.Text = "General";
-			// 
+			//
+			// radPng
+			//
+			this.radPng.AutoSize = true;
+			this.radPng.Location = new System.Drawing.Point(153, 100);
+			this.radPng.Name = "radPng";
+			this.radPng.Size = new System.Drawing.Size(43, 17);
+			this.radPng.TabIndex = 11;
+			this.radPng.Text = "png";
+			this.radPng.UseVisualStyleBackColor = true;
+			//
+			// radJpg
+			//
+			this.radJpg.AutoSize = true;
+			this.radJpg.Checked = true;
+			this.radJpg.Location = new System.Drawing.Point(62, 100);
+			this.radJpg.Name = "radJpg";
+			this.radJpg.Size = new System.Drawing.Size(45, 17);
+			this.radJpg.TabIndex = 10;
+			this.radJpg.TabStop = true;
+			this.radJpg.Text = "jpeg";
+			this.radJpg.UseVisualStyleBackColor = true;
+			//
 			// txtMaxZoomLevel
-			// 
+			//
 			this.txtMaxZoomLevel.Location = new System.Drawing.Point(140, 66);
 			this.txtMaxZoomLevel.MaxLength = 100;
 			this.txtMaxZoomLevel.Name = "txtMaxZoomLevel";
-			this.txtMaxZoomLevel.ReadOnly = true;
 			this.txtMaxZoomLevel.Size = new System.Drawing.Size(56, 20);
 			this.txtMaxZoomLevel.TabIndex = 9;
 			this.txtMaxZoomLevel.Text = "0";
-			// 
+			//
+			// label3
+			//
+			this.label3.AutoSize = true;
+			this.label3.Location = new System.Drawing.Point(15, 102);
+			this.label3.Name = "label3";
+			this.label3.Size = new System.Drawing.Size(31, 13);
+			this.label3.TabIndex = 8;
+			this.label3.Text = "Tipo:";
+			//
 			// label2
-			// 
+			//
 			this.label2.AutoSize = true;
 			this.label2.Location = new System.Drawing.Point(15, 69);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(114, 13);
 			this.label2.TabIndex = 8;
 			this.label2.Text = "Máximo nivel de zoom:";
-			// 
+			//
 			// txtCaption
-			// 
+			//
 			this.txtCaption.Location = new System.Drawing.Point(73, 29);
 			this.txtCaption.MaxLength = 100;
 			this.txtCaption.Name = "txtCaption";
 			this.txtCaption.Size = new System.Drawing.Size(245, 20);
 			this.txtCaption.TabIndex = 1;
-			// 
+			//
 			// lblCaption
-			// 
+			//
 			this.lblCaption.AutoSize = true;
 			this.lblCaption.Location = new System.Drawing.Point(15, 32);
 			this.lblCaption.Name = "lblCaption";
 			this.lblCaption.Size = new System.Drawing.Size(51, 13);
 			this.lblCaption.TabIndex = 0;
 			this.lblCaption.Text = "Nombre:*";
-			// 
+			//
 			// grpItems
-			// 
-			this.grpItems.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+			//
+			this.grpItems.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.grpItems.Controls.Add(this.cmbTable);
 			this.grpItems.Controls.Add(this.uFile);
@@ -144,18 +174,18 @@ namespace medea.winApp
 			this.grpItems.TabIndex = 2;
 			this.grpItems.TabStop = false;
 			this.grpItems.Text = "Items";
-			// 
+			//
 			// cmbTable
-			// 
+			//
 			this.cmbTable.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.cmbTable.FormattingEnabled = true;
 			this.cmbTable.Location = new System.Drawing.Point(73, 99);
 			this.cmbTable.Name = "cmbTable";
 			this.cmbTable.Size = new System.Drawing.Size(139, 21);
 			this.cmbTable.TabIndex = 9;
-			// 
+			//
 			// uFile
-			// 
+			//
 			this.uFile.BackColor = System.Drawing.SystemColors.Control;
 			this.uFile.EnabledButtons = true;
 			this.uFile.FileAdded = false;
@@ -166,49 +196,19 @@ namespace medea.winApp
 			this.uFile.SelectedFile = null;
 			this.uFile.Size = new System.Drawing.Size(215, 83);
 			this.uFile.TabIndex = 0;
-			// 
+			this.uFile.Load += new System.EventHandler(this.uFile_Load);
+			//
 			// label1
-			// 
+			//
 			this.label1.AutoSize = true;
 			this.label1.Location = new System.Drawing.Point(18, 102);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(37, 13);
 			this.label1.TabIndex = 8;
 			this.label1.Text = "Tabla:";
-			// 
-			// label3
-			// 
-			this.label3.AutoSize = true;
-			this.label3.Location = new System.Drawing.Point(15, 102);
-			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(31, 13);
-			this.label3.TabIndex = 8;
-			this.label3.Text = "Tipo:";
-			// 
-			// radJpg
-			// 
-			this.radJpg.AutoSize = true;
-			this.radJpg.Checked = true;
-			this.radJpg.Location = new System.Drawing.Point(62, 100);
-			this.radJpg.Name = "radJpg";
-			this.radJpg.Size = new System.Drawing.Size(45, 17);
-			this.radJpg.TabIndex = 10;
-			this.radJpg.TabStop = true;
-			this.radJpg.Text = "jpeg";
-			this.radJpg.UseVisualStyleBackColor = true;
-			// 
-			// radPng
-			// 
-			this.radPng.AutoSize = true;
-			this.radPng.Location = new System.Drawing.Point(153, 100);
-			this.radPng.Name = "radPng";
-			this.radPng.Size = new System.Drawing.Size(43, 17);
-			this.radPng.TabIndex = 11;
-			this.radPng.Text = "png";
-			this.radPng.UseVisualStyleBackColor = true;
-			// 
+			//
 			// frmGradientEdit
-			// 
+			//
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(423, 376);

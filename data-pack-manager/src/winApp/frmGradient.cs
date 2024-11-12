@@ -24,6 +24,9 @@ using medea.actions;
 using medea.entities;
 using medea.controls;
 using medea.common;
+using System.Security.Cryptography;
+using System.IO;
+using System.Drawing;
 
 namespace medea.winApp
 {
@@ -76,7 +79,7 @@ namespace medea.winApp
 					.OrderBy(x => x.Caption).ToList();
 
 				foreach (var item in items)
-				{ 
+				{
 					var lvItem = listView.Items.Add(item.Caption);
 					lvItem.Tag = item;
 				}
@@ -102,12 +105,38 @@ namespace medea.winApp
 			}
 		}
 
-		private void LoadItems(Gradient clipping)
+		private void LoadItems(Gradient gradient)
 		{
+			if (chkItems.Checked == false)
+				return;
+
 
 			if (chkItems.Checked == false)
 				return;
 
+			using (new WaitCursor())
+			{
+				lstItems.Items.Clear();
+				lstContainer.Panel2Collapsed = true;
+				lstCount.Text = "";
+				int max = Settings.CantItems;
+				if (gradient.GradientCaptions == null)
+					gradient.GradientCaptions = new List<GradientCaption>();
+				if (gradient.GradientCaptions.Count == 0)
+				{
+					gradient.GradientCaptions = UI.GetItems<GradientItem>()
+						.Where(x => x.Gradient == gradient).Take(max)
+						.Select(x => new GradientCaption(x.Id.Value, x.X, x.Y, x.Z)).ToList();
+				}
+
+				foreach (var item in gradient.GradientCaptions)
+				{
+					var ele = new ListViewItem(item.ToArray());
+					ele.Tag = item;
+					lstItems.Items.Add(ele);
+				}
+			}
+			lstCount.Text = UI.GetCountLegend(lstItems.Items);
 
 		}
 
@@ -170,9 +199,29 @@ namespace medea.winApp
 				return;
 			lstContainer.Panel2Collapsed = false;
 			IIdentifiable c = lstItems.SelectedItems[0].Tag as IIdentifiable;
-			uGeometry1.LoadData<GradientItem>(c.Id.Value);
-		}
+			GradientItem gi = LoadData(c.Id.Value);
+			string filename = System.IO.Path.GetTempFileName();
+			System.IO.File.WriteAllBytes(filename, gi.Content);
+			leyend.Text = System.IO.File.ReadAllText(filename);
+			System.IO.File.Delete(filename);
+			uPicturePanel.Visible = true;
+			pictureBox1.Image = ImageFromBytes(gi.Content);
 
+		}
+		private Image ImageFromBytes(byte[] bytes)
+		{
+			using (var ms = new MemoryStream(bytes))
+			{
+				return Image.FromStream(ms);
+			}
+		}
+		public GradientItem LoadData(int id)
+		{
+			using (new WaitCursor())
+			{
+				return context.Data.Session.GetById<GradientItem>(id);
+			}
+		}
 		private void listView_AfterSelect(object sender, TreeViewEventArgs e)
 		{
 			uEntity.Clear();
@@ -217,6 +266,11 @@ namespace medea.winApp
 		private void listView_DoubleClick(object sender, EventArgs e)
 		{
 			btnEdit.PerformClick();
+		}
+
+		private void pictureBox1_Click(object sender, EventArgs e)
+		{
+
 		}
 	}
 }

@@ -4,6 +4,7 @@
 			<generator class="native" />
 		</id>
 		<property name="Caption" column="geo_caption" not-null="true" length="100" />
+		<property name="CaptionShort" column="geo_caption_short" not-null="true" length="100" />
 		<property name="Revision" column="geo_revision" not-null="true" length="10" />
 		<property name="IsTrackingLevel" column="geo_is_tracking_level" not-null="true" />
 		<property name="UseForClipping" column="geo_use_for_clipping" not-null="true" />

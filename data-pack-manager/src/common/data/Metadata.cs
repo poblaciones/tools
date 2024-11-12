@@ -104,7 +104,7 @@ namespace medea.context
 			bool found = false;
 			foreach (var prop in props)
 			{
-				if (prop.PropertyType == typeof(Geometry))
+				if (prop.PropertyType.Name == "Byte[]")
 				{
 					if (found)
 						throw new Exception("La entidad " + typeof(T).Name + " tiene más de un campo tipo Geometry.");

@@ -20,6 +20,9 @@ using medea.common;
 using System.Collections.Generic;
 using medea.entities;
 using System.Data.SQLite;
+using static System.Net.Mime.MediaTypeNames;
+using System.IO;
+using System.Drawing.Imaging;
 
 namespace medea.actions
 {
@@ -76,8 +79,15 @@ namespace medea.actions
 					item.X = reader.GetInt32(0);
 					item.Y = reader.GetInt32(1);
 					item.Z = reader.GetInt32(2);
-					item.Content = GetBytes(reader, 3);
+					byte[] bytes = GetBytes(reader, 3);
+
+					System.Drawing.Image image = this.ImageFromBytes(bytes);
+					string tmp = System.IO.Path.GetTempFileName();
+					image.Save(tmp, ImageFormat.Png);
+					item.Content = System.IO.File.ReadAllBytes(tmp);
+					System.IO.File.Delete(tmp);
 					context.Data.Session.Save(item);
+
 					Progress.Increment();
 					if (i % 1000 == 0)
 					{
@@ -88,6 +98,15 @@ namespace medea.actions
 				};
 			}
 
+		}
+
+
+		private System.Drawing.Image ImageFromBytes(byte[] bytes)
+		{
+			using (var ms = new MemoryStream(bytes))
+			{
+				return System.Drawing.Image.FromStream(ms);
+			}
 		}
 
 		private void UpdateCount(SQLiteConnection con)
@@ -112,7 +131,7 @@ namespace medea.actions
 
 			if (!reader.IsDBNull(ordinal))
 			{
-				long size = reader.GetBytes(ordinal, 0, null, 0, 0); //get the length of data 
+				long size = reader.GetBytes(ordinal, 0, null, 0, 0); //get the length of data
 				result = new byte[size];
 				int bufferSize = 1024;
 				long bytesRead = 0;

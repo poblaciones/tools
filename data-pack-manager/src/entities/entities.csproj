@@ -111,15 +111,6 @@
     <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net40\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="NHibernate, Version=3.3.1.4000, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
-      <HintPath>..\packages\NHibernate.Spatial.2.2.0\lib\NHibernate.dll</HintPath>
-    </Reference>
-    <Reference Include="NHibernate.Spatial, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\NHibernate.Spatial.2.2.0\lib\NHibernate.Spatial.dll</HintPath>
-    </Reference>
-    <Reference Include="NHibernate.Spatial.MsSql2008, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\NHibernate.Spatial.2.2.0\lib\NHibernate.Spatial.MsSql2008.dll</HintPath>
-    </Reference>
     <Reference Include="PowerCollections, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\NHibernate.Spatial.2.2.0\lib\PowerCollections.dll</HintPath>
     </Reference>
@@ -245,6 +236,7 @@
     <Compile Include="Environment.cs" />
     <Compile Include="ListItems\ClippingRegionCaption.cs" />
     <Compile Include="ListItems\ClippingRegionGeographyCaption.cs" />
+    <Compile Include="ListItems\GradientCaption.cs" />
     <Compile Include="ListItems\GeographyCaption.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

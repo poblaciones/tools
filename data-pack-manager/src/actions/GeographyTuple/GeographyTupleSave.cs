@@ -42,7 +42,9 @@ namespace medea.actions
 			var session = context.Data.Session;
 
 			Progress.Caption = "Guardando ítems de geografías";
-
+			// vacía tabla
+			context.Data.Session.SqlActions.ExecuteNonQuery("DELETE FROM geography_tuple_item WHERE gti_geography_tuple_id = " + current.Id.ToString());
+			// inserta
 			var sql = InsertGenerator.FromList(current.GeographyTupleItems);
 			context.Data.Session.SqlActions.BulkInsert(sql, Progress);
 			context.Data.Session.Flush();

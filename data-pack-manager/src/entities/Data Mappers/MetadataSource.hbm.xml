@@ -3,6 +3,7 @@
 		<id name="Id" column="msc_id" unsaved-value="null">
 			<generator class="assigned" />
 		</id>
+		<property name="Order" column="msc_order" not-null="true" />
 		<many-to-one name="Metadata" class="Metadata">
 			<column name="msc_metadata_id" not-null="true" />
 		</many-to-one>

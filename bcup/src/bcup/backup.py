@@ -8,6 +8,8 @@ import subprocess
 import sys
 import time
 import zipfile
+
+from dump_table import DumpTable
 from datetime import datetime
 from glob import glob
 from settings import Settings
@@ -22,11 +24,11 @@ class Backup:
         self.settings = Settings()
 
     def run_mysqldump(self, options, output_file, table_list=''):
-        ini = f"--password='{self.settings.db_pass}'"
+        ini = f"--password=\"{self.settings.db_pass}\""
         if self.settings.has_ini:
             ini = f"--defaults-file={Settings.CONFIG_FILE}"
 
-        command = f"\"{self.settings.mysqldump}\" {ini} --user={self.settings.db_user} --host={self.settings.db_host} --port={self.settings.db_port} " \
+        command = f"\"{self.settings.mysqldump}\" {ini} --skip-lock-tables --user={self.settings.db_user} --host={self.settings.db_host} --port={self.settings.db_port} " \
             f"{options} {self.settings.db_name} {table_list}"
 
         with open(output_file, 'w', encoding='utf-8') as f:
@@ -142,7 +144,13 @@ class Backup:
             file = self.resolve_filename(table, (offset // sizes['step']) + 1)
             if not os.path.exists(file):
                 tmp_file = self.resolve_tmp_filename()
-                self.run_mysqldump(f"--no-create-info --hex-blob --skip-triggers --where=\"1 LIMIT {sizes['step']} OFFSET {offset}\"", tmp_file, table)
+                if self.settings.mysqldump:
+                    self.run_mysqldump(f"--no-create-info --hex-blob --skip-triggers --where=\"1 LIMIT {sizes['step']} OFFSET {offset}\"", tmp_file, table)
+                else:
+                    cnx = self.get_connection()
+                    cursor = cnx.cursor()
+                    DumpTable.export_table(cursor, tmp_file, table, sizes['step'], offset, sizes['step']);
+
                 os.rename(tmp_file, file)
                 if self.settings.quiet:
                     print('Saving: ' + file)

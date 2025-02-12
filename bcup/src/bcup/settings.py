@@ -272,12 +272,12 @@ class Settings:
         # Chequea que se pueda correr el ejecutable: mysqldump
         ret = subprocess.Popen(f"\"{self.mysqldump}\" --version", shell=True, stdout=subprocess.PIPE).stdout.read()
         if b"mysqldump " not in ret:
-            sys.exit(f"mysqldump not found or failed. Path: \"{self.mysqldump}\"")
+            print(f"mysqldump not found or failed. Path: \"{self.mysqldump}\"")
 
         # Chequea que se pueda correr el ejecutable: mysql
         ret = subprocess.Popen(f"\"{self.mysql}\" --version", shell=True, stdout=subprocess.PIPE).stdout.read()
         if b"mysql " not in ret:
-            sys.exit(f"mysql not found or failed. Path: \"{self.mysql}\"")
+            print(f"mysql not found or failed. Path: \"{self.mysql}\"")
 
     def join_path(*parts):
         ret = "/".join(parts).replace("\\", "/").replace("//", "/")

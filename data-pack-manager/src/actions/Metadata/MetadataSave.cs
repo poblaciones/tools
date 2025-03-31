@@ -36,12 +36,12 @@ namespace medea.actions
 			if (current == null)
 				return;
 			PublicId.SetLowestFreeId(current.Contact);
-			PublicId.SetLowestFreeId(current.Institution);
+			foreach(MetadataInstitution metadataInstitution in current.MetadataInstitutions)
+				PublicId.SetLowestFreeId(metadataInstitution.Institution);
+
 			PublicId.SetLowestFreeId(current);
 
 			context.Data.Session.SaveOrUpdate(current.Contact);
-			context.Data.Session.SaveOrUpdate(current.Institution);
-
 
 			if (current.MetadataSources != null)
 			{

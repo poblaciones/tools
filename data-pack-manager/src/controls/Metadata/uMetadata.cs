@@ -46,7 +46,14 @@ namespace medea.controls
 		public void ControlsToValues()
 		{
 			uInstitution.ControlsToValues();
-			current.Institution = uInstitution.Current;
+			if (current.MetadataInstitutions.Count == 0)
+			{
+				var meta = new MetadataInstitution();
+				meta.Metadata = current;
+				current.MetadataInstitutions.Add(meta);
+			}
+			current.MetadataInstitutions[0].Institution = uInstitution.Current;
+
 			uContact.ControlsToValues();
 			current.Title = txtTitle.Text;
 			current.Abstract = txtDescription.Text;
@@ -109,7 +116,9 @@ namespace medea.controls
 		public void SetType(WorkTypeEnum metadataType)
 		{
 			uContact.LoadData(current.Contact);
-			uInstitution.LoadData(current.Institution, true);
+			if (current.MetadataInstitutions.Count == 0)
+				throw new Exception("Los metadatos deben tener al menos una institución.");
+			uInstitution.LoadData(current.MetadataInstitutions[0].Institution, true);
 		}
 	}
 }

@@ -1,6 +1,6 @@
 /*
 *    Poblaciones - Plataforma abierta de datos espaciales de población.
-*    Copyright (C) 2018-2024. Consejo Nacional de Investigaciones Científicas y Técnicas (CONICET)
+*    Copyright (C) 2018-2019. Consejo Nacional de Investigaciones Científicas y Técnicas (CONICET)
 *		 y Universidad Católica Argentina (UCA).
 *
 *    This program is free software: you can redistribute it and/or modify
@@ -16,49 +16,20 @@
 *    You should have received a copy of the GNU General Public License
 *    along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
+using System.Collections.Generic;
 using System;
-using medea.controls;
-using medea.actions;
-using medea.entities;
-using System.Windows.Forms;
-using System.IO;
+using System.Linq;
 using medea.common;
 
-namespace medea.winApp
+namespace medea.entities
 {
-	public partial class frmMetadataEdit : frmOkCancel
+	public class MetadataInstitution : MetadataInstitutionBase<MetadataInstitution>
 	{
-		Metadata current = new Metadata();
+		public virtual bool FileAdded { get; set; }
 
-		public frmMetadataEdit()
+		public MetadataInstitution()
 		{
-//			current.User = UI.CurrentUser;
-			InitializeComponent();
 		}
 
-
-		protected override void OnSubmit()
-		{
-			if (uMetadata.ValidateValues() == false)
-				return;
-			this.DialogResult = DialogResult.OK;
-			this.Close();
-		}
-
-
-		internal void LoadData(Metadata metadata)
-		{
-			uMetadata.LoadData(metadata);
-		}
-
-		public void ControlsToValues()
-		{
-			uMetadata.ControlsToValues();
-		}
-
-		private void uMetadata_Load(object sender, EventArgs e)
-		{
-
-		}
 	}
 }

@@ -48,8 +48,9 @@ namespace medea.entities
 		private DateTime? _onlineSince;
 
 		private IList<MetadataSource> _sources = new List<MetadataSource>();
+
 		private Contact _contact = new Contact();
-		private Institution _institution = new Institution();
+		private IList<MetadataInstitution> _metadataInstitutions = new List<MetadataInstitution>();
 		private int? _id;
 		private IList<MetadataFile> _files = new List<MetadataFile>();
 
@@ -153,12 +154,7 @@ namespace medea.entities
 			get { return _lastOnline; }
 			set { _lastOnline = value; }
 		}
-		
-		public virtual Institution Institution
-		{
-			get { return _institution; }
-			set { _institution = value; }
-		}
+
 		public virtual Contact Contact
 		{
 			get { return _contact; }
@@ -183,6 +179,11 @@ namespace medea.entities
 			set { _files = value; }
 		}
 
+		public virtual IList<MetadataInstitution> MetadataInstitutions
+		{
+			get { return _metadataInstitutions; }
+			set { _metadataInstitutions = value; }
+		}
 		#endregion
 
 

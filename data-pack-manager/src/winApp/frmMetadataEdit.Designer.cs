@@ -78,6 +78,7 @@ namespace medea.winApp
 			this.uMetadata.Name = "uMetadata";
 			this.uMetadata.Size = new System.Drawing.Size(752, 434);
 			this.uMetadata.TabIndex = 30;
+			this.uMetadata.Load += new System.EventHandler(this.uMetadata_Load);
 			//
 			// frmMetadataEdit
 			//

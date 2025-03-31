@@ -1,0 +1,15 @@
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" namespace="medea.entities" assembly="medea.data">
+	<class name="MetadataInstitution" table="metadata_institution">
+		<id name="Id" column="min_id" unsaved-value="null">
+			<generator class="assigned" />
+		</id>
+		<property name="Order" column="min_order" not-null="true" />
+
+		<many-to-one name="Metadata" class="Metadata">
+			<column name="min_metadata_id" not-null="true" />
+		</many-to-one>
+		<many-to-one name="Institution" class="Institution">
+			<column name="min_institution_id" not-null="false" />
+		</many-to-one>
+	</class>
+</hibernate-mapping>

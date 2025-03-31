@@ -30,13 +30,14 @@
 			<column name="met_contact_id" not-null="false" />
 		</many-to-one>
 
-		<many-to-one name="Institution" class="Institution">
-			<column name="met_institution_id" not-null="false" />
-		</many-to-one>
-
 		<bag name="MetadataSources" cascade="all-delete-orphan" >
 		<key column="msc_metadata_id" />
 			<one-to-many class="MetadataSource" />
+		</bag>
+
+		<bag name="MetadataInstitutions" inverse="true" cascade="all-delete-orphan" order-by="min_order">
+			<key column="min_metadata_id" />
+			<one-to-many class="MetadataInstitution" />
 		</bag>
 
 		<bag name="Files" inverse="true" cascade="all-delete-orphan" order-by="mfi_order">

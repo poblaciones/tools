@@ -169,6 +169,10 @@
     <Compile Include="Data Access Entities\ContactBase.cs">
       <DependentUpon>Contact.cs</DependentUpon>
     </Compile>
+    <Compile Include="Data Access Entities\MetadataInstitution.cs" />
+    <Compile Include="Data Access Entities\MetadataInstitutionBase.cs">
+      <DependentUpon>MetadataInstitution.cs</DependentUpon>
+    </Compile>
     <Compile Include="Data Access Entities\MetadataSource.cs" />
     <Compile Include="Data Access Entities\MetadataSourceBase.cs">
       <DependentUpon>MetadataSource.cs</DependentUpon>
@@ -347,6 +351,11 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Data Mappers\GeographyTupleItem.hbm.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Data Mappers\MetadataInstitution.xml">
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>

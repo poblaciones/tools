@@ -64,6 +64,15 @@ namespace medea.winApp
 			return listView.SelectedItems[0].Tag as Boundary;
 		}
 
+
+		private BoundaryVersion GetSelectedNodeVersion()
+		{
+			if (listView.SelectedItems.Count == 0)
+				throw new MessageException("Debe seleccionar un ítem para realizar esta acción.");
+
+			return listView.SelectedItems[0].Tag as BoundaryVersion;
+		}
+
 		private void ReloadList()
 		{
 			using (new WaitCursor())
@@ -76,11 +85,18 @@ namespace medea.winApp
 					.OrderBy(x => x.Caption).ToList();
 
 				foreach (var item in items)
-				{ 
+				{
 					var lvItem = listView.Items.Add(item.Caption);
 					lvItem.SubItems.Add(item.Group.Caption);
 					lvItem.SubItems.Add((!item.Private ? "Sí" : "No"));
 					lvItem.Tag = item;
+					foreach(var version in item.BoundaryVersions)
+					{
+						lvItem = listView.Items.Add("  " + version.Caption);
+						lvItem.SubItems.Add("");
+						lvItem.SubItems.Add("");
+						lvItem.Tag = version;
+					}
 				}
 			}
 		}
@@ -97,32 +113,48 @@ namespace medea.winApp
 				var dict = new Dictionary<string, string>();
 				dict.Add("Id", Boundary.Id.ToString());
 				dict.Add("Nombre", Boundary.Caption);
-				dict.Add("Geografía", (Boundary.Geography != null ? Boundary.Geography.Caption : "Nulo"));
+				dict.Add("Geografía", "");
 				if (Boundary.Order.HasValue)
 					dict.Add("Orden", Boundary.Order.ToString());
 				else
 					dict.Add("Orden", "Nulo");
 				dict.Add("Grupo", Boundary.Group.Caption);
-				string regions = "";
-				foreach (BoundaryClippingRegion c in Boundary.BoundaryClippingRegions)
-					regions += (regions.Length > 0 ? ", ": "") + c.ClippingRegion.Caption;
-				dict.Add("Contenido", regions);
-			
-				dict.Add("Metadatos", (Boundary.Metadata == null ? "Hereda" : "Propios"));
+				dict.Add("Contenido", "");
+
+				dict.Add("Metadatos", "");
 				dict.Add("Visible", (!Boundary.Private ? "Sí" : "No"));
-			
+
 
 				return dict;
 			}
 		}
 
-		private void LoadItems(Boundary clipping)
-		{
 
+		private Dictionary<string, string> GetDetailVersion(BoundaryVersion BoundaryVersion)
+		{
+			using (new WaitCursor())
+			{
+				var dict = new Dictionary<string, string>();
+				dict.Add("Id", BoundaryVersion.Id.ToString());
+				dict.Add("Nombre", BoundaryVersion.Caption);
+				dict.Add("Geografía", "");
+				dict.Add("Orden", "");
+				dict.Add("Grupo", "");
+				string regions = "";
+				foreach (BoundaryVersionClippingRegion c in BoundaryVersion.BoundaryVersionClippingRegions)
+					regions += (regions.Length > 0 ? ", " : "") + c.ClippingRegion.Caption;
+				dict.Add("Contenido", regions);
+
+				dict.Add("Metadatos", (BoundaryVersion.Metadata == null ? "Hereda" : "Propios"));
+				dict.Add("Visible", "");
+
+				return dict;
+			}
+		}
+		private void LoadItems(BoundaryVersion version)
+		{
 			if (chkItems.Checked == false)
 				return;
-
-
 		}
 
 		private void listView_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
@@ -137,15 +169,23 @@ namespace medea.winApp
 
 			if (UI.ConfirmDeleteRecursive(this))
 			{
-				Invoker.CallProgress(new BoundaryDelete(GetSelectedNode()));
-				MarkTableUpdate.UpdateTables(new string[] { "boundary_clipping_region", "boundary" });
+				if (GetSelectedNode() != null)
+				{
+					Invoker.CallProgress(new BoundaryDelete(GetSelectedNode()));
+					MarkTableUpdate.UpdateTables(new string[] { "boundary" });
+				}
+				else
+				{
+					Invoker.CallProgress(new BoundaryVersionDelete(GetSelectedNodeVersion()));
+					MarkTableUpdate.UpdateTables(new string[] { "boundary_version_clipping_region", "boundary_version" });
+				}
 				ReloadList();
 			}
 		}
 
 		private bool NoneSelected()
 		{
-			return listView.SelectedItems.Count == 0 || GetSelectedNode() == null;
+			return listView.SelectedItems.Count == 0 || (GetSelectedNode() == null && GetSelectedNodeVersion() == null);
 		}
 
 		private void mnuEdit_Click(object sender, EventArgs e)
@@ -158,13 +198,13 @@ namespace medea.winApp
 			btnDelete.PerformClick();
 		}
 
-		
+
 		private void listView_KeyDown(object sender, KeyEventArgs e)
 		{
 			if (e.KeyCode == Keys.Delete)
 				btnDelete.PerformClick();
 		}
-
+		/*
 		private void listView_AfterSelect(object sender, TreeViewEventArgs e)
 		{
 			uEntity.Clear();
@@ -177,15 +217,15 @@ namespace medea.winApp
 				uEntity.Fill(GetDetail(clipping));
 				LoadItems(clipping);
 			}
-		}
+		}*/
 		private void chkItems_CheckedChanged(object sender, EventArgs e)
 		{
-			if(NoneSelected() == false && chkItems.Checked)
+			if(GetSelectedNodeVersion() != null && chkItems.Checked)
 			{
 				using (new WaitCursor())
 				{
-					uEntity.Fill(GetDetail(GetSelectedNode()));
-					LoadItems(GetSelectedNode());
+					uEntity.Fill(GetDetailVersion(GetSelectedNodeVersion()));
+					LoadItems(GetSelectedNodeVersion());
 				}
 			}
 			splitContainer2.Panel2Collapsed = !chkItems.Checked;
@@ -196,11 +236,23 @@ namespace medea.winApp
 			uEntity.Clear();
 			if (listView.SelectedItems.Count == 0)
 				return;
-			var Boundary = listView.SelectedItems[0].Tag as Boundary;
-			using (new WaitCursor())
+
+			if (listView.SelectedItems[0].Tag is Boundary)
 			{
-				uEntity.Fill(GetDetail(Boundary));
-				LoadItems(Boundary);
+				var Boundary = listView.SelectedItems[0].Tag as Boundary;
+				using (new WaitCursor())
+				{
+					uEntity.Fill(GetDetail(Boundary));
+				}
+			}
+			else
+			{
+				var BoundaryVersion = listView.SelectedItems[0].Tag as BoundaryVersion;
+				using (new WaitCursor())
+				{
+					uEntity.Fill(GetDetailVersion(BoundaryVersion));
+					LoadItems(BoundaryVersion);
+				}
 			}
 		}
 

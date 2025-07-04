@@ -16,32 +16,18 @@
 *    You should have received a copy of the GNU General Public License
 *    along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
-using System.Linq;
-using medea.common;
-using medea.entities;
-using medea.Data;
+using System.IO;
+using System;
+using System.Collections.Generic;
 
-namespace medea.actions
+namespace medea.entities
 {
-	public class BoundaryDelete : action
+	public class BoundaryVersion : BoundaryVersionBase<BoundaryVersion>
 	{
-		private Boundary current;
-
-		public BoundaryDelete(Boundary boundary)
+		public BoundaryVersion()
 		{
-			current = boundary;
-		}
+			BoundaryVersionClippingRegions = new List<BoundaryVersionClippingRegion>();
 
-		public override void Call()
-		{
-			Progress.Total = 1;
-
-			Progress.Increment();
-
-			context.Data.Session.SqlActions.ExecuteNonQuery("DELETE FROM boundary WHERE bou_id = "
-						+ current.Id.ToString());
-			context.Data.Session.Delete(current);
-			VersionUpdater.Increment();
 		}
 
 	}

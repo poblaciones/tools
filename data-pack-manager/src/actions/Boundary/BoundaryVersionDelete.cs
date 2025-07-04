@@ -23,13 +23,13 @@ using medea.Data;
 
 namespace medea.actions
 {
-	public class BoundaryDelete : action
+	public class BoundaryVersionDelete : action
 	{
-		private Boundary current;
+		private BoundaryVersion current;
 
-		public BoundaryDelete(Boundary boundary)
+		public BoundaryVersionDelete(BoundaryVersion boundaryVersion)
 		{
-			current = boundary;
+			current = boundaryVersion;
 		}
 
 		public override void Call()
@@ -38,7 +38,7 @@ namespace medea.actions
 
 			Progress.Increment();
 
-			context.Data.Session.SqlActions.ExecuteNonQuery("DELETE FROM boundary WHERE bou_id = "
+			context.Data.Session.SqlActions.ExecuteNonQuery("DELETE FROM boundary_version_clipping_region WHERE bcr_boundary_version_id = "
 						+ current.Id.ToString());
 			context.Data.Session.Delete(current);
 			VersionUpdater.Increment();

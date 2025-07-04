@@ -137,6 +137,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Boundary\BoundaryVersionDelete.cs" />
+    <Compile Include="Boundary\BoundaryVersionSave.cs" />
     <Compile Include="GeographyTuple\GeographyTupleSave.cs" />
     <Compile Include="GeographyTuple\GeographyTupleCalculate.cs" />
     <Compile Include="Geography\GeographySimplifyByIds.cs" />

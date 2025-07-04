@@ -28,7 +28,7 @@ namespace medea.entities
 		
 		private int? _id;
 		private ClippingRegion _clippingRegion;
-		private Boundary _boundary;
+		private BoundaryVersion _boundaryVersion;
 
 		#endregion
 
@@ -40,10 +40,10 @@ namespace medea.entities
 			get { return _clippingRegion; }
 			set { _clippingRegion = value; }
 		}
-		public virtual Boundary Boundary
+		public virtual BoundaryVersion BoundaryVersion
 		{
-			get { return _boundary; }
-			set { _boundary = value; }
+			get { return _boundaryVersion; }
+			set { _boundaryVersion = value; }
 		}
 		public virtual int? Id
 		{

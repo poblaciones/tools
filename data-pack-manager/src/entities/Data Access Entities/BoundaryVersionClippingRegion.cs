@@ -20,12 +20,12 @@ using System.Collections.Generic;
 
 namespace medea.entities
 {
-	public class BoundaryClippingRegion : BoundaryClippingRegionBase<BoundaryClippingRegion>
+	public class BoundaryVersionClippingRegion : BoundaryClippingRegionBase<BoundaryVersionClippingRegion>
 	{
 		public virtual IList<ClippingRegionItemGeographyItem> ClippingRegionItemGeographyItems { get; set; }
 		public virtual List<ClippingRegionGeographyCaption> ItemsCaptions { get; set; }
 
-		public BoundaryClippingRegion()
+		public BoundaryVersionClippingRegion()
 		{
 			ClippingRegionItemGeographyItems = new List<ClippingRegionItemGeographyItem>();
 			ItemsCaptions = new List<ClippingRegionGeographyCaption>();
@@ -35,7 +35,8 @@ namespace medea.entities
 		{
 			return new string[] {
 				ClippingRegion.Caption,
-				Boundary.Caption,
+				BoundaryVersion.Caption,
+				BoundaryVersion.Boundary.Caption,
 			};
 		}
 

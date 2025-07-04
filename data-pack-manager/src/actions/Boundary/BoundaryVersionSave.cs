@@ -24,16 +24,16 @@ using System.Data.SQLite;
 
 namespace medea.actions
 {
-	public class BoundarySave : action
+	public class BoundaryVersionSave : action
 	{
-		private Boundary current;
+		private BoundaryVersion current;
 
-		public BoundarySave(action action, Boundary boundary) : base(action)
+		public BoundaryVersionSave(action action, BoundaryVersion boundary) : base(action)
 		{
 			current = boundary;
 		}
 
-		public BoundarySave(Boundary current)
+		public BoundaryVersionSave(BoundaryVersion current)
 		{
 			this.current = current;
 		}
@@ -42,7 +42,22 @@ namespace medea.actions
 		{
 			Progress.Caption = "Actualizando límite";
 			Progress.Total = 1;
+			var meta = new MetadataSave(current.Metadata);
+			meta.Call();
+
+			if (current.Id.HasValue && current.BoundaryVersionClippingRegions.Count > 0)
+			{
+				//string deleteRelations = "DELETE FROM boundary_clipping_region WHERE bcr_boundary_id = " + current.Id.Value.ToString();
+				//context.Data.Session.SqlActions.ExecuteNonQuery(deleteRelations);
+				List<BoundaryVersionClippingRegion> tmp = new List<BoundaryVersionClippingRegion>();
+				tmp.AddRange(current.BoundaryVersionClippingRegions);
+				current.BoundaryVersionClippingRegions.Clear();
+				context.Data.Session.SaveOrUpdate(current);
+				context.Data.Session.Flush();
+				foreach(var c in tmp)
+					current.BoundaryVersionClippingRegions.Add(c);
+			}
 			context.Data.Session.SaveOrUpdate(current);
 		}
-	}	
+	}
 }

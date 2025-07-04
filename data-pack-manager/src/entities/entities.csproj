@@ -132,11 +132,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Data Access Entities\BoundaryVersion.cs" />
+    <Compile Include="Data Access Entities\BoundaryVersionBase.cs">
+      <DependentUpon>BoundaryVersion.cs</DependentUpon>
+    </Compile>
     <Compile Include="Data Access Entities\BoundaryGroup.cs" />
     <Compile Include="Data Access Entities\Boundary.cs" />
-    <Compile Include="Data Access Entities\BoundaryClippingRegion.cs" />
+    <Compile Include="Data Access Entities\BoundaryVersionClippingRegion.cs" />
     <Compile Include="Data Access Entities\BoundaryClippingRegionBase.cs">
-      <DependentUpon>BoundaryClippingRegion.cs</DependentUpon>
+      <DependentUpon>BoundaryVersionClippingRegion.cs</DependentUpon>
     </Compile>
     <Compile Include="Data Access Entities\BoundaryGroupBase.cs">
       <DependentUpon>BoundaryGroup.cs</DependentUpon>
@@ -336,7 +340,7 @@
     <EmbeddedResource Include="Data Mappers\Gradient.hbm.xml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Data Mappers\BoundaryClippingRegion.hbm.xml" />
+    <EmbeddedResource Include="Data Mappers\BoundaryVersionClippingRegion.hbm.xml" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Data Mappers\Boundary.hbm.xml" />
@@ -358,6 +362,9 @@
     <EmbeddedResource Include="Data Mappers\MetadataInstitution.xml">
       <SubType>Designer</SubType>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Data Mappers\BoundaryVersion.hbm.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

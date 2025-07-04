@@ -24,10 +24,9 @@ namespace medea.entities
 {
 	public class Boundary : BoundaryBase<Boundary>
 	{
-
 		public Boundary()
 		{
-			BoundaryClippingRegions = new List<BoundaryClippingRegion>();
+			BoundaryVersions = new List<BoundaryVersion>();
 
 		}
 

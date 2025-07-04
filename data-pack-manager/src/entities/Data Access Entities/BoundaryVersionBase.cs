@@ -21,20 +21,18 @@ using System.Collections.Generic;
 
 namespace medea.entities
 {
-	public abstract class BoundaryBase<T> : ActiveBaseEntity<T>, IIdentifiable
+	public abstract class BoundaryVersionBase<T> : ActiveBaseEntity<T>, IIdentifiable
 	where T: ActiveBaseEntity<T>, new()
 	{
-
 		#region Campos privados
 
 		private int? _id;
 		private string _caption;
-		private int? _order;
-		private BoundaryGroup _group;
-		private bool _private;
-		private IList<BoundaryVersion> _boundaryVersions;
+		private Boundary _boundary;
+		private Geography _geography;
+		private IList<BoundaryVersionClippingRegion> _boundaryClippingRegions;
+		private Metadata _metadata;
 		#endregion
-
 
 		#region Propiedades públicas
 
@@ -44,36 +42,36 @@ namespace medea.entities
 			set { _id = value; }
 		}
 
-		public virtual int? Order
-		{
-			get { return _order; }
-			set { _order = value; }
-		}
-		
 		public virtual string Caption
 		{
 			get { return _caption; }
 			set { _caption = value; }
 		}
 
-		public virtual bool Private
+
+		public virtual Boundary Boundary
 		{
-			get { return _private; }
-			set { _private = value; }
+			get { return _boundary; }
+			set { _boundary = value; }
 		}
 
-		public virtual BoundaryGroup Group
+		public virtual Geography Geography
 		{
-			get { return _group; }
-			set { _group = value; }
+			get { return _geography; }
+			set { _geography = value; }
+		}
+		public virtual Metadata Metadata
+		{
+			get { return _metadata; }
+			set { _metadata = value; }
 		}
 
 		#endregion
 
-		public virtual IList<BoundaryVersion> BoundaryVersions
+		public virtual IList<BoundaryVersionClippingRegion> BoundaryVersionClippingRegions
 		{
-			get { return _boundaryVersions; }
-			set { _boundaryVersions = value; }
+			get { return _boundaryClippingRegions; }
+			set { _boundaryClippingRegions = value; }
 		}
 
 

@@ -1,0 +1,25 @@
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" namespace="medea.entities" assembly="medea.data">
+	<class name="BoundaryVersion" table="boundary_version">
+		<id name="Id" column="bvr_id" unsaved-value="null">
+			<generator class="native" />
+		</id>
+
+		<property name="Caption" column="bvr_caption" not-null="true" length="100" />
+
+		<many-to-one name="Boundary" class="Boundary">
+			<column name="bvr_boundary_id" not-null="true" />
+		</many-to-one>
+
+		<many-to-one name="Metadata" class="Metadata" lazy="false">
+			<column name="bvr_metadata_id" not-null="false" />
+		</many-to-one>
+		<many-to-one name="Geography" class="Geography">
+			<column name="bvr_geography_id" not-null="false" />
+		</many-to-one>
+
+		<bag name="BoundaryVersionClippingRegions" inverse="true" cascade="all-delete-orphan">
+			<key column="bcr_boundary_version_id" />
+			<one-to-many class="BoundaryVersionClippingRegion" />
+		</bag>
+	</class>
+</hibernate-mapping>

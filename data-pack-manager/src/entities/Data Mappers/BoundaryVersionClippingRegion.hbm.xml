@@ -1,13 +1,13 @@
 <hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" namespace="medea.entities" assembly="medea.data">
-	<class name="BoundaryClippingRegion" table="boundary_clipping_region">
+	<class name="BoundaryVersionClippingRegion" table="boundary_version_clipping_region">
 		<id name="Id" column="bcr_id" unsaved-value="null">
 			<generator class="native" />
 		</id>
 		<many-to-one name="ClippingRegion" class="ClippingRegion">
 			<column name="bcr_clipping_region_id" not-null="true" />
 		</many-to-one>
-		<many-to-one name="Boundary" class="Boundary">
-			<column name="bcr_boundary_id" not-null="true" />
+		<many-to-one name="BoundaryVersion" class="BoundaryVersion">
+			<column name="bcr_boundary_version_id" not-null="true" />
 		</many-to-one>
 	</class>
 </hibernate-mapping>

@@ -117,8 +117,10 @@ namespace medea.controls
 		{
 			uContact.LoadData(current.Contact);
 			if (current.MetadataInstitutions.Count == 0)
-				throw new Exception("Los metadatos deben tener al menos una institución.");
-			uInstitution.LoadData(current.MetadataInstitutions[0].Institution, true);
+//				throw new Exception("Los metadatos deben tener al menos una institución.");
+				MessageBox.Show("Los metadatos deben tener al menos una institución.");
+			else
+				uInstitution.LoadData(current.MetadataInstitutions[0].Institution, true);
 		}
 	}
 }

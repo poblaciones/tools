@@ -50,6 +50,7 @@ namespace medea.winApp
 			this.grpGeneral = new System.Windows.Forms.GroupBox();
 			this.cmbParent = new medea.controls.uComboBox();
 			this.label3 = new System.Windows.Forms.Label();
+			this.lblBoundary = new System.Windows.Forms.Label();
 			this.label2 = new System.Windows.Forms.Label();
 			this.txtCaption = new System.Windows.Forms.TextBox();
 			this.lblCaption = new System.Windows.Forms.Label();
@@ -58,7 +59,7 @@ namespace medea.winApp
 			this.groupBox1 = new System.Windows.Forms.GroupBox();
 			this.lstRegions = new System.Windows.Forms.CheckedListBox();
 			this.lblGeography = new System.Windows.Forms.Label();
-			this.lblBoundary = new System.Windows.Forms.Label();
+			this.label1 = new System.Windows.Forms.Label();
 			this.panMain.SuspendLayout();
 			this.grpGeneral.SuspendLayout();
 			this.groupBox2.SuspendLayout();
@@ -80,6 +81,7 @@ namespace medea.winApp
 			//
 			// grpGeneral
 			//
+			this.grpGeneral.Controls.Add(this.label1);
 			this.grpGeneral.Controls.Add(this.cmbParent);
 			this.grpGeneral.Controls.Add(this.label3);
 			this.grpGeneral.Controls.Add(this.lblBoundary);
@@ -113,6 +115,16 @@ namespace medea.winApp
 			this.label3.TabIndex = 8;
 			this.label3.Text = "Geografía:";
 			this.label3.Click += new System.EventHandler(this.label3_Click);
+			//
+			// lblBoundary
+			//
+			this.lblBoundary.AutoSize = true;
+			this.lblBoundary.Location = new System.Drawing.Point(106, 38);
+			this.lblBoundary.Name = "lblBoundary";
+			this.lblBoundary.Size = new System.Drawing.Size(10, 13);
+			this.lblBoundary.TabIndex = 8;
+			this.lblBoundary.Text = "-";
+			this.lblBoundary.Click += new System.EventHandler(this.lblBoundary_Click);
 			//
 			// label2
 			//
@@ -193,15 +205,14 @@ namespace medea.winApp
 			this.lblGeography.TabIndex = 6;
 			this.lblGeography.Text = "Regiones:";
 			//
-			// lblBoundary
+			// label1
 			//
-			this.lblBoundary.AutoSize = true;
-			this.lblBoundary.Location = new System.Drawing.Point(106, 38);
-			this.lblBoundary.Name = "lblBoundary";
-			this.lblBoundary.Size = new System.Drawing.Size(10, 13);
-			this.lblBoundary.TabIndex = 8;
-			this.lblBoundary.Text = "-";
-			this.lblBoundary.Click += new System.EventHandler(this.lblBoundary_Click);
+			this.label1.Location = new System.Drawing.Point(15, 140);
+			this.label1.Name = "label1";
+			this.label1.Size = new System.Drawing.Size(254, 56);
+			this.label1.TabIndex = 12;
+			this.label1.Text = "Nivel de geografía para anexar al generar la descarga (código y descripción de pe" +
+    "rtenencia).";
 			//
 			// frmBoundaryVersionEdit
 			//
@@ -237,6 +248,7 @@ namespace medea.winApp
 		private System.Windows.Forms.CheckedListBox lstRegions;
 		private System.Windows.Forms.Label lblGeography;
 		private System.Windows.Forms.Label lblBoundary;
+		private System.Windows.Forms.Label label1;
 	}
 }
 

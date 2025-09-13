@@ -36,6 +36,12 @@ namespace medea.actions
 			if (current == null)
 				return;
 			PublicId.SetLowestFreeId(current.Contact);
+			for (var n = current.MetadataInstitutions.Count - 1; n >= 0; n--)
+			{
+				var mi = current.MetadataInstitutions[n];
+				if (mi.Institution == null)
+					current.MetadataInstitutions.RemoveAt(n);
+			}
 			foreach(MetadataInstitution metadataInstitution in current.MetadataInstitutions)
 				PublicId.SetLowestFreeId(metadataInstitution.Institution);
 

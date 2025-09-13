@@ -44,6 +44,11 @@ namespace medea.entities
 			set { _institution = value; }
 		}
 
+		public virtual int Order
+		{
+			get { return _order; }
+			set { _order = value; }
+		}
 		public virtual int? Id
 		{
 			get { return _id; }

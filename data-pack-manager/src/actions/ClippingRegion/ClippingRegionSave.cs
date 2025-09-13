@@ -63,6 +63,8 @@ namespace medea.actions
 
 		private void Save()
 		{
+			context.Data.Session.SqlActions.ExecuteScalar("SET GLOBAL wait_timeout = 28800;");
+
 			if (this.current.Metadata != null)
 			{ 
 				MetadataSave met = new MetadataSave(this.current.Metadata);

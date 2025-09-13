@@ -147,7 +147,8 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net40\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\packages\Newtonsoft.Json.13.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="NHibernate">
       <HintPath>..\packages\NHibernate.4.1.1.4000\lib\net40\NHibernate.dll</HintPath>
@@ -173,7 +174,7 @@
       <HintPath>..\lib\nhibernate\Remotion.Data.Linq.dll</HintPath>
     </Reference>
     <Reference Include="SpssLib">
-      <HintPath>..\lib\spsslib\SpssLib\bin\Release\SpssLib.dll</HintPath>
+      <HintPath>..\lib\spsslib\SpssLib\bin\Debug\SpssLib.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />

@@ -152,6 +152,12 @@ namespace medea.context
 		public static void MarkSessionUsage()
 		{
 			LastSessionUsage = DateTime.Now;
+
+			try
+			{
+				// Session.SqlActions.ExecuteScalar("SET GLOBAL wait_timeout = 28800;");
+			}
+			catch { }
 		}
 		public static void CheckSession()
 		{

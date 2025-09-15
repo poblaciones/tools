@@ -60,11 +60,19 @@ namespace medea.winApp
 				T tag = items.Where(x => x.Id == item.Key).First();
 				string key = item.Key.ToString();
 				string text = item.Value;
+
 				ObjectCaption i = new ObjectCaption(tag, text);
 				list.Items.Add(i);
 			}
 		}
-		public void LoadData(BoundaryVersion boundary)
+
+		public void SetParentForNew(Boundary boundary)
+		{
+			this.current.Boundary = boundary;
+			LoadData(this.current);
+		}
+
+			public void LoadData(BoundaryVersion boundary)
 		{
 			isNew = false;
 			current = boundary;
@@ -127,7 +135,7 @@ namespace medea.winApp
 			Call(new BoundaryVersionSave(current));
 			MarkTableUpdate.UpdateTables(new string[] { "boundary_version", "boundary_version_clipping_region" });
 
-			Call(new MetadataClearRemoteCache(current.Metadata));
+			//Call(new MetadataClearRemoteCache(current.Metadata));
 		}
 
 		private void btnEditMetadata_Click(object sender, EventArgs e)

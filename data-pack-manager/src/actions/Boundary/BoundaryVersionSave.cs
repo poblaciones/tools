@@ -45,17 +45,24 @@ namespace medea.actions
 			var meta = new MetadataSave(current.Metadata);
 			meta.Call();
 
-			if (current.Id.HasValue && current.BoundaryVersionClippingRegions.Count > 0)
+			if (current.Id.HasValue)
 			{
-				//string deleteRelations = "DELETE FROM boundary_clipping_region WHERE bcr_boundary_id = " + current.Id.Value.ToString();
-				//context.Data.Session.SqlActions.ExecuteNonQuery(deleteRelations);
-				List<BoundaryVersionClippingRegion> tmp = new List<BoundaryVersionClippingRegion>();
-				tmp.AddRange(current.BoundaryVersionClippingRegions);
-				current.BoundaryVersionClippingRegions.Clear();
-				context.Data.Session.SaveOrUpdate(current);
-				context.Data.Session.Flush();
-				foreach(var c in tmp)
-					current.BoundaryVersionClippingRegions.Add(c);
+				if (current.BoundaryVersionClippingRegions.Count > 0)
+				{
+					//string deleteRelations = "DELETE FROM boundary_clipping_region WHERE bcr_boundary_id = " + current.Id.Value.ToString();
+					//context.Data.Session.SqlActions.ExecuteNonQuery(deleteRelations);
+					List<BoundaryVersionClippingRegion> tmp = new List<BoundaryVersionClippingRegion>();
+					tmp.AddRange(current.BoundaryVersionClippingRegions);
+					current.BoundaryVersionClippingRegions.Clear();
+					context.Data.Session.SaveOrUpdate(current);
+					context.Data.Session.Flush();
+					foreach (var c in tmp)
+						current.BoundaryVersionClippingRegions.Add(c);
+				}
+			}
+			else
+			{
+				current.Boundary.BoundaryVersions.Add(current);
 			}
 			context.Data.Session.SaveOrUpdate(current);
 		}

@@ -132,6 +132,7 @@ namespace medea.winApp
 			cmbParent.SelectItem(current.Parent);
 			txtPriority.Text = current.Priority.ToString();
 			txtSymbol.Text = current.Symbol;
+			txtVersion.Text = (current.Version == null ? "" : current.Version);
 
 			if (uFile.HasFile)
 			{
@@ -195,6 +196,7 @@ namespace medea.winApp
 			current.Priority = int.Parse(txtPriority.Text);
 			current.LabelsMaxZoom = int.Parse(txtMaxZoom.Text);
 			current.LabelsMinZoom = int.Parse(txtMinZoom.Text);
+			current.Version = (txtVersion.Text == "" ? null : txtVersion.Text);
 
 			if (cmbParent.Enabled)
 			{
@@ -227,7 +229,7 @@ namespace medea.winApp
 			if (current.Metadata != null)
 			{
 				MarkTableUpdate.UpdateMetadata();
-				Call(new MetadataClearRemoteCache(current.Metadata));
+			//	Call(new MetadataClearRemoteCache(current.Metadata));
 			}
 		}
 
@@ -262,6 +264,11 @@ namespace medea.winApp
 			edit.LoadData(current.Metadata);
 			if (edit.ShowDialog(this) != DialogResult.Cancel)
 				edit.ControlsToValues();
+		}
+
+		private void lblParent_Click(object sender, EventArgs e)
+		{
+
 		}
 	}
 }

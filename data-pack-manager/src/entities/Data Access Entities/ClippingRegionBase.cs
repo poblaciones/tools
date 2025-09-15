@@ -21,13 +21,14 @@ using medea.common;
 
 namespace medea.entities
 {
-	public abstract class ClippingRegionBase<T> : ActiveBaseEntity<T>, IIdentifiable
+	public abstract class ClippingRegionBase<T> : ActiveBaseEntity<T>, IIdentifiable, IVersionable
 	where T: ActiveBaseEntity<T>, new()
 	{
 
 		#region Campos privados
 
 		private string _caption;
+		private string _version;
 		private string _fieldCodeName;
 		private string _symbol;
 		private Metadata _metadata = new Metadata(WorkTypeEnum.Geography);
@@ -52,6 +53,14 @@ namespace medea.entities
 			get { return _caption; }
 			set { _caption = value; }
 		}
+
+
+		public virtual string Version
+		{
+			get { return _version; }
+			set { _version = value; }
+		}
+
 		public virtual string Symbol
 		{
 			get { return _symbol; }

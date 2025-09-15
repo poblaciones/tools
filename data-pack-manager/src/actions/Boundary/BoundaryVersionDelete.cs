@@ -38,9 +38,12 @@ namespace medea.actions
 
 			Progress.Increment();
 
-			context.Data.Session.SqlActions.ExecuteNonQuery("DELETE FROM boundary_version_clipping_region WHERE bcr_boundary_version_id = "
-						+ current.Id.ToString());
+			/*context.Data.Session.SqlActions.ExecuteNonQuery("DELETE FROM boundary_version_clipping_region WHERE bcr_boundary_version_id = "
+						+ current.Id.ToString());*/
+			//		current.BoundaryVersionClippingRegions.Clear();
+			current.Boundary.BoundaryVersions.Remove(current);
 			context.Data.Session.Delete(current);
+//			context.Data.Session.Evict(current.Boundary);
 			VersionUpdater.Increment();
 		}
 

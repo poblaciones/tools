@@ -168,11 +168,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="frmBoundaryVersion.cs">
+    <Compile Include="frmBoundaryVersionEdit.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmBoundaryVersion.Designer.cs">
-      <DependentUpon>frmBoundaryVersion.cs</DependentUpon>
+    <Compile Include="frmBoundaryVersionEdit.Designer.cs">
+      <DependentUpon>frmBoundaryVersionEdit.cs</DependentUpon>
     </Compile>
     <Compile Include="frmGeographyClippingNew.cs">
       <SubType>Form</SubType>
@@ -325,8 +325,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Encrypt.cs" />
     <Compile Include="RegistryPersistence.cs" />
-    <EmbeddedResource Include="frmBoundaryVersion.resx">
-      <DependentUpon>frmBoundaryVersion.cs</DependentUpon>
+    <EmbeddedResource Include="frmBoundaryVersionEdit.resx">
+      <DependentUpon>frmBoundaryVersionEdit.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="frmGeographyClippingNew.resx">

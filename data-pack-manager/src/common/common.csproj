@@ -192,6 +192,7 @@
     <Compile Include="action.cs" />
     <Compile Include="Clustering\NtilesBreaks.cs" />
     <Compile Include="data\ConnectionSettings.cs" />
+    <Compile Include="data\IVersionable.cs" />
     <Compile Include="data\ObjectMetadata.cs" />
     <Compile Include="FormatTypeExtendedEnum.cs" />
     <Compile Include="ObjectCaption.cs" />

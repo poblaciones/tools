@@ -49,11 +49,22 @@ namespace medea.winApp
 			if (NoneSelected())
 				return;
 
-			var f = new frmBoundaryEdit();
-			f.LoadData(GetSelectedNode());
-			if (f.ShowDialog(this) == DialogResult.OK)
-				ReloadList();
+			var boundary = GetSelectedNode();
+			if (boundary != null)
+			{
+				var f = new frmBoundaryEdit();
+				f.LoadData(GetSelectedNode());
+				if (f.ShowDialog(this) == DialogResult.OK)
+					ReloadList();
+			}
+			else
+			{
+				var f = new frmBoundaryVersionEdit();
+				f.LoadData(GetSelectedNodeVersion());
+				if (f.ShowDialog(this) == DialogResult.OK)
+					ReloadList();
 
+			}
 		}
 
 		private Boundary GetSelectedNode()
@@ -119,9 +130,6 @@ namespace medea.winApp
 				else
 					dict.Add("Orden", "Nulo");
 				dict.Add("Grupo", Boundary.Group.Caption);
-				dict.Add("Contenido", "");
-
-				dict.Add("Metadatos", "");
 				dict.Add("Visible", (!Boundary.Private ? "Sí" : "No"));
 
 
@@ -137,16 +145,12 @@ namespace medea.winApp
 				var dict = new Dictionary<string, string>();
 				dict.Add("Id", BoundaryVersion.Id.ToString());
 				dict.Add("Nombre", BoundaryVersion.Caption);
-				dict.Add("Geografía", "");
-				dict.Add("Orden", "");
-				dict.Add("Grupo", "");
 				string regions = "";
 				foreach (BoundaryVersionClippingRegion c in BoundaryVersion.BoundaryVersionClippingRegions)
 					regions += (regions.Length > 0 ? ", " : "") + c.ClippingRegion.Caption;
 				dict.Add("Contenido", regions);
 
 				dict.Add("Metadatos", (BoundaryVersion.Metadata == null ? "Hereda" : "Propios"));
-				dict.Add("Visible", "");
 
 				return dict;
 			}
@@ -259,6 +263,22 @@ namespace medea.winApp
 		private void listView_DoubleClick(object sender, EventArgs e)
 		{
 			btnEdit.PerformClick();
+		}
+
+		private void btnNewVersion_Click(object sender, EventArgs e)
+		{
+
+			var boundary = GetSelectedNode();
+			if (boundary == null)
+			{
+				MessageBox.Show(this, "Debe seleccionar una delimitación para utilizar para padre de la versión.");
+				return;
+			}
+
+			var f = new frmBoundaryVersionEdit();
+			f.SetParentForNew(boundary);
+			if (f.ShowDialog(this) == DialogResult.OK)
+				ReloadList();
 		}
 	}
 }

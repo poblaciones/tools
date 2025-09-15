@@ -37,9 +37,9 @@ namespace medea.actions
 			Progress.Total = 1;
 
 			Progress.Increment();
-
+			/*
 			context.Data.Session.SqlActions.ExecuteNonQuery("DELETE FROM boundary WHERE bou_id = "
-						+ current.Id.ToString());
+						+ current.Id.ToString());*/
 			context.Data.Session.Delete(current);
 			VersionUpdater.Increment();
 		}

@@ -264,9 +264,12 @@ namespace medea.winApp
 
 			if (Call(new GeographySave(current, uFile.FileAdded, household,
 					 children, population, urbanity, parent, code, caption, uFile.Basename)))
-				Call(new MetadataClearRemoteCache(current.Metadata));
-			MarkTableUpdate.UpdateTables(new string[] { "geography", "geography_item" });
-			MarkTableUpdate.UpdateMetadata();
+
+			//				Call(new MetadataClearRemoteCache(current.Metadata));
+			{
+				MarkTableUpdate.UpdateTables(new string[] { "geography", "geography_item" });
+				MarkTableUpdate.UpdateMetadata();
+			}
 		}
 
 		private void ControlsToValues()

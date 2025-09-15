@@ -107,6 +107,8 @@ namespace medea.winApp
 				var dict = new Dictionary<string, string>();
 				dict.Add("Id", clipping.Id.ToString());
 				dict.Add("Nombre", clipping.Caption);
+				if (clipping.Version != null)
+					dict.Add("Version", clipping.Version);
 				dict.Add("Campo código", clipping.FieldCodeName);
 				dict.Add("Prioridad", clipping.Priority.ToString());
 

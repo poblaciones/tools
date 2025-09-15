@@ -4,6 +4,7 @@
 			<generator class="native" />
 		</id>
 		<property name="Caption" column="clr_caption" not-null="true" length="100" />
+		<property name="Version" column="clr_version" not-null="false" length="100" />
 		<property name="Priority" column="clr_priority" not-null="true" />
 		<property name="LabelsMaxZoom" column="clr_labels_max_zoom" not-null="true" />
 		<property name="LabelsMinZoom" column="clr_labels_min_zoom" not-null="true" />

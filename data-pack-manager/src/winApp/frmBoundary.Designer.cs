@@ -60,18 +60,19 @@ namespace medea.winApp
 			this.mnuEdit = new System.Windows.Forms.ToolStripMenuItem();
 			this.mnuDelete = new System.Windows.Forms.ToolStripMenuItem();
 			this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+			this.panel2 = new medea.controls.uHeader();
 			this.splitContainer2 = new System.Windows.Forms.SplitContainer();
+			this.uEntity = new medea.controls.uEntity();
 			this.chkItems = new System.Windows.Forms.CheckBox();
+			this.uHeader1 = new medea.controls.uHeader();
 			this.lstContainer = new System.Windows.Forms.SplitContainer();
 			this.lstCount = new System.Windows.Forms.Label();
+			this.uGeometry1 = new medea.controls.uGeometry();
 			this.pnlActions = new System.Windows.Forms.Panel();
 			this.btnNew = new System.Windows.Forms.Button();
 			this.btnEdit = new System.Windows.Forms.Button();
 			this.btnDelete = new System.Windows.Forms.Button();
-			this.panel2 = new medea.controls.uHeader();
-			this.uEntity = new medea.controls.uEntity();
-			this.uHeader1 = new medea.controls.uHeader();
-			this.uGeometry1 = new medea.controls.uGeometry();
+			this.btnNewVersion = new System.Windows.Forms.Button();
 			this.cmsItems.SuspendLayout();
 			this.cmsTree.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -187,6 +188,17 @@ namespace medea.winApp
 			this.splitContainer1.SplitterWidth = 6;
 			this.splitContainer1.TabIndex = 2;
 			//
+			// panel2
+			//
+			this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
+			this.panel2.ForeColor = System.Drawing.Color.Black;
+			this.panel2.Location = new System.Drawing.Point(0, 0);
+			this.panel2.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+			this.panel2.Name = "panel2";
+			this.panel2.Size = new System.Drawing.Size(381, 26);
+			this.panel2.TabIndex = 0;
+			this.panel2.Text = "Delimitaciones";
+			//
 			// splitContainer2
 			//
 			this.splitContainer2.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -208,6 +220,16 @@ namespace medea.winApp
 			this.splitContainer2.SplitterWidth = 6;
 			this.splitContainer2.TabIndex = 0;
 			//
+			// uEntity
+			//
+			this.uEntity.BackColor = System.Drawing.SystemColors.Control;
+			this.uEntity.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.uEntity.Location = new System.Drawing.Point(0, 26);
+			this.uEntity.Margin = new System.Windows.Forms.Padding(6);
+			this.uEntity.Name = "uEntity";
+			this.uEntity.Size = new System.Drawing.Size(775, 204);
+			this.uEntity.TabIndex = 1;
+			//
 			// chkItems
 			//
 			this.chkItems.AutoSize = true;
@@ -224,6 +246,17 @@ namespace medea.winApp
 			this.chkItems.UseVisualStyleBackColor = false;
 			this.chkItems.Visible = false;
 			this.chkItems.CheckedChanged += new System.EventHandler(this.chkItems_CheckedChanged);
+			//
+			// uHeader1
+			//
+			this.uHeader1.Dock = System.Windows.Forms.DockStyle.Top;
+			this.uHeader1.ForeColor = System.Drawing.Color.Black;
+			this.uHeader1.Location = new System.Drawing.Point(0, 0);
+			this.uHeader1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+			this.uHeader1.Name = "uHeader1";
+			this.uHeader1.Size = new System.Drawing.Size(775, 26);
+			this.uHeader1.TabIndex = 0;
+			this.uHeader1.Text = "Detalle";
 			//
 			// lstContainer
 			//
@@ -256,8 +289,19 @@ namespace medea.winApp
 			this.lstCount.TabIndex = 2;
 			this.lstCount.Text = "0.";
 			//
+			// uGeometry1
+			//
+			this.uGeometry1.BackColor = System.Drawing.Color.WhiteSmoke;
+			this.uGeometry1.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.uGeometry1.Location = new System.Drawing.Point(0, 0);
+			this.uGeometry1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+			this.uGeometry1.Name = "uGeometry1";
+			this.uGeometry1.Size = new System.Drawing.Size(96, 100);
+			this.uGeometry1.TabIndex = 0;
+			//
 			// pnlActions
 			//
+			this.pnlActions.Controls.Add(this.btnNewVersion);
 			this.pnlActions.Controls.Add(this.btnNew);
 			this.pnlActions.Controls.Add(this.btnEdit);
 			this.pnlActions.Controls.Add(this.btnDelete);
@@ -299,47 +343,15 @@ namespace medea.winApp
 			this.btnDelete.UseVisualStyleBackColor = true;
 			this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
 			//
-			// panel2
+			// btnNewVersion
 			//
-			this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
-			this.panel2.ForeColor = System.Drawing.Color.Black;
-			this.panel2.Location = new System.Drawing.Point(0, 0);
-			this.panel2.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-			this.panel2.Name = "panel2";
-			this.panel2.Size = new System.Drawing.Size(381, 26);
-			this.panel2.TabIndex = 0;
-			this.panel2.Text = "Delimitaciones";
-			//
-			// uEntity
-			//
-			this.uEntity.BackColor = System.Drawing.SystemColors.Control;
-			this.uEntity.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.uEntity.Location = new System.Drawing.Point(0, 26);
-			this.uEntity.Margin = new System.Windows.Forms.Padding(6);
-			this.uEntity.Name = "uEntity";
-			this.uEntity.Size = new System.Drawing.Size(775, 204);
-			this.uEntity.TabIndex = 1;
-			//
-			// uHeader1
-			//
-			this.uHeader1.Dock = System.Windows.Forms.DockStyle.Top;
-			this.uHeader1.ForeColor = System.Drawing.Color.Black;
-			this.uHeader1.Location = new System.Drawing.Point(0, 0);
-			this.uHeader1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-			this.uHeader1.Name = "uHeader1";
-			this.uHeader1.Size = new System.Drawing.Size(775, 26);
-			this.uHeader1.TabIndex = 0;
-			this.uHeader1.Text = "Detalle";
-			//
-			// uGeometry1
-			//
-			this.uGeometry1.BackColor = System.Drawing.Color.WhiteSmoke;
-			this.uGeometry1.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.uGeometry1.Location = new System.Drawing.Point(0, 0);
-			this.uGeometry1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-			this.uGeometry1.Name = "uGeometry1";
-			this.uGeometry1.Size = new System.Drawing.Size(96, 100);
-			this.uGeometry1.TabIndex = 0;
+			this.btnNewVersion.Location = new System.Drawing.Point(93, 6);
+			this.btnNewVersion.Name = "btnNewVersion";
+			this.btnNewVersion.Size = new System.Drawing.Size(112, 23);
+			this.btnNewVersion.TabIndex = 4;
+			this.btnNewVersion.Text = "Nueva versión...";
+			this.btnNewVersion.UseVisualStyleBackColor = true;
+			this.btnNewVersion.Click += new System.EventHandler(this.btnNewVersion_Click);
 			//
 			// frmBoundary
 			//
@@ -399,6 +411,7 @@ namespace medea.winApp
 		private System.Windows.Forms.ColumnHeader columnHeader1;
 		private System.Windows.Forms.ColumnHeader columnHeader2;
 		private System.Windows.Forms.ColumnHeader columnHeader3;
+		private System.Windows.Forms.Button btnNewVersion;
 	}
 }
 

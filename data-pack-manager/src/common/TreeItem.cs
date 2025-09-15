@@ -31,6 +31,13 @@ namespace medea.common
 			foreach (var item in items)
 			{
 				string itemText  = item.Item.GetCaption();
+				var version = item.Item as IVersionable;
+				if (version != null)
+				{
+					if (version.Version != null)
+						itemText += " [" + version.Version + "]";
+				}
+
 				var reg = item.Item as IIdentifiable;
 				if (relationsCount != null && reg != null && reg.Id.HasValue)
 				{
@@ -50,7 +57,13 @@ namespace medea.common
 		{
 			foreach (var item in items)
 			{
-				list.Add(item.Item.Id.GetValueOrDefault(), new string(' ', deep * 3) + item.Item.GetCaption());
+				string text = item.Item.GetCaption();
+				IVersionable v = item.Item as IVersionable;
+				if (v != null && v.Version != null)
+				{
+					text += " [" + v.Version + "]";
+				}
+				list.Add(item.Item.Id.GetValueOrDefault(), new string(' ', deep * 3) + text);
 				MakeDictionary(item.Children, list, deep + 1);
 			}
 		}

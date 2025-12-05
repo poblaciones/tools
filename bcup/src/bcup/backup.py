@@ -24,7 +24,9 @@ class Backup:
         self.settings = Settings()
 
     def run_mysqldump(self, options, output_file, table_list=''):
-        ini = f"--password=\"{self.settings.db_pass}\""
+        pass_escaped = self.settings.db_pass.replace("$", "\\$")
+
+        ini = f"--password=\"{pass_escaped}\""
         if self.settings.has_ini:
             ini = f"--defaults-file={Settings.CONFIG_FILE}"
 
@@ -42,6 +44,62 @@ class Backup:
             print(f"Error: \n{stderr_output}")
             print("--- BACKUP FAILED.")
             sys.exit()
+
+    def add_target_suffix(self, file_path, target_suffix, foreign_tables_to_suffix):
+        if not os.path.isfile(file_path) or target_suffix == '':
+            return
+
+        with open(file_path, 'r', encoding='utf-8') as file:
+            content = file.read()
+        sql = content
+
+        # 1. CREATE TABLE
+        sql = re.sub(
+            r'(CREATE TABLE\s+`)([^`]+)(`)',
+            lambda m: f"{m[1]}{m[2]}{target_suffix}{m[3]}",
+            sql,
+            flags=re.IGNORECASE
+        )
+
+        # 1b. DROP TABLE IF EXISTS
+        sql = re.sub(
+            r'(DROP TABLE IF EXISTS\s+`)([^`]+)(`)',
+            lambda m: f"{m[1]}{m[2]}{target_suffix}{m[3]}",
+            sql,
+            flags=re.IGNORECASE
+        )
+
+        # 2. Constraints (nombre del constraint)
+        sql = re.sub(
+            r'(CONSTRAINT\s+`)([^`]+)(`)',
+            lambda m: f"{m[1]}{m[2]}{target_suffix}{m[3]}",
+            sql,
+            flags=re.IGNORECASE
+        )
+
+        # 3. Índices (KEY, UNIQUE KEY, etc.)
+        sql = re.sub(
+            r'(\bKEY\s+`)([^`]+)(`)',
+            lambda m: f"{m[1]}{m[2]}{target_suffix}{m[3]}",
+            sql,
+            flags=re.IGNORECASE
+        )
+
+        # 4. Tablas referenciadas (REFERENCES ...), solo si están en la lista
+        for table_name in foreign_tables_to_suffix:
+            pattern = rf'(REFERENCES\s+`){re.escape(table_name)}(`)'
+            sql = re.sub(
+                pattern,
+                lambda m, tn=table_name: f"{m[1]}{tn}{target_suffix}{m[2]}",
+                sql,
+                flags=re.IGNORECASE
+            )
+
+        new_content = sql
+
+        with open(file_path, 'w', encoding='utf-8') as file:
+            file.write(new_content)
+
 
     def remove_trigger_definer(self, file_path):
         if not os.path.isfile(file_path):
@@ -123,33 +181,36 @@ class Backup:
             json.dump(sizes, outfile, indent=2)
 
         #total_row_count
+        suffix = self.settings.target_tables_suffix
         with tqdm(total=total_bytes, ncols=70, disable=self.settings.quiet) as progress_bar:
             for table in tables:
-                self.dump_table_structure(table)
+                progress_bar.set_description(f"Procesando {table}{suffix}")
+                self.dump_table_structure(table, suffix, tables)
 
-                if not self.dump_table_data(table, sizes[table], progress_bar):
+                if not self.dump_table_data(table, suffix, sizes[table + suffix], progress_bar):
                     print(f'Pending bytes: {int(progress_bar.total - progress_bar.n)}')
                     print(f'Pending tables: {len(tables)}')
                     return False
 
-                self.zip_table(table, self.settings.tables_path)
+                self.zip_table(table, self.settings.tables_path, 1, self.settings.target_tables_suffix)
                 if self.settings.step_by_step:
                     print(f'Pending bytes: {int(progress_bar.total - progress_bar.n)}')
                     print(f'Pending tables: {len(tables)}')
                     return False
+            progress_bar.set_description(f"Listo")
         return True
 
-    def dump_table_data(self, table, sizes, progress_bar):
+    def dump_table_data(self, table, target_suffix, sizes, progress_bar):
         for offset in range(0, sizes['rows'], sizes['step']):
-            file = self.resolve_filename(table, (offset // sizes['step']) + 1)
+            file = self.resolve_filename(table + target_suffix, (offset // sizes['step']) + 1)
             if not os.path.exists(file):
                 tmp_file = self.resolve_tmp_filename()
-                if self.settings.mysqldump:
+                if self.settings.mysqldump and target_suffix == '':
                     self.run_mysqldump(f"--no-create-info --hex-blob --skip-triggers --where=\"1 LIMIT {sizes['step']} OFFSET {offset}\"", tmp_file, table)
                 else:
                     cnx = self.get_connection()
                     cursor = cnx.cursor()
-                    DumpTable.export_table(cursor, tmp_file, table, sizes['step'], offset, sizes['step']);
+                    DumpTable.export_table_to_file(cursor, table, target_suffix, tmp_file, sizes['step'], offset, sizes['step']);
 
                 os.rename(tmp_file, file)
                 if self.settings.quiet:
@@ -164,13 +225,14 @@ class Backup:
         # print('Completed ' + table)
         return True
 
-    def dump_table_structure(self, table):
-        file = Settings.join_path(self.settings.tables_path, f"{table}.sql")
+    def dump_table_structure(self, table, target_suffix, tables):
+        file = Settings.join_path(self.settings.tables_path, f"{table}{target_suffix}.sql")
         if not os.path.exists(file):
             tmp_file = self.resolve_tmp_filename()
             self.run_mysqldump("--no-data --no-create-db", tmp_file, table)
             self.remove_trigger_definer(tmp_file)
             self.remove_no_auto_create_user(tmp_file)
+            self.add_target_suffix(tmp_file, target_suffix, tables)
             os.rename(tmp_file, file)
 
     def resolve_tmp_filename(self):
@@ -241,7 +303,6 @@ class Backup:
             if os.path.exists(tmp_file):
                 os.remove(tmp_file)
             ret = self.filter_existing_tables(ret)
-
         return ret
 
     def filter_existing_tables(self, tables):
@@ -261,6 +322,8 @@ class Backup:
         files = sorted(glob(Settings.join_path(self.settings.tables_path, "*.zip")))
         for file in files:
             table = os.path.basename(file.replace(".zip", ""))
+            if table.endswith(self.settings.target_tables_suffix):
+                table = table[: len(table) - len(self.settings.target_tables_suffix)]
             if table in tables:
                 tables.remove(table)
         return tables
@@ -270,10 +333,10 @@ class Backup:
             shutil.rmtree(self.settings.output_path)
         os.makedirs(self.settings.tables_path, exist_ok=True)
 
-    def zip_table(self, table, path, level=1):
+    def zip_table(self, table, path, level=1, table_suffix = ''):
         try:
             to_zip = sorted(glob(Settings.join_path(path, table + "*.sql")))
-            zip_file = Settings.join_path(path, table + ".zip")
+            zip_file = Settings.join_path(path, table + table_suffix + ".zip")
             if self.settings.quiet:
                 print('Zipping: ' + zip_file)
             # No soportado en python 3.6
@@ -378,8 +441,7 @@ class Backup:
                 step = int(MBytes_to_capture * 1000000 / row_bytes)
                 if step < 1:
                     step = 10
-
-            sizes[table] = {'rows': rows, 'bytes': table_bytes, 'step': step}
+            sizes[table + self.settings.target_tables_suffix] = {'rows': rows, 'bytes': table_bytes, 'step': step}
 
         cnx.close()
 
@@ -390,7 +452,6 @@ class Backup:
             text = f"{int(total_row_count / 1000)} thousand"
 
         self.print(f"Ready to backup ~{text} rows")
-
         return total_row_count, total_bytes, sizes
 
     def create_timestamp_file(self):
@@ -411,12 +472,15 @@ class Backup:
         self.settings.parse_config_file()
         self.settings.parse_command_line_backup()
 
-        self.print("-------------------------------")
+        self.print("-----------------------------------")
         self.print(f"DATABASE: {self.settings.db_name}")
         self.print(f"USER: {self.settings.db_user}")
         self.print(f"HOST: {self.settings.db_host}")
         self.print(f"OUTPUT: {self.settings.output}")
-        self.print("-------------------------------")
+        if (self.settings.target_tables_suffix != ''):
+            self.print(f"SUFFIX: {self.settings.target_tables_suffix}")
+        self.print(f"VERSION: {self.settings.version}")
+        self.print("-----------------------------------")
 
         start = time.time()
 

@@ -29,15 +29,19 @@ class DumpTable:
         else:
             return f"'{json.dumps(value)}'"
 
-    def export_table(cursor, table, output_file, batch_size, offset, limit):
+    def export_table_to_file(cursor, table, target_suffix, output_filename, batch_size, offset, limit):
+        with open(output_filename, 'w', encoding='utf-8') as output_file:
+            DumpTable.export_table(cursor, table, target_suffix, output_file, batch_size, offset, limit)
+
+    def export_table(cursor, table, target_suffix, output_file, batch_size, offset, limit):
         """Generate INSERTs for a specific table."""
         cursor.execute(f"SELECT * FROM {table} LIMIT 0")  # Get column names
         columns = [desc[0] for desc in cursor.description]
-        output_file.write(f"-- Data from table {table}\n")
+        output_file.write(f"-- Data from table {table}{target_suffix}\n")
         group_size = 25
         rows_exported = 0
-        output_file.write("LOCK TABLES `boundary` WRITE;\n")
-        output_file.write("/*!40000 ALTER TABLE `boundary` DISABLE KEYS */;\n\n")
+        output_file.write(f"LOCK TABLES `{table}{target_suffix}` WRITE;\n")
+        output_file.write(f"/*!40000 ALTER TABLE `{table}{target_suffix}` DISABLE KEYS */;\n\n")
 
         while True:
             query = f"SELECT * FROM {table} LIMIT {batch_size} OFFSET {offset}"
@@ -50,14 +54,14 @@ class DumpTable:
             # Grouping values to minimize INSERT statements
             grouped_values = []
             for row in rows:
-                values = "(" + ", ".join([format_value(v) for v in row]) + ")"
+                values = "(" + ", ".join([DumpTable.format_value(v) for v in row]) + ")"
                 grouped_values.append(values)
                 rows_exported += 1
 
                 # When the group is full, write the INSERT statement
                 if len(grouped_values) == group_size:
                     insert_statement = (
-                        f"INSERT INTO {table} ({', '.join(columns)}) VALUES "
+                        f"INSERT INTO {table}{target_suffix} ({', '.join(columns)}) VALUES "
                         + ",".join(grouped_values) + ";\n"
                     )
                     output_file.write(insert_statement)
@@ -70,14 +74,14 @@ class DumpTable:
             # Write remaining values if any
             if grouped_values:
                 insert_statement = (
-                    f"INSERT INTO {table} ({', '.join(columns)}) VALUES "
+                    f"INSERT INTO {table}{target_suffix} ({', '.join(columns)}) VALUES "
                     + ",".join(grouped_values) + ";\n"
                 )
                 output_file.write(insert_statement)
 
             offset += batch_size
 
-        output_file.write("\n/*!40000 ALTER TABLE `boundary` ENABLE KEYS */;\n")
+        output_file.write(f"\n/*!40000 ALTER TABLE `{table}{target_suffix}` ENABLE KEYS */;\n")
         output_file.write("UNLOCK TABLES;")
 
 def main():

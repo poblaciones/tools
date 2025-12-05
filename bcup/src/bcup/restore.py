@@ -53,9 +53,7 @@ class Restore:
             sorted_files = sorted(files)
             for file in sorted_files:
                 file_path = os.path.join(temp_dir, file)
-                print('cleaning ' + file_path)
                 self.clean_maria_db(file_path)
-                print('running ' + file_path)
                 self.run_mysql(file_path)
 
         # elimina temporarios

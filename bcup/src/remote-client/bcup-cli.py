@@ -36,7 +36,7 @@ def start_backup(args, timestamp):
     except Exception as e:
             print(f"El inicio del backup no fue exitoso.")
             print(f"Error: \n{e}")
-            print(f"Respuesta: \n{response}")
+            print("Respuesta: \n" + response.replace('&quot;','"'))
             sys.exit()
 
     #print('id: ' + data["id"])
@@ -71,6 +71,12 @@ def step_backup(args, session_id):
             print(f"Url: {args.server}{full_url}")
             print(f"Error: \n{e}")
             print(f"Respuesta: \n{response}")
+
+            if 'response' in locals():
+                print(f"Código de estado HTTP: {response.status_code}")
+                print(f"Encabezados de la respuesta:\n{response.headers}")
+                print(f"Contenido de la respuesta:\n{response.text}")
+
             sys.exit()
 
 def url_with_params(url, parametros):

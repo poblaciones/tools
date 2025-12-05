@@ -23,6 +23,8 @@ class Settings:
         self.mysql = ""
         self.mysqldump = ""
 
+        self.version = "2.0"
+
         self.tables_path = "tables"
         self.done_path = "done"
         self.date = datetime.now().strftime('%Y%m%d_%H%M%S')
@@ -43,6 +45,7 @@ class Settings:
         self.include_tables = []
         self.exclude_tables = []
         self.forced_tables = []
+        self.target_tables_suffix = ''
         self.resume = False
         self.step_by_step = False
         self.quiet = False
@@ -69,6 +72,7 @@ class Settings:
         parser.add_argument('--resume', action='store_true', help='Resume the backup.')
         parser.add_argument('--list_only', action='store_true', help='List the tables to backup and exits.')
         parser.add_argument('--step_by_step', action='store_true', help='Advances one step by execution.')
+        parser.add_argument('--target_tables_suffix', default='', help='Create backuped tables with a suffix in the scripts.')
         parser.add_argument('--output', default=None, help='Name for backup (default: [database name]-[ISO date]). Bcup will create a directory or a zip file named after this setting.')
         parser.add_argument('--output_path', default=None, help=f'Location to create the output directory or zip file --output (default: {self.output_path}).')
         parser.add_argument('--include_tables', nargs='+', default=[], help='Comma separated list of tables to include. Can use * as wildcard and start with ! for negation.')
@@ -101,6 +105,7 @@ class Settings:
         self.resume = args.resume
         self.list_only = args.list_only
         self.step_by_step = args.step_by_step
+        self.target_tables_suffix = args.target_tables_suffix
         self.zip = args.zip
 
         if args.output_path:

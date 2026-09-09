@@ -175,6 +175,7 @@ class Restore:
         with tqdm(total=total, ncols=70) as progress_bar:
             for table in sizes:
                 if 'file' in sizes[table]:
+                    progress_bar.set_description(f"Procesando {table}")
                     self.run_mysql_zip(sizes[table]['file'])
                     if self.settings.move_done:
                         done_path = Settings.join_path(self.settings.done_path, 'tables')

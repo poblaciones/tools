@@ -23,7 +23,7 @@ class Settings:
         self.mysql = ""
         self.mysqldump = ""
 
-        self.version = "2.0"
+        self.version = "2.1"
 
         self.tables_path = "tables"
         self.done_path = "done"

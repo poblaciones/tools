@@ -30,7 +30,7 @@ class Backup:
         if self.settings.has_ini:
             ini = f"--defaults-file={Settings.CONFIG_FILE}"
 
-        command = f"\"{self.settings.mysqldump}\" {ini} --skip-lock-tables --user={self.settings.db_user} --host={self.settings.db_host} --port={self.settings.db_port} " \
+        command = f"\"{self.settings.mysqldump}\" {ini} --skip-lock-tables --no-tablespaces --user={self.settings.db_user} --host={self.settings.db_host} --port={self.settings.db_port} " \
             f"{options} {self.settings.db_name} {table_list}"
 
         with open(output_file, 'w', encoding='utf-8') as f:
@@ -210,7 +210,7 @@ class Backup:
                 else:
                     cnx = self.get_connection()
                     cursor = cnx.cursor()
-                    DumpTable.export_table_to_file(cursor, table, target_suffix, tmp_file, sizes['step'], offset, sizes['step']);
+                    DumpTable.export_table_to_file(cursor, table, target_suffix, tmp_file, sizes['step'], offset);
 
                 os.rename(tmp_file, file)
                 if self.settings.quiet:

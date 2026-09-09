@@ -7,6 +7,13 @@ import time
 from datetime import datetime
 
 def main():
+    # Verificar versión de Python
+    if sys.version_info < (3, 6):
+        print("Error: Este script requiere Python 3.6 o superior.")
+        print(f"Versión actual: Python {sys.version_info.major}.{sys.version_info.minor}.{sys.version_info.micro}")
+        print("Por favor, actualiza Python o ejecuta con: python3 script.py")
+        sys.exit(1)
+
     start = time.time()
     fecha_hora_actual = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     print(f"Iniciando [{fecha_hora_actual}]")
